@@ -1,31 +1,56 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import TodoList, {TaskType} from "./TodoList";
+
+// CLI
+// GUI => CRUD
+export type FilterValueStyle = "All" | "Active" | "Completed";
+
 
 function App() {
+    //BLL:
 
-    const title = "What to learn111"
-    const title2 = "What to learn222"
+    const todoListTitle: string = "What to learn today"
 
-    const task1 = [
+
+    const [tasks, setTasks] = useState<Array<TaskType>>([
         {id: 1, title: "HTML&CSS", isDone: true},
-        {id: 2, title: "JS", isDone: true},
-        {id: 3, title: "ReactJS", isDone: false},
-        {id: 4, title: "ReactJS", isDone: false}
-    ]
+        {id: 2, title: "JS&TS", isDone: true},
+        {id: 3, title: "REACT", isDone: false},
+    ]);
 
-    const task2 = [
-        {id: 1, title: "Hello word", isDone: true},
-        {id: 2, title: "I am happy", isDone: false},
-        {id: 3, title: "Yo", isDone: false}
-    ]
+    const [filter, setFilter] = useState<FilterValueStyle>("All")
 
+
+    const removeTask = (taskId: number) => {
+        setTasks(tasks.filter(t => t.id !== taskId)) //work asynchronous
+    }
+
+    const changeFilter = (filter: FilterValueStyle) => {
+        setFilter(filter)
+    }
+
+    const getTasksForTodoList = () => {
+        switch (filter) {
+            case "Active":
+                return tasks.filter(t => !t.isDone)
+            case "Completed":
+                return tasks.filter(t => t.isDone)
+            default:
+                return tasks
+        }
+    }
+
+
+    //UI:
     return (
         <div className="App">
-            <Todolist title={title} titleNEW={100200}
-                      tasks={task1}/>
-            <Todolist title={title2}
-                      tasks={task2}/>
+            <TodoList
+                title={todoListTitle}
+                tasks={getTasksForTodoList()}
+                removeTask={removeTask}
+                changeFilter={changeFilter}
+            />
 
         </div>
     );
