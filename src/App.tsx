@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import TodoList, {TaskType} from "./TodoList";
+import {v1} from "uuid";
 
 // CLI
 // GUI => CRUD
@@ -11,18 +12,23 @@ function App() {
     //BLL:
 
     const todoListTitle: string = "What to learn today"
-
-
     const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: 1, title: "HTML&CSS", isDone: true},
-        {id: 2, title: "JS&TS", isDone: true},
-        {id: 3, title: "REACT", isDone: false},
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS&TS", isDone: true},
+        {id: v1(), title: "REACT", isDone: false},
+
     ]);
+
+    const addTask = (inputValue:string) => {
+        const newTasks = {id: v1(), title: inputValue, isDone:false}
+        setTasks([newTasks, ...tasks])
+    }
 
     const [filter, setFilter] = useState<FilterValueStyle>("All")
 
 
-    const removeTask = (taskId: number) => {
+    const removeTask = (taskId: string) => {
+
         setTasks(tasks.filter(t => t.id !== taskId)) //work asynchronous
     }
 
@@ -30,7 +36,7 @@ function App() {
         setFilter(filter)
     }
 
-    const getTasksForTodoList = () => {
+    let getTasksForTodoList = () => {
         switch (filter) {
             case "Active":
                 return tasks.filter(t => !t.isDone)
@@ -50,6 +56,8 @@ function App() {
                 tasks={getTasksForTodoList()}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
+
             />
 
         </div>
