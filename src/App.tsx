@@ -24,18 +24,16 @@ function App() {
         setTasks([newTasks, ...tasks])
     }
 
-    const [filter, setFilter] = useState<FilterValueStyle>("All")
-
-
-    const removeTask = (taskId: string) => {
+        const removeTask = (taskId: string) => {
 
         setTasks(tasks.filter(t => t.id !== taskId)) //work asynchronous
     }
 
+    /*let [filter, setFilter] = useState<FilterValueStyle>("All")
+
     const changeFilter = (filter: FilterValueStyle) => {
         setFilter(filter)
     }
-
     let getTasksForTodoList = () => {
         switch (filter) {
             case "Active":
@@ -45,7 +43,7 @@ function App() {
             default:
                 return tasks
         }
-    }
+    }*/
 
 
     //UI:
@@ -53,9 +51,9 @@ function App() {
         <div className="App">
             <TodoList
                 title={todoListTitle}
-                tasks={getTasksForTodoList()}
+                tasks={tasks}
                 removeTask={removeTask}
-                changeFilter={changeFilter}
+                /*changeFilter={changeFilter}*/
                 addTask={addTask}
 
             />
