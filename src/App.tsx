@@ -1,61 +1,62 @@
 import React, {useState} from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./TodoList";
+import {Todolist} from "./Components/Todolist";
 import {v1} from "uuid";
 
-// CLI
-// GUI => CRUD
-export type FilterValueStyle = "All" | "Active" | "Completed";
 
+export  type FVT = 'All' | 'Active' | 'Completed';
 
 function App() {
-    //BLL:
+    let [tasks, setTask] = useState([
+        {id: v1(), title: 'Rest', isDone: false},
+        {id: v1(), title: 'Work', isDone: true},
+        {id: v1(), title: 'Sex', isDone: false},
+    ])
 
-    const todoListTitle: string = "What to learn today"
-    const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS&TS", isDone: true},
-        {id: v1(), title: "REACT", isDone: false},
+    const changeCheckboxStatus = (taskId: string, newIsDone: boolean) => {
 
-    ]);
-
-    const addTask = (inputValue:string) => {
-        const newTasks = {id: v1(), title: inputValue, isDone:false}
-        setTasks([newTasks, ...tasks])
+       /* let currentTask = tasks.find(el => el.id === taskId);
+        if (currentTask) {
+            currentTask.isDone = newIsDone
+            setTask([...tasks])
+        }*/
+        setTask( tasks.map(el=>el.id===taskId ? {...el, isDone:newIsDone } :el ))
     }
 
-        const removeTask = (taskId: string) => {
-
-        setTasks(tasks.filter(t => t.id !== taskId)) //work asynchronous
+    function addTask(title: string) {
+        let task = {id: v1(), title: title, isDone: false};
+        let newTask = [task, ...tasks];
+        setTask(newTask);
     }
 
-    /*let [filter, setFilter] = useState<FilterValueStyle>("All")
-
-    const changeFilter = (filter: FilterValueStyle) => {
-        setFilter(filter)
+    function delTasks(id: string) {
+        let FilteredTasks = tasks.filter(t => t.id != id);
+        setTask(FilteredTasks);
     }
-    let getTasksForTodoList = () => {
-        switch (filter) {
-            case "Active":
-                return tasks.filter(t => !t.isDone)
-            case "Completed":
-                return tasks.filter(t => t.isDone)
-            default:
-                return tasks
-        }
-    }*/
 
 
-    //UI:
+    let [filter, setOne] = useState<FVT>('All')
+    let FilterTask = tasks;
+    if (filter === "Active") {
+        FilterTask = tasks.filter(t => !t.isDone)
+    }
+    if (filter === "Completed") {
+        FilterTask = tasks.filter(t => t.isDone)
+    }
+
+    function Sort(value: FVT) {
+        setOne(value)
+    }
+
+
     return (
         <div className="App">
-            <TodoList
-                title={todoListTitle}
-                tasks={tasks}
-                removeTask={removeTask}
-                /*changeFilter={changeFilter}*/
-                addTask={addTask}
-
+            <Todolist title='My day'
+                      tasks={FilterTask}
+                      delTasks={delTasks}
+                      Sort={Sort}
+                      addTask={addTask}
+                      changeCheckboxStatus={changeCheckboxStatus}
             />
 
         </div>
