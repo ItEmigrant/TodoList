@@ -10,12 +10,15 @@ type TaskPropsType = {
 }
 
 type TitlePropsType = {
+    todolistID: string
     title: string
     tasks: Array<TaskPropsType>
     delTasks: (taskId: string) => void
-    Sort: (value: FVT) => void
+    Sort: (todolistID: string, filterValue: FVT) => void
     addTask: (title: string) => void
     changeCheckboxStatus: (taskId: string, newIsDone: boolean) => void
+
+
 }
 export const Todolist = (props: TitlePropsType) => {
 
@@ -49,21 +52,21 @@ export const Todolist = (props: TitlePropsType) => {
 
     function OnAllClickHandler() {
         {
-            props.Sort('All')
+            props.Sort(props.todolistID, 'All')
             setColor('All')
         }
     }
 
     function OnActiveClickHandler() {
         {
-            props.Sort('Active')
+            props.Sort(props.todolistID, 'Active')
             setColor('Active')
         }
     }
 
     function OnCompletedClickHandler() {
         {
-            props.Sort('Completed')
+            props.Sort(props.todolistID, 'Completed')
             setColor('Completed')
         }
     }
@@ -71,7 +74,8 @@ export const Todolist = (props: TitlePropsType) => {
     const onClickHandler = (t: string) => {
         props.delTasks(t)
     }
-    function changeCheckboxHandler(tID:string, eventValue: boolean) {
+
+    function changeCheckboxHandler(tID: string, eventValue: boolean) {
         props.changeCheckboxStatus(tID, eventValue)
 
 
@@ -94,8 +98,9 @@ export const Todolist = (props: TitlePropsType) => {
                     props.tasks.map(t => {
 
 
-                        return <li className={t.isDone ?styles.isDone:'' } key={t.id}>
-                            <input  type="checkbox" checked={t.isDone} onChange={(event: ChangeEvent<HTMLInputElement>)=>changeCheckboxHandler(t.id, event.currentTarget.checked)}/>
+                        return <li className={t.isDone ? styles.isDone : ''} key={t.id}>
+                            <input type="checkbox" checked={t.isDone}
+                                   onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}/>
                             <span>{t.title}</span>
                             <button onClick={() => onClickHandler(t.id)}>X</button>
                         </li>
