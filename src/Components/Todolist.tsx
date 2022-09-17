@@ -10,13 +10,14 @@ type TaskPropsType = {
 }
 
 type TitlePropsType = {
+    dellList: (todolistID: string) => void
     todolistID: string
     title: string
     tasks: Array<TaskPropsType>
-    delTasks: (taskId: string) => void
+    delTasks: (taskId: string, todolistID: string) => void
     Sort: (todolistID: string, filterValue: FVT) => void
-    addTask: (title: string) => void
-    changeCheckboxStatus: (taskId: string, newIsDone: boolean) => void
+    addTask: (todolistID: string, title: string) => void
+    changeCheckboxStatus: (todolistID: string, taskId: string, newIsDone: boolean) => void
 
 
 }
@@ -31,7 +32,7 @@ export const Todolist = (props: TitlePropsType) => {
 
     function addTaskHandler() {
         if (title.trim() !== '') {
-            props.addTask(title.trim())
+            props.addTask(props.todolistID,title.trim())
             setTitle('')
         } else {
             setError('Title is required')
@@ -71,19 +72,24 @@ export const Todolist = (props: TitlePropsType) => {
         }
     }
 
-    const onClickHandler = (t: string) => {
-        props.delTasks(t)
+    const onDelClickHandler = (t: string) => {
+        props.delTasks(props.todolistID,t)
     }
 
     function changeCheckboxHandler(tID: string, eventValue: boolean) {
-        props.changeCheckboxStatus(tID, eventValue)
+        props.changeCheckboxStatus(props.todolistID, tID, eventValue)
 
 
+    }
+    function DelListClickHandler() {
+            props.dellList(props.todolistID)
     }
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>
+                {props.title} <button onClick={DelListClickHandler}>Dell</button>
+            </h3>
             <div>
                 <input className={error ? styles.error : ''} value={title}
                        onChange={onChangeHandler}
@@ -102,7 +108,7 @@ export const Todolist = (props: TitlePropsType) => {
                             <input type="checkbox" checked={t.isDone}
                                    onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}/>
                             <span>{t.title}</span>
-                            <button onClick={() => onClickHandler(t.id)}>X</button>
+                            <button onClick={() => onDelClickHandler(t.id)}>X</button>
                         </li>
                     })
                 }

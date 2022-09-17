@@ -3,6 +3,11 @@
   display: flex;
 }
 
+body {
+  background-color: #f7ca9e;
+}
+
 .App > div {
+
   margin-right: 50px;
 }
