@@ -1,18 +1,12 @@
-
-.error {
-    border: red 4px solid;
-}
-
-.errorMessage {
-    color: red;
-}
-
-
 .activeFilter {
-    background-color: aquamarine;
+    background-color: #e3a097;
+    border-radius: 3px;
 
 }
-
+.DellList {
+    border-radius: 4px;
+    background-color: #e7bf99;
+}
 
 .isDone {
     opacity: 0.5;

@@ -2,6 +2,10 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 import {FVT} from "../App";
 import styles from './Todolist.module.css'
+import {UnInput} from "./UnInput/UnInput";
+
+
+
 
 type TaskPropsType = {
     id: string
@@ -23,33 +27,33 @@ type TitlePropsType = {
 }
 export const Todolist = (props: TitlePropsType) => {
 
-    let [title, setTitle] = useState('')
+   /* let [title, setTitle] = useState('')*/
 
-    const [error, setError] = useState<string | null>(null)
+  /*  const [error, setError] = useState<string | null>(null)*/
 
     const [color, setColor] = useState<FVT>('All')
 
 
-    function addTaskHandler() {
+    /*function addTaskHandler() {
         if (title.trim() !== '') {
-            props.addTask(props.todolistID,title.trim())
+            props.addTask(props.todolistID, title.trim())
             setTitle('')
         } else {
             setError('Title is required')
         }
 
-    }
+    }*/
 
-    function onChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+   /* function onChangeHandler(event: ChangeEvent<HTMLInputElement>) {
         setError(null)
         setTitle(event.currentTarget.value)
-    }
+    }*/
 
-    function oneKeyUpPressHandler(event: KeyboardEvent<HTMLInputElement>) {
+   /* function oneKeyUpPressHandler(event: KeyboardEvent<HTMLInputElement>) {
         if (event.key === 'Enter') {
             addTaskHandler()
         }
-    }
+    }*/
 
     function OnAllClickHandler() {
         {
@@ -73,7 +77,7 @@ export const Todolist = (props: TitlePropsType) => {
     }
 
     const onDelClickHandler = (t: string) => {
-        props.delTasks(props.todolistID,t)
+        props.delTasks(props.todolistID, t)
     }
 
     function changeCheckboxHandler(tID: string, eventValue: boolean) {
@@ -81,23 +85,32 @@ export const Todolist = (props: TitlePropsType) => {
 
 
     }
+
     function DelListClickHandler() {
-            props.dellList(props.todolistID)
+        props.dellList(props.todolistID)
+    }
+
+    function addTaskHandler (title:string) {
+        props.addTask(props.todolistID, title)
     }
 
     return (
         <div>
             <h3>
-                {props.title} <button onClick={DelListClickHandler}>Dell</button>
+                {props.title}
+                <button className={styles.DellList} onClick={DelListClickHandler}>Dell</button>
             </h3>
-            <div>
-                <input className={error ? styles.error : ''} value={title}
+
+            <UnInput callBack={addTaskHandler}/>
+           {/* <div>
+                <input value={title}
+                       className={error ? styles.error : ''}
                        onChange={onChangeHandler}
                        onKeyUp={oneKeyUpPressHandler}/>
                 <button onClick={addTaskHandler}>+
                 </button>
-            </div>
-            {error && <div className={styles.errorMessage}>{error}</div>}
+            </div>*/}
+
             <ul>
                 {
 
