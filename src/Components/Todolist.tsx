@@ -4,9 +4,6 @@ import {FVT} from "../App";
 import styles from './Todolist.module.css'
 import {UnInput} from "./UnInput/UnInput";
 
-
-
-
 type TaskPropsType = {
     id: string
     title: string
@@ -113,7 +110,6 @@ export const Todolist = (props: TitlePropsType) => {
 
             <ul>
                 {
-
                     props.tasks.map(t => {
 
 

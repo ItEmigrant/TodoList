@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist";
 import {v1} from "uuid";
+import {UnInput} from "./Components/UnInput/UnInput";
 
 export type FVT = 'All' | 'Active' | 'Completed';
 type TodolistType = {
@@ -33,21 +34,6 @@ function App() {
             {id: v1(), title: 'Eat', isDone: false},
         ]
     });
-
-
-    /* let [todolist, setTodolist] = useState<Array<TodolistType>>([
-         {id: v1(), title: 'What to learn', filter: 'All'},
-         {id: v1(), title: 'What to buy', filter: 'All'},
-     ])
-
-     let [tasks, setTask] = useState([
-         {id: v1(), title: 'Rest', isDone: false},
-         {id: v1(), title: 'Work', isDone: true},
-         {id: v1(), title: 'Sex', isDone: false},
-     ])*/
-
-    //let [filter, setOne] = useState<FVT>('All')
-
 
     function Sort(todolistID: string, filterValue: FVT) {
         setTodolist(todolist.map(el => el.id === todolistID ? {...el, filter: filterValue} : el))
@@ -81,10 +67,16 @@ function App() {
         setTodolist(todolist.filter(el => el.id !== todolistID))
     }
 
+    function todoListAdd(title: string) {
+        const newTodolistID = v1()
+        let newTodolist: TodolistType = {id: newTodolistID, title: title, filter: 'All'};
+        setTodolist([newTodolist, ...todolist])
+        setTask({...tasks, [newTodolistID]: []})
+    }
 
     return (
         <div className="App">
-
+            <UnInput callBack={todoListAdd}/>
             {todolist.map(el => {
                 let FilterTask = tasks[el.id];
 
