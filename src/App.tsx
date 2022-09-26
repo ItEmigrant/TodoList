@@ -74,6 +74,14 @@ function App() {
         setTask({...tasks, [newTodolistID]: []})
     }
 
+    function ChangeTask (todolistID: string, taskId: string, currentTitle:string ) {
+        setTask({...tasks, [todolistID] : tasks[todolistID].map(el=> el.id===taskId ? {...el, title:currentTitle } :el)})
+    }
+
+    function ChangeTitle (todolistID: string, currentTitle:string ) {
+        setTodolist(todolist.map(el=> el.id=== todolistID?  {...el, title:currentTitle} :el))
+    }
+
     return (
         <div className="App">
             <UnInput callBack={todoListAdd}/>
@@ -96,6 +104,9 @@ function App() {
                               changeCheckboxStatus={changeCheckboxStatus}
                               todolistID={el.id}
                               key={el.id}
+                              ChangeTask={ChangeTask}
+                              ChangeTitle={ChangeTitle}
+
 
                     />
                 )

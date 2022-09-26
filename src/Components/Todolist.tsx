@@ -1,8 +1,9 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, /*KeyboardEvent,*/ useState} from 'react';
 
 import {FVT} from "../App";
 import styles from './Todolist.module.css'
 import {UnInput} from "./UnInput/UnInput";
+import {EditableSpan} from "./EditableSpan";
 
 type TaskPropsType = {
     id: string
@@ -19,38 +20,15 @@ type TitlePropsType = {
     Sort: (todolistID: string, filterValue: FVT) => void
     addTask: (todolistID: string, title: string) => void
     changeCheckboxStatus: (todolistID: string, taskId: string, newIsDone: boolean) => void
+    ChangeTask: (todolistID: string, taskId: string, currentTitle: string) => void
+    ChangeTitle: (todolistID: string, currentTitle: string) => void
 
 
 }
 export const Todolist = (props: TitlePropsType) => {
 
-   /* let [title, setTitle] = useState('')*/
-
-  /*  const [error, setError] = useState<string | null>(null)*/
 
     const [color, setColor] = useState<FVT>('All')
-
-
-    /*function addTaskHandler() {
-        if (title.trim() !== '') {
-            props.addTask(props.todolistID, title.trim())
-            setTitle('')
-        } else {
-            setError('Title is required')
-        }
-
-    }*/
-
-   /* function onChangeHandler(event: ChangeEvent<HTMLInputElement>) {
-        setError(null)
-        setTitle(event.currentTarget.value)
-    }*/
-
-   /* function oneKeyUpPressHandler(event: KeyboardEvent<HTMLInputElement>) {
-        if (event.key === 'Enter') {
-            addTaskHandler()
-        }
-    }*/
 
     function OnAllClickHandler() {
         {
@@ -87,36 +65,37 @@ export const Todolist = (props: TitlePropsType) => {
         props.dellList(props.todolistID)
     }
 
-    function addTaskHandler (title:string) {
+    function addTaskHandler(title: string) {
         props.addTask(props.todolistID, title)
+    }
+
+    function addTitleHandler(currentTitle: string) {
+        props.ChangeTitle(props.todolistID, currentTitle)
+    }
+
+    function ChangeTaskHandler(tID: string, currentTitle: string) {
+        props.ChangeTask(props.todolistID, tID, currentTitle)
     }
 
     return (
         <div>
             <h3>
-                {props.title}
+                <EditableSpan title={props.title} callBack={addTitleHandler}/>
                 <button className={styles.DellList} onClick={DelListClickHandler}>Dell</button>
             </h3>
 
             <UnInput callBack={addTaskHandler}/>
-           {/* <div>
-                <input value={title}
-                       className={error ? styles.error : ''}
-                       onChange={onChangeHandler}
-                       onKeyUp={oneKeyUpPressHandler}/>
-                <button onClick={addTaskHandler}>+
-                </button>
-            </div>*/}
 
             <ul>
                 {
                     props.tasks.map(t => {
 
-
                         return <li className={t.isDone ? styles.isDone : ''} key={t.id}>
                             <input type="checkbox" checked={t.isDone}
                                    onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}/>
-                            <span>{t.title}</span>
+
+                            <EditableSpan title={t.title} callBack={(currentTitle) => ChangeTaskHandler(t.id, currentTitle )}/>
+
                             <button onClick={() => onDelClickHandler(t.id)}>X</button>
                         </li>
                     })
