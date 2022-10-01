@@ -95,6 +95,7 @@ function App() {
                     FilterTask = tasks[el.id].filter(t => t.isDone)
                 }
                 return (
+
                     <Todolist title={el.title}
                               tasks={FilterTask}
                               delTasks={delTasks}

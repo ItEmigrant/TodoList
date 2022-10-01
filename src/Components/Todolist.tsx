@@ -4,6 +4,9 @@ import {FVT} from "../App";
 import styles from './Todolist.module.css'
 import {UnInput} from "./UnInput/UnInput";
 import {EditableSpan} from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+
 
 type TaskPropsType = {
     id: string
@@ -25,6 +28,7 @@ type TitlePropsType = {
 
 
 }
+
 export const Todolist = (props: TitlePropsType) => {
 
 
@@ -81,7 +85,12 @@ export const Todolist = (props: TitlePropsType) => {
         <div>
             <h3>
                 <EditableSpan title={props.title} callBack={addTitleHandler}/>
-                <button className={styles.DellList} onClick={DelListClickHandler}>Dell</button>
+                {/* <button className={styles.DellList} onClick={DelListClickHandler}>Dell</button>*/}
+                <IconButton aria-label="delete" onClick={DelListClickHandler}
+                            style={{color: 'red', backgroundColor: 'orange'}}>
+                    <Delete/>
+                </IconButton>
+
             </h3>
 
             <UnInput callBack={addTaskHandler}/>
@@ -91,25 +100,59 @@ export const Todolist = (props: TitlePropsType) => {
                     props.tasks.map(t => {
 
                         return <li className={t.isDone ? styles.isDone : ''} key={t.id}>
-                            <input type="checkbox" checked={t.isDone}
-                                   onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}/>
+                            {/*<input type="checkbox" checked={t.isDone}*/}
+                            <Checkbox  onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)} checked={t.isDone} defaultChecked />
 
-                            <EditableSpan title={t.title} callBack={(currentTitle) => ChangeTaskHandler(t.id, currentTitle )}/>
 
-                            <button onClick={() => onDelClickHandler(t.id)}>X</button>
+
+                            <EditableSpan title={t.title}
+                                          callBack={(currentTitle) => ChangeTaskHandler(t.id, currentTitle)}/>
+
+                            {/* <button onClick={() => onDelClickHandler(t.id)}>X</button>*/}
+                            <IconButton aria-label="delete" onClick={() => onDelClickHandler(t.id)}>
+                                <Delete/>
+                            </IconButton>
+
                         </li>
                     })
                 }
 
             </ul>
             <div>
-                <button className={color === "All" ? styles.activeFilter : ''} onClick={OnAllClickHandler}>All
+                <Button variant={color === "All" ? "outlined" : "contained"} color="success" onClick={OnAllClickHandler}
+                        style={{
+                            maxWidth: "60px",
+                            maxHeight: "30px",
+                            minWidth: "60px",
+                            minHeight: "30px",
+                            marginRight: "2px"
+                        }}> All </Button>
+                <Button variant={color === "Active" ? "outlined" : "contained"} color="error"
+                        onClick={OnActiveClickHandler} style={{
+                    maxWidth: "80px",
+                    maxHeight: "30px",
+                    minWidth: "80px",
+                    minHeight: "30px",
+                    marginRight: "2px"
+                }}> Active </Button>
+                <Button variant={color === "Completed" ? "outlined" : "contained"} color="secondary"
+                        onClick={OnCompletedClickHandler} style={{
+                    maxWidth: "115px",
+                    maxHeight: "30px",
+                    minWidth: "115px",
+                    minHeight: "30px"
+                }}> Completed </Button>
+
+                {/*<button className={color === "All" ? styles.activeFilter : ''} onClick={OnAllClickHandler}>All
                 </button>
+
                 <button className={color === "Active" ? styles.activeFilter : ''} onClick={OnActiveClickHandler}>Active
                 </button>
+
                 <button className={color === "Completed" ? styles.activeFilter : ''}
                         onClick={OnCompletedClickHandler}>Completed
-                </button>
+                </button>*/}
+
             </div>
         </div>
     );

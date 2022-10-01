@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import styles from './UnInput.module.css'
+import {Button, TextField} from "@mui/material";
 
 
 type UnInputPropsType = {
@@ -36,12 +37,25 @@ export const UnInput = (props: UnInputPropsType) => {
     return (
         <div>
 
-            <input value={title}
+            {/*<input value={title}
                    className={error ? styles.error : ''}
                    onChange={onChangeHandler}
-                   onKeyUp={oneKeyUpPressHandler}/>
-            <button onClick={addTaskHandler}>+
-            </button>
+                   onKeyUp={oneKeyUpPressHandler}/>*/}
+
+            <TextField
+                value={title}
+                onChange={onChangeHandler}
+                onKeyUp={oneKeyUpPressHandler}
+                size={"small"}
+                id="outlined-basic"
+                label="Outlined"
+                variant="outlined"/>
+
+            {/* <button onClick={addTaskHandler}>+</button>*/}
+            <Button
+                style={{maxWidth: "35px", maxHeight: "38px", minWidth: "35px", minHeight: "38px", marginLeft: "1px"}}
+                variant="contained" onClick={addTaskHandler}>+</Button>
+
             {error && <div className={styles.errorMessage}>{error}</div>}
         </div>
     );

@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 
+
 type EditableSpanPropsType = {
     title: string
     callBack: (currentTitle: string) => void
@@ -32,8 +33,7 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
         edit
             ? <input value={currentTitle} onBlur={ changeEdite} onChange={onChangeHandler}  autoFocus/>
             : <span onDoubleClick={changeEdite} >{props.title}</span>
-
-
     );
+
 };
 
