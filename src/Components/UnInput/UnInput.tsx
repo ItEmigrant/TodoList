@@ -9,7 +9,7 @@ type UnInputPropsType = {
 
 export const UnInput = (props: UnInputPropsType) => {
     let [title, setTitle] = useState('')
-    let [error, setError] = useState<string | null>(null)
+    let [error, setError] = useState<boolean>(false)
 
 
     function addTaskHandler() {
@@ -17,13 +17,13 @@ export const UnInput = (props: UnInputPropsType) => {
             props.callBack(title.trim())
             setTitle('')
         } else {
-            setError('Title is required')
+            setError(true)
         }
 
     }
 
     function onChangeHandler(event: ChangeEvent<HTMLInputElement>) {
-        setError(null)
+        setError(false)
         setTitle(event.currentTarget.value);
     }
 
@@ -43,12 +43,13 @@ export const UnInput = (props: UnInputPropsType) => {
                    onKeyUp={oneKeyUpPressHandler}/>*/}
 
             <TextField
+                error={error}
                 value={title}
                 onChange={onChangeHandler}
                 onKeyUp={oneKeyUpPressHandler}
                 size={"small"}
                 id="outlined-basic"
-                label="Outlined"
+                label={error ? "Title is required" : "typing..." }
                 variant="outlined"/>
 
             {/* <button onClick={addTaskHandler}>+</button>*/}
