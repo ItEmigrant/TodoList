@@ -1,13 +1,13 @@
 .App {
-  padding: 30px;
-  display: flex;
+ /* padding: 30px;
+  display: flex;*/
 }
 
 body {
-  background-color: #fcd2a7;
+  background-color: rgba(249, 200, 218, 0.87);
 }
 
 .App > div {
 
-  margin-right: 50px;
+ /* margin-right: 50px;*/
 }

@@ -3,6 +3,8 @@ import './App.css';
 import {Todolist} from "./Components/Todolist";
 import {v1} from "uuid";
 import {UnInput} from "./Components/UnInput/UnInput";
+import ButtonAppBar from "./Components/ButtonAppBar";
+import {Container, Grid, Paper} from "@mui/material";
 
 export type FVT = 'All' | 'Active' | 'Completed';
 type TodolistType = {
@@ -74,44 +76,59 @@ function App() {
         setTask({...tasks, [newTodolistID]: []})
     }
 
-    function ChangeTask (todolistID: string, taskId: string, currentTitle:string ) {
-        setTask({...tasks, [todolistID] : tasks[todolistID].map(el=> el.id===taskId ? {...el, title:currentTitle } :el)})
+    function ChangeTask(todolistID: string, taskId: string, currentTitle: string) {
+        setTask({
+            ...tasks,
+            [todolistID]: tasks[todolistID].map(el => el.id === taskId ? {...el, title: currentTitle} : el)
+        })
     }
 
-    function ChangeTitle (todolistID: string, currentTitle:string ) {
-        setTodolist(todolist.map(el=> el.id=== todolistID?  {...el, title:currentTitle} :el))
+    function ChangeTitle(todolistID: string, currentTitle: string) {
+        setTodolist(todolist.map(el => el.id === todolistID ? {...el, title: currentTitle} : el))
     }
 
     return (
         <div className="App">
-            <UnInput callBack={todoListAdd}/>
-            {todolist.map(el => {
-                let FilterTask = tasks[el.id];
+            <ButtonAppBar/>
 
-                if (el.filter === "Active") {
-                    FilterTask = tasks[el.id].filter(t => !t.isDone)
-                }
-                if (el.filter === "Completed") {
-                    FilterTask = tasks[el.id].filter(t => t.isDone)
-                }
-                return (
+            <Container fixed>
 
-                    <Todolist title={el.title}
-                              tasks={FilterTask}
-                              delTasks={delTasks}
-                              Sort={Sort}
-                              dellList={dellList}
-                              addTask={addTask}
-                              changeCheckboxStatus={changeCheckboxStatus}
-                              todolistID={el.id}
-                              key={el.id}
-                              ChangeTask={ChangeTask}
-                              ChangeTitle={ChangeTitle}
+                <Grid container style={{padding: '20px'}}>
+                    <UnInput callBack={todoListAdd}/>
+                </Grid>
+
+                <Grid container spacing={2}>
+                    {
+                        todolist.map(el => {
+                            let FilterTask = tasks[el.id];
+
+                            if (el.filter === "Active") {
+                                FilterTask = tasks[el.id].filter(t => !t.isDone)
+                            }
+                            if (el.filter === "Completed") {
+                                FilterTask = tasks[el.id].filter(t => t.isDone)
+                            }
+                            return <Grid item key={el.id}>
+                                <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
+                                    <Todolist title={el.title}
+                                              tasks={FilterTask}
+                                              delTasks={delTasks}
+                                              Sort={Sort}
+                                              dellList={dellList}
+                                              addTask={addTask}                                              changeCheckboxStatus={changeCheckboxStatus}
+                                              todolistID={el.id}
+
+                                              ChangeTask={ChangeTask}
+                                              ChangeTitle={ChangeTitle}
+                                    />
+                                </Paper>
+                            </Grid>
+                        })
+                    }
+                </Grid>
 
 
-                    />
-                )
-            })}
+            </Container>
 
         </div>
     );
