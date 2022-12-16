@@ -7,7 +7,8 @@ import ButtonAppBar from "./Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 
 export type FVT = 'All' | 'Active' | 'Completed';
-type TodolistType = {
+
+export type TodolistType = {
     id: string
     title: string
     filter: FVT
@@ -115,7 +116,7 @@ function App() {
                                               delTasks={delTasks}
                                               Sort={Sort}
                                               dellList={dellList}
-                                              addTask={addTask}                                              changeCheckboxStatus={changeCheckboxStatus}
+                                              addTask={addTask} changeCheckboxStatus={changeCheckboxStatus}
                                               todolistID={el.id}
 
                                               ChangeTask={ChangeTask}

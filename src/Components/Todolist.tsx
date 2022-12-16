@@ -8,11 +8,16 @@ import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 
-type TaskPropsType = {
+export type TaskPropsType = {
     id: string
     title: string
     isDone: boolean
 }
+
+export type TasksStateType = {
+    [key: string]: Array<TaskPropsType>
+}
+
 
 type TitlePropsType = {
     dellList: (todolistID: string) => void
@@ -101,8 +106,9 @@ export const Todolist = (props: TitlePropsType) => {
 
                         return <li className={t.isDone ? styles.isDone : ''} key={t.id}>
                             {/*<input type="checkbox" checked={t.isDone}*/}
-                            <Checkbox  onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)} checked={t.isDone} defaultChecked />
-
+                            <Checkbox
+                                onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}
+                                checked={t.isDone} defaultChecked/>
 
 
                             <EditableSpan title={t.title}
