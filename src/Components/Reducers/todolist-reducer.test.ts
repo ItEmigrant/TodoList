@@ -8,14 +8,16 @@ import {
     todolistReducer
 } from "./todolist-reducer";
 
-test("correct todolist should be removed", () => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+let todolistId1 = v1();
+let todolistId2 = v1();
 
-    const startState: Array<TodolistType> = [
-        {id: todolistId1, title: "What to learn", filter: "All"},
-        {id: todolistId2, title: "What to buy", filter: "All"}
-    ]
+const startState: Array<TodolistType> = [
+    {id: todolistId1, title: "What to learn", filter: "All"},
+    {id: todolistId2, title: "What to buy", filter: "All"}
+]
+
+test("correct todolist should be removed", () => {
+
 
     const endState = todolistReducer(startState, removeTodolistAC(todolistId1))
 
@@ -53,7 +55,7 @@ test("correct todolist should be changed", () => {
 
     const endState = todolistReducer(startState, changeFilterAC(newFilter, todolistId2))
 
-    expect(endState[0].filter).toBe('all');
+    expect(endState[0].filter).toBe('All');
     expect(endState[1].filter).toBe(newFilter);
 });
 
