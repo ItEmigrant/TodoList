@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Components/Todolist";
+import {TasksStateType, Todolist} from "./Components/Todolist";
 import {v1} from "uuid";
 import {UnInput} from "./Components/UnInput/UnInput";
 import ButtonAppBar from "./Components/ButtonAppBar";
@@ -25,7 +25,7 @@ function App() {
         {id: todolistID2, title: 'What to buy', filter: 'All'},
     ])
 
-    let [tasks, setTask] = useState({
+    let [tasks, setTask] = useState <TasksStateType>({
         [todolistID1]: [
             {id: v1(), title: 'Rest', isDone: false},
             {id: v1(), title: 'Work', isDone: true},

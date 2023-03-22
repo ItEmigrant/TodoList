@@ -85,7 +85,6 @@ export const removeTasksAC = (taskId: string, todolistId: string) => {
     return {
         type: "REMOVE-TASK",
         taskId, todolistId
-
     } as const
 }
 

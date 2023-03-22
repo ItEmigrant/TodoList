@@ -1,22 +1,63 @@
-import {addTodolistAC, todolistReducer} from "./todolist-reducer";
 import {TasksStateType} from "../Todolist";
-import {TodolistType} from "../../App";
-import {taskReducer} from "./tasks-reducer";
+import {addTasksAC, removeTasksAC, taskReducer} from "./tasks-reducer";
 
-test('ids should be equals', () => {
-    const startTasksState: TasksStateType = {}
-    const startTodolistsState: Array<TodolistType> = []
+test('correct task should be delete from correct array', () => {
+    const startTasksState: TasksStateType = {
+        'todolistID1': [
+            {id: '1', title: 'Rest', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Sex', isDone: false},
+        ],
+        'todolistID2': [
+            {id: '1', title: 'Rest Hard', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Eat', isDone: false},
+        ]
+    };
 
-    const action = addTodolistAC('new todolist')
 
-    const endTasksState = taskReducer(startTasksState, action)
-    const endTodolistsState = todolistReducer(startTodolistsState, action)
+    const action = removeTasksAC('2', 'todolistID2')
 
-    const keys = Object.keys(endTasksState)
-    const idFromTasks = keys[0]
-    const idFromTodolists = endTodolistsState[0].id
+    const endState = taskReducer(startTasksState, action)
 
-    expect(idFromTasks).toBe(action.todolistID)
-    expect(idFromTodolists).toBe(action.todolistID)
+    expect(endState).toEqual({
+        'todolistID1': [
+            {id: '1', title: 'Rest', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Sex', isDone: false}
+        ],
+        'todolistID2': [
+            {id: '1', title: 'Rest Hard', isDone: false},
+            {id: '3', title: 'Eat', isDone: false}
+        ]
+    });
+});
+
+
+test('correct task should be added to correct array', () => {
+    const startTasksState: TasksStateType = {
+        'todolistID1': [
+            {id: '1', title: 'Rest', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Sex', isDone: false},
+        ],
+        'todolistID2': [
+            {id: '1', title: 'Rest Hard', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Eat', isDone: false},
+        ]
+    };
+
+
+    const action = addTasksAC('Train', 'todolistID2')
+
+    const endState = taskReducer(startTasksState, action)
+
+    expect(endState['todolistID1'].length).toBe(3);
+    expect(endState['todolistID2'].length).toBe(4);
+    expect(endState['todolistID2']).toBeDefined();
+    expect(endState['todolistID2'][0].title).toBe('Train');
+    expect(endState['todolistID2'][0].isDone).toBe(false);
+
 })
 
