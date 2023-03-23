@@ -1,5 +1,4 @@
 import {TasksStateType} from "../Todolist";
-import {v1} from "uuid";
 import {addTodolistAT} from "./todolist-reducer";
 
 
@@ -32,7 +31,7 @@ export const taskReducer = (state: TasksStateType, action: ActionType) => {
             }
 
         case "ADD-TASK":
-            let task = {id: v1(), title: action.title, isDone: false};
+            let task = {id: action.todolistId, title: action.title, isDone: false};
 
             return {
                 ...state,
@@ -116,7 +115,6 @@ export const changeTasksTitleAC = (taskID: string, title: string, todolistId: st
         }
     } as const
 }
-
 
 
 export const RemoveTodolistAC = (todolistId: string) => {
