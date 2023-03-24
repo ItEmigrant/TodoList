@@ -1,5 +1,12 @@
 import {TasksStateType} from "../Todolist";
-import {addTasksAC, changeTasksStatusAC, changeTasksTitleAC, removeTasksAC, taskReducer} from "./tasks-reducer";
+import {
+    addTasksAC,
+    changeTasksStatusAC,
+    changeTasksTitleAC,
+    removeTasksAC,
+    RemoveTodolistAC,
+    taskReducer
+} from "./tasks-reducer";
 import {addTodolistAC} from "./todolist-reducer";
 
 test('correct task should be delete from correct array', () => {
@@ -33,7 +40,6 @@ test('correct task should be delete from correct array', () => {
         ]
     });
 });
-
 
 test('correct task should be added to correct array', () => {
     const startTasksState: TasksStateType = {
@@ -143,3 +149,27 @@ test('new array should be added when new todoList be added', () => {
     expect(endState[newKey]).toEqual([]);
 })
 
+test('property with todolistId should be deleted', () => {
+    const startTasksState: TasksStateType = {
+        'todolistID1': [
+            {id: '1', title: 'Rest', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Sex', isDone: false},
+        ],
+        'todolistID2': [
+            {id: '1', title: 'Rest Hard', isDone: false},
+            {id: '2', title: 'Work', isDone: true},
+            {id: '3', title: 'Eat', isDone: false},
+        ]
+    };
+
+    const action = RemoveTodolistAC('todolistID2')
+
+    const endState = taskReducer(startTasksState, action)
+
+
+    const keys = Object.keys(endState)
+
+    expect(keys.length).toBe(1)
+    expect(endState['todolistID2']).not.toBeDefined();
+})
