@@ -1,4 +1,4 @@
-import {FVT, TodolistType} from "../../App";
+import {FVT, TodolistType} from "../../AppWithReducer";
 import {v1} from "uuid";
 
 type removeTodolistAT = {

@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {FVT, TodolistType} from "../../App";
+import {FVT, TodolistType} from "../../AppWithReducer";
 import {
     addTodolistAC,
     changeFilterAC,
