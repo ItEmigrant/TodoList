@@ -1,23 +1,21 @@
-import React, {Reducer, useReducer} from 'react';
+import React from 'react';
 import './App.css';
 import {TasksStateType, Todolist} from "./Components/Todolist";
-import {v1} from "uuid";
+
 import {UnInput} from "./Components/UnInput/UnInput";
 import ButtonAppBar from "./Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC, changeFilterAC, changeTodolistTitleAC,
-    removeTodolistAC,
-    todolistReducer,
-    TodolistReducerActionType
+    removeTodolistAC
 } from "./Components/Reducers/todolist-reducer";
 import {
     addTasksAC,
     changeTasksStatusAC, changeTasksTitleAC,
-    removeTasksAC, RemoveTodolistAC,
-    taskReducer,
-    TaskToActionType
+    removeTasksAC, RemoveTodolistAC
 } from "./Components/Reducers/tasks-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./Components/state/store";
 
 export type FVT = 'All' | 'Active' | 'Completed';
 
@@ -25,71 +23,50 @@ export type TodolistType = {
     id: string
     filter: FVT
     title: string
-
-
 }
 
-function AppWithReducer() {
+function AppWithRedux() {
 
-    let todolistID1 = v1();
-    let todolistID2 = v1();
+    let todolist = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todoLists)
 
-    let [todolist, dispatchToTodolist] = useReducer<Reducer<Array<TodolistType>, TodolistReducerActionType>>(todolistReducer, [
-        {id: todolistID1, title: 'What to learn', filter: 'All'},
-        {id: todolistID2, title: 'What to buy', filter: 'All'},
-    ])
+    let tasks = useSelector<AppRootStateType, TasksStateType> (state => state.tasks)
 
-    let [tasks, dispatchToTask] = useReducer<Reducer<TasksStateType, TaskToActionType>>(taskReducer, {
-        [todolistID1]: [
-            {id: v1(), title: 'Rest', isDone: false},
-            {id: v1(), title: 'Work', isDone: true},
-            {id: v1(), title: 'Sex', isDone: false},
-        ],
-        [todolistID2]: [
-            {id: v1(), title: 'Rest Hard', isDone: false},
-            {id: v1(), title: 'Work', isDone: true},
-            {id: v1(), title: 'Eat', isDone: false},
-        ]
-    });
+    const dispatch = useDispatch()
 
     function Sort(todolistID: string, filterValue: FVT) {
-        dispatchToTodolist(changeFilterAC(filterValue, todolistID))
-
+        dispatch(changeFilterAC(filterValue, todolistID))
     }
 
     const changeCheckboxStatus = (todolistID: string, taskId: string, newIsDone: boolean) => {
-        dispatchToTask(changeTasksStatusAC(taskId, newIsDone, todolistID))
+        dispatch(changeTasksStatusAC(taskId, newIsDone, todolistID))
     }
 
     function addTask(todolistID: string, title: string) {
-        dispatchToTask(addTasksAC(title, todolistID))
+        dispatch(addTasksAC(title, todolistID))
     }
 
     function delTasks(todolistID: string, taskId: string) {
         let action = removeTasksAC(taskId, todolistID)
-        dispatchToTask(action)
+        dispatch(action)
     }
 
     function dellList(todolistID: string) {
-        dispatchToTodolist(removeTodolistAC(todolistID))
-        dispatchToTask(RemoveTodolistAC(todolistID))
+        dispatch(removeTodolistAC(todolistID))
+        dispatch(RemoveTodolistAC(todolistID))
     }
 
     function todoListAdd(title: string) {
         let action = addTodolistAC(title)
-        dispatchToTodolist(action)
-        dispatchToTask(action)
-
+        dispatch(action)
     }
 
     function ChangeTask(todolistID: string, taskId: string, currentTitle: string) {
-        dispatchToTask(changeTasksTitleAC(taskId, currentTitle, todolistID))
+        dispatch(changeTasksTitleAC(taskId, currentTitle, todolistID))
     }
 
 
     function ChangeTitle(todolistID: string, currentTitle: string) {
-
-        dispatchToTodolist(changeTodolistTitleAC(currentTitle, todolistID))
+        dispatch(changeTodolistTitleAC(currentTitle, todolistID))
     }
 
     return (
@@ -136,7 +113,7 @@ function AppWithReducer() {
     )
 }
 
-export default AppWithReducer;
+export default AppWithRedux;
 
 
 /*function App() {
@@ -257,6 +234,113 @@ export default AppWithReducer;
 
         </div>
     );
+}*/
+
+/*function AppWithReducer() {
+
+    let todolistID1 = v1();
+    let todolistID2 = v1();
+
+    let [todolist, dispatchToTodolist] = useReducer<Reducer<Array<TodolistType>, TodolistReducerActionType>>(todolistReducer, [
+        {id: todolistID1, title: 'What to learn', filter: 'All'},
+        {id: todolistID2, title: 'What to buy', filter: 'All'},
+    ])
+
+    let [tasks, dispatchToTask] = useReducer<Reducer<TasksStateType, TaskToActionType>>(taskReducer, {
+        [todolistID1]: [
+            {id: v1(), title: 'Rest', isDone: false},
+            {id: v1(), title: 'Work', isDone: true},
+            {id: v1(), title: 'Sex', isDone: false},
+        ],
+        [todolistID2]: [
+            {id: v1(), title: 'Rest Hard', isDone: false},
+            {id: v1(), title: 'Work', isDone: true},
+            {id: v1(), title: 'Eat', isDone: false},
+        ]
+    });
+
+    function Sort(todolistID: string, filterValue: FVT) {
+        dispatchToTodolist(changeFilterAC(filterValue, todolistID))
+
+    }
+
+    const changeCheckboxStatus = (todolistID: string, taskId: string, newIsDone: boolean) => {
+        dispatchToTask(changeTasksStatusAC(taskId, newIsDone, todolistID))
+    }
+
+    function addTask(todolistID: string, title: string) {
+        dispatchToTask(addTasksAC(title, todolistID))
+    }
+
+    function delTasks(todolistID: string, taskId: string) {
+        let action = removeTasksAC(taskId, todolistID)
+        dispatchToTask(action)
+    }
+
+    function dellList(todolistID: string) {
+        dispatchToTodolist(removeTodolistAC(todolistID))
+        dispatchToTask(RemoveTodolistAC(todolistID))
+    }
+
+    function todoListAdd(title: string) {
+        let action = addTodolistAC(title)
+        dispatchToTodolist(action)
+        dispatchToTask(action)
+
+    }
+
+    function ChangeTask(todolistID: string, taskId: string, currentTitle: string) {
+        dispatchToTask(changeTasksTitleAC(taskId, currentTitle, todolistID))
+    }
+
+
+    function ChangeTitle(todolistID: string, currentTitle: string) {
+
+        dispatchToTodolist(changeTodolistTitleAC(currentTitle, todolistID))
+    }
+
+    return (
+        <div className="App">
+            <ButtonAppBar/>
+
+            <Container fixed>
+
+                <Grid container style={{padding: '20px'}}>
+                    <UnInput callBack={todoListAdd}/>
+                </Grid>
+
+                <Grid container spacing={2}>
+                    {
+                        todolist.map(el => {
+                            let FilterTask = tasks[el.id];
+
+                            if (el.filter === "Active") {
+                                FilterTask = tasks[el.id].filter(t => !t.isDone)
+                            }
+                            if (el.filter === "Completed") {
+                                FilterTask = tasks[el.id].filter(t => t.isDone)
+                            }
+                            return <Grid item key={el.id}>
+                                <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
+                                    <Todolist title={el.title}
+                                              tasks={FilterTask}
+                                              delTasks={delTasks}
+                                              Sort={Sort}
+                                              dellList={dellList}
+                                              addTask={addTask} changeCheckboxStatus={changeCheckboxStatus}
+                                              todolistID={el.id}
+
+                                              ChangeTask={ChangeTask}
+                                              ChangeTitle={ChangeTitle}
+                                    />
+                                </Paper>
+                            </Grid>
+                        })
+                    }
+                </Grid>
+            </Container>
+        </div>
+    )
 }*/
 
 

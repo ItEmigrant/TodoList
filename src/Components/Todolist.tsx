@@ -1,6 +1,6 @@
 import React, {ChangeEvent, /*KeyboardEvent,*/ useState} from 'react';
 
-import {FVT} from "../App";
+import {FVT} from "../AppWithRedux";
 import styles from './Todolist.module.css'
 import {UnInput} from "./UnInput/UnInput";
 import {EditableSpan} from "./EditableSpan";

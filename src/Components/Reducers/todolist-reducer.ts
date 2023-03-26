@@ -1,4 +1,4 @@
-import {FVT, TodolistType} from "../../AppWithReducer";
+import {FVT, TodolistType} from "../../AppWithRedux";
 import {v1} from "uuid";
 
 type removeTodolistAT = {
@@ -22,34 +22,34 @@ type changeTodolistTitleAT = {
     type: 'NAME-TODOLIST'
     id: string
     title: string
-
-
 }
+
+const initialState: Array<TodolistType> = [];
 
 export type TodolistReducerActionType = removeTodolistAT | addTodolistAT | changeFilterAT | changeTodolistTitleAT
 
-export const todolistReducer = (todolists: Array<TodolistType>, action: TodolistReducerActionType): Array<TodolistType> => {
+export const todolistReducer = (todoLists= initialState, action: TodolistReducerActionType): Array<TodolistType> => {
 
     switch (action.type) {
         case "REMOVE-TODOLIST":
-            return todolists.filter(tl => tl.id != action.id)
+            return todoLists.filter(tl => tl.id != action.id)
         case "ADD-TODOLIST":
-            return [...todolists, {id: action.todolistID, title: action.title, filter: 'All'}]
+            return [...todoLists, {id: action.todolistID, title: action.title, filter: 'All'}]
         case "FILTER-TODOLIST":
-            let todolist = todolists.find(tl => tl.id === action.todolistId);
+            let todolist = todoLists.find(tl => tl.id === action.todolistId);
             if (todolist) {
                 todolist.filter = action.value;
             }
-            return ([...todolists]);
+            return ([...todoLists]);
         case "NAME-TODOLIST":
-            const todolist1 = todolists.find(tl => tl.id === action.id);
+            const todolist1 = todoLists.find(tl => tl.id === action.id);
             if (todolist1) {
                 todolist1.title = action.title;
             }
-            return ([...todolists]);
+            return ([...todoLists]);
 
         default:
-            return todolists
+            return todoLists
     }
 
 }

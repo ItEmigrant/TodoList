@@ -1,7 +1,6 @@
 import {TasksStateType} from "../Todolist";
 import {addTodolistAT} from "./todolist-reducer";
 
-
 export type removeActionType = ReturnType<typeof removeTasksAC>
 
 export type addTasksType = ReturnType<typeof addTasksAC>
@@ -20,7 +19,9 @@ export type TaskToActionType =
     | addTodolistAT
     | RemoveTodolistAC
 
-export const taskReducer = (state: TasksStateType, action: TaskToActionType): TasksStateType => {
+const initialState: TasksStateType = {};
+
+export const taskReducer = (state=initialState, action: TaskToActionType): TasksStateType => {
 
     switch (action.type) {
 
@@ -74,7 +75,7 @@ export const taskReducer = (state: TasksStateType, action: TaskToActionType): Ta
             return rest
 
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 
 }
