@@ -24,15 +24,21 @@ type changeTodolistTitleAT = {
     title: string
 }
 
-const initialState: Array<TodolistType> = [];
+export let todolistID1 = v1();
+export let todolistID2 = v1();
+
+
+const initialState: Array<TodolistType> = [
+    {id: todolistID1, title: 'What to learn', filter: 'All'},
+    {id: todolistID2, title: 'What to buy', filter: 'All'}];
 
 export type TodolistReducerActionType = removeTodolistAT | addTodolistAT | changeFilterAT | changeTodolistTitleAT
 
-export const todolistReducer = (todoLists= initialState, action: TodolistReducerActionType): Array<TodolistType> => {
+export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): Array<TodolistType> => {
 
     switch (action.type) {
         case "REMOVE-TODOLIST":
-            return todoLists.filter(tl => tl.id != action.id)
+            return todoLists.filter(tl => tl.id !== action.id)
         case "ADD-TODOLIST":
             return [...todoLists, {id: action.todolistID, title: action.title, filter: 'All'}]
         case "FILTER-TODOLIST":
