@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TasksStateType, Todolist} from "./Components/Todolist";
 
@@ -55,10 +55,10 @@ function AppWithRedux() {
         dispatch(RemoveTodolistAC(todolistID))
     }
 
-    function todoListAdd(title: string) {
+    const todoListAdd = useCallback((title: string) => {
         let action = addTodolistAC(title)
         dispatch(action)
-    }
+    },[])
 
     function ChangeTask(todolistID: string, taskId: string, currentTitle: string) {
         dispatch(changeTasksTitleAC(taskId, currentTitle, todolistID))

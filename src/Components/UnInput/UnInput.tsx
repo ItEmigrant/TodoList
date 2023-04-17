@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import styles from './UnInput.module.css'
 import {Button, TextField} from "@mui/material";
 
@@ -7,7 +7,8 @@ type UnInputPropsType = {
     callBack: (title: string) => void
 }
 
-export const UnInput = (props: UnInputPropsType) => {
+export const UnInput = memo((props: UnInputPropsType) => {
+    console.log('UnInput')
     let [title, setTitle] = useState('')
     let [error, setError] = useState<boolean>(false)
 
@@ -60,5 +61,5 @@ export const UnInput = (props: UnInputPropsType) => {
             {error && <div className={styles.errorMessage}>{error}</div>}
         </div>
     );
-};
+});
 
