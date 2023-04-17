@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, /*KeyboardEvent,*/ useState} from 'react';
+import React, {ChangeEvent, memo, useCallback, /*KeyboardEvent,*/ useState} from 'react';
 
 import {FVT} from "../AppWithRedux";
 import styles from './Todolist.module.css'
@@ -30,34 +30,30 @@ type TitlePropsType = {
     changeCheckboxStatus: (todolistID: string, taskId: string, newIsDone: boolean) => void
     ChangeTask: (todolistID: string, taskId: string, currentTitle: string) => void
     ChangeTitle: (todolistID: string, currentTitle: string) => void
+    filter: FVT
 
 
 }
 
-export const Todolist = (props: TitlePropsType) => {
+export const Todolist = memo((props: TitlePropsType) => {
+    console.log('TodoList')
 
-
+    let tasks = props.tasks
     const [color, setColor] = useState<FVT>('All')
 
     function OnAllClickHandler() {
-        {
-            props.Sort(props.todolistID, 'All')
-            setColor('All')
-        }
+        props.Sort(props.todolistID, 'All')
+        setColor('All')
     }
 
     function OnActiveClickHandler() {
-        {
-            props.Sort(props.todolistID, 'Active')
-            setColor('Active')
-        }
+        props.Sort(props.todolistID, 'Active')
+        setColor('Active')
     }
 
     function OnCompletedClickHandler() {
-        {
-            props.Sort(props.todolistID, 'Completed')
-            setColor('Completed')
-        }
+        props.Sort(props.todolistID, 'Completed')
+        setColor('Completed')
     }
 
     const onDelClickHandler = (t: string) => {
@@ -66,8 +62,6 @@ export const Todolist = (props: TitlePropsType) => {
 
     function changeCheckboxHandler(tID: string, eventValue: boolean) {
         props.changeCheckboxStatus(props.todolistID, tID, eventValue)
-
-
     }
 
     function DelListClickHandler() {
@@ -86,6 +80,14 @@ export const Todolist = (props: TitlePropsType) => {
         props.ChangeTask(props.todolistID, tID, currentTitle)
     }
 
+    if (props.filter === "Active") {
+        tasks = tasks.filter(t => !t.isDone)
+    }
+
+    if (props.filter === "Completed") {
+        tasks = tasks.filter(t => t.isDone)
+    }
+
     return (
         <div>
             <h3>
@@ -95,20 +97,16 @@ export const Todolist = (props: TitlePropsType) => {
                             style={{color: 'red', backgroundColor: 'orange'}}>
                     <Delete/>
                 </IconButton>
-
             </h3>
-
             <UnInput callBack={addTaskHandler}/>
             <ul>
                 {
-                    props.tasks.map(t => {
-
+                    tasks.map(t => {
                         return <li className={t.isDone ? styles.isDone : ''} key={t.id}>
                             {/*<input type="checkbox" checked={t.isDone}*/}
                             <Checkbox
                                 onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}
                                 checked={t.isDone}/>
-
 
                             <EditableSpan title={t.title}
                                           callBack={(currentTitle) => ChangeTaskHandler(t.id, currentTitle)}/>
@@ -161,6 +159,6 @@ export const Todolist = (props: TitlePropsType) => {
             </div>
         </div>
     );
-}
+})
 
 
