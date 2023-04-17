@@ -1,4 +1,4 @@
-import React, {ChangeEvent, /*KeyboardEvent,*/ useState} from 'react';
+import React, {ChangeEvent, useCallback, /*KeyboardEvent,*/ useState} from 'react';
 
 import {FVT} from "../AppWithRedux";
 import styles from './Todolist.module.css'
@@ -74,9 +74,9 @@ export const Todolist = (props: TitlePropsType) => {
         props.dellList(props.todolistID)
     }
 
-    function addTaskHandler(title: string) {
+    const addTaskHandler = useCallback((title: string) => {
         props.addTask(props.todolistID, title)
-    }
+    }, [props.addTask, props.todolistID])
 
     function addTitleHandler(currentTitle: string) {
         props.ChangeTitle(props.todolistID, currentTitle)
@@ -99,7 +99,6 @@ export const Todolist = (props: TitlePropsType) => {
             </h3>
 
             <UnInput callBack={addTaskHandler}/>
-
             <ul>
                 {
                     props.tasks.map(t => {
@@ -108,7 +107,7 @@ export const Todolist = (props: TitlePropsType) => {
                             {/*<input type="checkbox" checked={t.isDone}*/}
                             <Checkbox
                                 onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}
-                                checked={t.isDone} defaultChecked/>
+                                checked={t.isDone}/>
 
 
                             <EditableSpan title={t.title}

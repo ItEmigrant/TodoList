@@ -8,7 +8,6 @@ type UnInputPropsType = {
 }
 
 export const UnInput = memo((props: UnInputPropsType) => {
-    console.log('UnInput')
     let [title, setTitle] = useState('')
     let [error, setError] = useState<boolean>(false)
 
@@ -50,7 +49,7 @@ export const UnInput = memo((props: UnInputPropsType) => {
                 onKeyUp={oneKeyUpPressHandler}
                 size={"small"}
                 id="outlined-basic"
-                label={error ? "Title is required" : "typing..." }
+                label={error ? "Title is required" : "typing..."}
                 variant="outlined"/>
 
             {/* <button onClick={addTaskHandler}>+</button>*/}

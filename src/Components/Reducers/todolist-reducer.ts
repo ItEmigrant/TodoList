@@ -24,13 +24,7 @@ type changeTodolistTitleAT = {
     title: string
 }
 
-export let todolistID1 = v1();
-export let todolistID2 = v1();
-
-
-const initialState: Array<TodolistType> = [
-    {id: todolistID1, title: 'What to learn', filter: 'All'},
-    {id: todolistID2, title: 'What to buy', filter: 'All'}];
+const initialState: Array<TodolistType> = [];
 
 export type TodolistReducerActionType = removeTodolistAT | addTodolistAT | changeFilterAT | changeTodolistTitleAT
 
