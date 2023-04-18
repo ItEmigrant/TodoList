@@ -106,29 +106,40 @@ export const Todolist = memo((props: TitlePropsType) => {
                 }
             </ul>
             <div>
-                <Button variant={color === "All" ? "outlined" : "contained"} color="success" onClick={OnAllClickHandler}
+                <ButtonWithMemo ButtonTitle={'All'} color={"success"} onClick={OnAllClickHandler}
+                                variant={color === "All" ? "outlined" : "contained"} style={{
+                    maxWidth: "60px",
+                    maxHeight: "30px",
+                    minWidth: "60px",
+                    minHeight: "30px",
+                    marginRight: "2px"
+                }}/>
+                {/*<Button variant={color === "All" ? "outlined" : "contained"} color="success" onClick={OnAllClickHandler}
                         style={{
                             maxWidth: "60px",
                             maxHeight: "30px",
                             minWidth: "60px",
                             minHeight: "30px",
                             marginRight: "2px"
-                        }}> All </Button>
-                <Button variant={color === "Active" ? "outlined" : "contained"} color="error"
-                        onClick={OnActiveClickHandler} style={{
-                    maxWidth: "80px",
+                        }}> All </Button>*/}
+
+                <ButtonWithMemo ButtonTitle={'Active'} color={"error"} onClick={OnActiveClickHandler}
+                                variant={color === "Active" ? "outlined" : "contained"}
+                style={{ maxWidth: "80px",
                     maxHeight: "30px",
                     minWidth: "80px",
                     minHeight: "30px",
-                    marginRight: "2px"
-                }}> Active </Button>
-                <Button variant={color === "Completed" ? "outlined" : "contained"} color="secondary"
-                        onClick={OnCompletedClickHandler} style={{
+                    marginRight: "2px"}}/>
+
+                <ButtonWithMemo ButtonTitle={'Completed'} color={'secondary'} onClick={OnCompletedClickHandler}
+                                variant={color === "Completed" ? "outlined" : "contained"}
+                style={{
                     maxWidth: "115px",
                     maxHeight: "30px",
                     minWidth: "115px",
                     minHeight: "30px"
-                }}> Completed </Button>
+                }}/>
+
 
                 {/*<button className={color === "All" ? styles.activeFilter : ''} onClick={OnAllClickHandler}>All
                 </button>
@@ -145,5 +156,27 @@ export const Todolist = memo((props: TitlePropsType) => {
     );
 })
 
+
+type styleType = {
+    maxWidth: string
+    maxHeight: string
+    minWidth: string
+    minHeight: string
+    marginRight?: string
+}
+
+type ButtonPropsType = {
+    ButtonTitle: string
+    color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    onClick: () => void
+    variant: 'text' | 'outlined' | 'contained'
+    style: styleType
+
+}
+
+const ButtonWithMemo = memo((props: ButtonPropsType) => {
+    return <Button variant={props.variant} color={props.color} onClick={props.onClick}
+                   style={props.style}> {props.ButtonTitle} </Button>
+})
 
 

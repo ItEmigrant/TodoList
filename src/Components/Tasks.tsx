@@ -13,7 +13,7 @@ export type TasksPropsType = {
 }
 
 export const Tasks = memo((props: TasksPropsType) => {
-    console.log('RenderTask')
+
     function changeCheckboxHandler(tID: string, eventValue: boolean) {
         props.changeCheckboxStatus(tID, eventValue)
     }
