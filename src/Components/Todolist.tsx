@@ -1,11 +1,10 @@
-import React, {ChangeEvent, memo, useCallback, /*KeyboardEvent,*/ useState} from 'react';
-
+import React, {memo, useCallback, /*KeyboardEvent,*/ useState} from 'react';
 import {FVT} from "../AppWithRedux";
-import styles from './Todolist.module.css'
 import {UnInput} from "./UnInput/UnInput";
 import {EditableSpan} from "./EditableSpan";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {Tasks} from "./Tasks";
 
 
 export type TaskPropsType = {
@@ -17,7 +16,6 @@ export type TaskPropsType = {
 export type TasksStateType = {
     [key: string]: Array<TaskPropsType>
 }
-
 
 type TitlePropsType = {
     dellList: (todolistID: string) => void
@@ -31,12 +29,9 @@ type TitlePropsType = {
     ChangeTask: (todolistID: string, taskId: string, currentTitle: string) => void
     ChangeTitle: (todolistID: string, currentTitle: string) => void
     filter: FVT
-
-
 }
 
 export const Todolist = memo((props: TitlePropsType) => {
-    console.log('TodoList')
 
     let tasks = props.tasks
     const [color, setColor] = useState<FVT>('All')
@@ -56,14 +51,6 @@ export const Todolist = memo((props: TitlePropsType) => {
         setColor('Completed')
     }
 
-    const onDelClickHandler = (t: string) => {
-        props.delTasks(props.todolistID, t)
-    }
-
-    function changeCheckboxHandler(tID: string, eventValue: boolean) {
-        props.changeCheckboxStatus(props.todolistID, tID, eventValue)
-    }
-
     function DelListClickHandler() {
         props.dellList(props.todolistID)
     }
@@ -72,18 +59,25 @@ export const Todolist = memo((props: TitlePropsType) => {
         props.addTask(props.todolistID, title)
     }, [props.addTask, props.todolistID])
 
-    function addTitleHandler(currentTitle: string) {
+    const addTitleHandler = useCallback((currentTitle: string) => {
         props.ChangeTitle(props.todolistID, currentTitle)
+    }, [props.ChangeTitle, props.todolistID])
+
+    const ChangeTaskTitle = useCallback((taskId: string, currentTitle: string) => {
+        props.ChangeTask(props.todolistID, taskId, currentTitle)
+    },[ props.ChangeTask, props.todolistID])
+
+    const delTasks = (taskId: string) => {
+        props.delTasks(props.todolistID, taskId)
     }
 
-    function ChangeTaskHandler(tID: string, currentTitle: string) {
-        props.ChangeTask(props.todolistID, tID, currentTitle)
+    const changeCheckboxStatus = (taskId: string, newIsDone: boolean) => {
+        props.changeCheckboxStatus(props.todolistID, taskId, newIsDone)
     }
 
     if (props.filter === "Active") {
         tasks = tasks.filter(t => !t.isDone)
     }
-
     if (props.filter === "Completed") {
         tasks = tasks.filter(t => t.isDone)
     }
@@ -102,24 +96,14 @@ export const Todolist = memo((props: TitlePropsType) => {
             <ul>
                 {
                     tasks.map(t => {
-                        return <li className={t.isDone ? styles.isDone : ''} key={t.id}>
-                            {/*<input type="checkbox" checked={t.isDone}*/}
-                            <Checkbox
-                                onChange={(event: ChangeEvent<HTMLInputElement>) => changeCheckboxHandler(t.id, event.currentTarget.checked)}
-                                checked={t.isDone}/>
-
-                            <EditableSpan title={t.title}
-                                          callBack={(currentTitle) => ChangeTaskHandler(t.id, currentTitle)}/>
-
-                            {/* <button onClick={() => onDelClickHandler(t.id)}>X</button>*/}
-                            <IconButton aria-label="delete" onClick={() => onDelClickHandler(t.id)}>
-                                <Delete/>
-                            </IconButton>
-
-                        </li>
+                        return <Tasks
+                            key={t.id}
+                            task={t}
+                            changeCheckboxStatus={changeCheckboxStatus}
+                            ChangeTaskTitle={ChangeTaskTitle}
+                            delTasks={delTasks}/>
                     })
                 }
-
             </ul>
             <div>
                 <Button variant={color === "All" ? "outlined" : "contained"} color="success" onClick={OnAllClickHandler}
