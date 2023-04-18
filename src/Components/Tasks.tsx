@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import styles from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
@@ -12,7 +12,7 @@ export type TasksPropsType = {
     delTasks: (taskId: string) => void
 }
 
-export const Tasks = (props: TasksPropsType) => {
+export const Tasks = memo((props: TasksPropsType) => {
     console.log('RenderTask')
     function changeCheckboxHandler(tID: string, eventValue: boolean) {
         props.changeCheckboxStatus(tID, eventValue)
@@ -41,5 +41,5 @@ export const Tasks = (props: TasksPropsType) => {
 
     </li>
 
-};
+});
 

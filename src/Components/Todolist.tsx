@@ -36,20 +36,20 @@ export const Todolist = memo((props: TitlePropsType) => {
     let tasks = props.tasks
     const [color, setColor] = useState<FVT>('All')
 
-    function OnAllClickHandler() {
+    const OnAllClickHandler = useCallback(() => {
         props.Sort(props.todolistID, 'All')
         setColor('All')
-    }
+    }, [props.Sort, props.todolistID])
 
-    function OnActiveClickHandler() {
+    const OnActiveClickHandler = useCallback(() => {
         props.Sort(props.todolistID, 'Active')
         setColor('Active')
-    }
+    }, [props.Sort, props.todolistID])
 
-    function OnCompletedClickHandler() {
+    const OnCompletedClickHandler = useCallback(() => {
         props.Sort(props.todolistID, 'Completed')
         setColor('Completed')
-    }
+    }, [props.Sort, props.todolistID])
 
     function DelListClickHandler() {
         props.dellList(props.todolistID)
@@ -65,15 +65,15 @@ export const Todolist = memo((props: TitlePropsType) => {
 
     const ChangeTaskTitle = useCallback((taskId: string, currentTitle: string) => {
         props.ChangeTask(props.todolistID, taskId, currentTitle)
-    },[ props.ChangeTask, props.todolistID])
+    }, [props.ChangeTask, props.todolistID])
 
-    const delTasks = (taskId: string) => {
+    const delTasks = useCallback((taskId: string) => {
         props.delTasks(props.todolistID, taskId)
-    }
+    }, [props.delTasks, props.todolistID])
 
-    const changeCheckboxStatus = (taskId: string, newIsDone: boolean) => {
+    const changeCheckboxStatus = useCallback((taskId: string, newIsDone: boolean) => {
         props.changeCheckboxStatus(props.todolistID, taskId, newIsDone)
-    }
+    }, [props.changeCheckboxStatus, props.todolistID])
 
     if (props.filter === "Active") {
         tasks = tasks.filter(t => !t.isDone)
@@ -144,5 +144,6 @@ export const Todolist = memo((props: TitlePropsType) => {
         </div>
     );
 })
+
 
 
