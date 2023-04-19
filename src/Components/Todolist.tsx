@@ -4,7 +4,7 @@ import {UnInput} from "./UnInput/UnInput";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Tasks} from "./Tasks";
+import {TasksWithRedux} from "./TasksWithRedux";
 
 
 export type TaskPropsType = {
@@ -63,17 +63,17 @@ export const Todolist = memo((props: TitlePropsType) => {
         props.ChangeTitle(props.todolistID, currentTitle)
     }, [props.ChangeTitle, props.todolistID])
 
-    const ChangeTaskTitle = useCallback((taskId: string, currentTitle: string) => {
+    /*const ChangeTaskTitle = useCallback((taskId: string, currentTitle: string) => {
         props.ChangeTask(props.todolistID, taskId, currentTitle)
-    }, [props.ChangeTask, props.todolistID])
+    }, [props.ChangeTask, props.todolistID])*/
 
-    const delTasks = useCallback((taskId: string) => {
+   /* const delTasks = useCallback((taskId: string) => {
         props.delTasks(props.todolistID, taskId)
-    }, [props.delTasks, props.todolistID])
+    }, [props.delTasks, props.todolistID])*/
 
-    const changeCheckboxStatus = useCallback((taskId: string, newIsDone: boolean) => {
+    /*const changeCheckboxStatus = useCallback((taskId: string, newIsDone: boolean) => {
         props.changeCheckboxStatus(props.todolistID, taskId, newIsDone)
-    }, [props.changeCheckboxStatus, props.todolistID])
+    }, [props.changeCheckboxStatus, props.todolistID])*/
 
     if (props.filter === "Active") {
         tasks = tasks.filter(t => !t.isDone)
@@ -96,12 +96,11 @@ export const Todolist = memo((props: TitlePropsType) => {
             <ul>
                 {
                     tasks.map(t => {
-                        return <Tasks
+                        return <TasksWithRedux
                             key={t.id}
                             task={t}
-                            changeCheckboxStatus={changeCheckboxStatus}
-                            ChangeTaskTitle={ChangeTaskTitle}
-                            delTasks={delTasks}/>
+                            todolistId={props.todolistID}
+                           />
                     })
                 }
             </ul>
@@ -156,7 +155,6 @@ export const Todolist = memo((props: TitlePropsType) => {
     );
 })
 
-
 type styleType = {
     maxWidth: string
     maxHeight: string
@@ -164,7 +162,6 @@ type styleType = {
     minHeight: string
     marginRight?: string
 }
-
 type ButtonPropsType = {
     ButtonTitle: string
     color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
