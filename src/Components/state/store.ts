@@ -1,17 +1,25 @@
-import {combineReducers, legacy_createStore} from 'redux'
+import {combineReducers, compose, legacy_createStore} from 'redux'
 import {taskReducer} from "../Reducers/tasks-reducer";
 import {todolistReducer} from "../Reducers/todolist-reducer";
 
+
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
-
 const rootReducer = combineReducers({
     tasks: taskReducer,
     todoLists: todolistReducer
 })
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // непосредственно создаём store
 
-export const store = legacy_createStore(rootReducer)
+export const store = legacy_createStore(rootReducer, composeEnhancers())
 
 // определить автоматически тип всего объекта состояния
 
