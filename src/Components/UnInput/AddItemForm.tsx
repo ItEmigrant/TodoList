@@ -3,11 +3,11 @@ import styles from './UnInput.module.css'
 import {Button, TextField} from "@mui/material";
 
 
-type UnInputPropsType = {
+export type UnInputPropsType = {
     callBack: (title: string) => void
 }
 
-export const UnInput = memo((props: UnInputPropsType) => {
+export const AddItemForm = memo((props: UnInputPropsType) => {
     let [title, setTitle] = useState('')
     let [error, setError] = useState<boolean>(false)
 

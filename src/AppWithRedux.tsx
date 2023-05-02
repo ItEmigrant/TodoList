@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import './App.css';
 import {TasksStateType, Todolist} from "./Components/Todolist";
 
-import {UnInput} from "./Components/UnInput/UnInput";
+import {AddItemForm} from "./Components/UnInput/AddItemForm";
 import ButtonAppBar from "./Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
@@ -76,7 +76,7 @@ function AppWithRedux() {
             <Container fixed>
 
                 <Grid container style={{padding: '20px'}}>
-                    <UnInput callBack={todoListAdd}/>
+                    <AddItemForm callBack={todoListAdd}/>
                 </Grid>
 
                 <Grid container spacing={2}>
@@ -90,7 +90,8 @@ function AppWithRedux() {
                                               delTasks={delTasks}
                                               Sort={Sort}
                                               dellList={dellList}
-                                              addTask={addTask} changeCheckboxStatus={changeCheckboxStatus}
+                                              addTask={addTask}
+                                              changeCheckboxStatus={changeCheckboxStatus}
                                               todolistID={el.id}
                                               filter={el.filter}
                                               ChangeTask={ChangeTask}
@@ -189,7 +190,7 @@ export default AppWithRedux;
             <Container fixed>
 
                 <Grid container style={{padding: '20px'}}>
-                    <UnInput callBack={todoListAdd}/>
+                    <AddItemForm callBack={todoListAdd}/>
                 </Grid>
 
                 <Grid container spacing={2}>
@@ -299,7 +300,7 @@ export default AppWithRedux;
             <Container fixed>
 
                 <Grid container style={{padding: '20px'}}>
-                    <UnInput callBack={todoListAdd}/>
+                    <AddItemForm callBack={todoListAdd}/>
                 </Grid>
 
                 <Grid container spacing={2}>

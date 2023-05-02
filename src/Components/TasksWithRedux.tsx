@@ -14,10 +14,10 @@ export type TasksPropsType = {
 
 export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
 
-
     const dispatch = useDispatch()
 
     function changeCheckboxHandler(event: ChangeEvent<HTMLInputElement>) {
+
         let newIsDoneValue = event.currentTarget.checked;
         dispatch(changeTasksStatusAC(task.id, newIsDoneValue, todolistId))
     }
