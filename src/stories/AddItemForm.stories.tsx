@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
+import {action} from '@storybook/addon-actions';
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Button, TextField} from "@mui/material";
 import styles from "../Components/UnInput/UnInput.module.css";
@@ -17,7 +17,7 @@ const meta: Meta<typeof AddItemForm> = {
   argTypes: {
    callBack: {
      description: 'Button clicked inside to form',
-     action: 'clicked'
+     //action: 'clicked'
    }
   },
 };
@@ -29,7 +29,7 @@ type Story = StoryObj<typeof AddItemForm>;
 export const AddItemFormStory: Story = {
   // More on args: https://storybook.js.org/docs/react/writing-stories/args
   args: {
-      //callBack: action('Button clicked inside to form')
+      callBack: action('Button clicked inside to form')
   }
 }
 
