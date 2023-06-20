@@ -8,9 +8,9 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const promise = axios.get('https://social-network.samuraijs.com/docs?type=todolist', {withCredentials: true})
+        const promise = axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', {withCredentials: true})
         promise.then((res) => {
-
+            setState( res.data)
         })
 
     }, [])
