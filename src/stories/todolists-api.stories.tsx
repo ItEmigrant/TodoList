@@ -46,7 +46,12 @@ export const DeleteTodolist = () => {
 }
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
+    const todoID = "54c14407-acb5-4413-bca4-a13a1389f900"
     useEffect(() => {
+        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todoID}`, {title:'Angular'},settings)
+            .then((res) => {
+                setState(res.data)
+            })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
