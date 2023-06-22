@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
+import {todoListApi} from "../Components/todoApi/todoListApi";
 
 export default {
     title: 'API'
@@ -12,10 +13,10 @@ const settings = {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const promise = axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
-        promise.then((res) => {
-            setState(res.data)
-        })
+        todoListApi.getTodoLists()
+            .then((res) => {
+                setState(res.data)
+            })
 
     }, [])
     return <div>{JSON.stringify(state)}</div>
@@ -23,10 +24,10 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title:'Redux'},settings)
-        .then((res) => {
-            setState(res.data)
-        })
+        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: 'Redux'}, settings)
+            .then((res) => {
+                setState(res.data)
+            })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
@@ -48,7 +49,7 @@ export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     const todoID = "54c14407-acb5-4413-bca4-a13a1389f900"
     useEffect(() => {
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todoID}`, {title:'Angular'},settings)
+        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todoID}`, {title: 'Angular'}, settings)
             .then((res) => {
                 setState(res.data)
             })
