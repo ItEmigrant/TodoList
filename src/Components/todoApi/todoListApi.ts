@@ -8,23 +8,46 @@ const instance = axios.create({
 
 export const todoListApi = {
     getTodoLists() {
-        return instance.get<TodoListDallType[]>('todo-lists')
+        return instance.get<TodoListGetType[]>('todo-lists')
     },
     postTodoLists(title: string) {
-        return instance.post('todo-lists', {title})
+        return instance.post<TodoListPostType>('todo-lists', {title})
     },
     delTodoLists(todoID: string) {
-        return instance.delete(`todo-lists/${todoID}`)
+        return instance.delete< TodoListDellType>(`todo-lists/${todoID}`)
     },
     updateTodoLists(todoID: string, title: string) {
-        return instance.put(`todo-lists/${todoID}`, {title})
+        return instance.put<TodoListUpdateType>(`todo-lists/${todoID}`, {title})
     }
 
 }
 
-type TodoListDallType = {
+type TodoListGetType = {
     id: string,
     title: string,
     addedDate: Date,
     order: number
+}
+
+type  TodoListPostType = {
+    resultCode: number,
+    fieldsErrors: [],
+    messages: string[],
+    data: {
+        item: TodoListGetType
+    }
+}
+
+type  TodoListDellType = {
+    resultCode: number,
+    messages: string[],
+    fieldsErrors: [],
+    data: {}
+}
+
+type  TodoListUpdateType = {
+    resultCode: number,
+    messages: string[],
+    fieldsErrors: [],
+    data: {}
 }
