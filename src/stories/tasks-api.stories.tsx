@@ -1,38 +1,39 @@
 import React, {useEffect, useState} from 'react'
-import {todoListApi} from "../Components/todolistsApi/todoListApi";
+import {tasksApi} from "../Components/tasksApi/tasksApi";
 
 export default {
-    title: 'API'
+    title: 'API-Tasks'
 }
 
-export const GetTodolists = () => {
+const todoID = "bc5f79dd-d839-4acf-8c56-184db82bef5d"
+
+export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        todoListApi.getTodoLists()
+        useEffect(() => {
+        tasksApi.getTasks(todoID)
             .then((res) => {
                 setState(res.data)
-
             })
 
     }, [])
     return <div>{JSON.stringify(state)}</div>
 }
-export const CreateTodolist = () => {
+export const CreateTasks = () => {
     const [state, setState] = useState<any>(null)
-    const title = 'Krakow'
+    const title = 'work'
     useEffect(() => {
-        todoListApi.postTodoLists(title)
+        tasksApi.postTasks(todoID, title)
             .then((res) => {
                 setState(res.data)
             })
     }, [])
     return <div>{JSON.stringify(state)}</div>
 }
-export const DeleteTodolist = () => {
+export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
-    const todoID = "1a99e839-9511-4930-955f-380231e868b7"
+    const tasksID = "ed764e75-d468-4c45-9f9f-ca0cb4d5ab08"
     useEffect(() => {
-        todoListApi.delTodoLists(todoID)
+        tasksApi.delTasks(todoID, tasksID)
             .then((res) => {
                 setState(res.data)
             })
@@ -43,10 +44,10 @@ export const DeleteTodolist = () => {
 }
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
-    let title = 'LOLa'
-    const todoID = "bc5f79dd-d839-4acf-8c56-184db82bef5d"
+    let title = 'Sex'
+    const taskID = "c7734ea5-345c-406a-bc67-270d9e2631b4"
     useEffect(() => {
-        todoListApi.updateTodoLists(todoID, title)
+        tasksApi.updateTask(todoID, taskID,  title)
             .then((res) => {
                 setState(res.data)
             })
