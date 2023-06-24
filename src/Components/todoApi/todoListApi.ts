@@ -11,13 +11,13 @@ export const todoListApi = {
         return instance.get<TodoListGetType[]>('todo-lists')
     },
     postTodoLists(title: string) {
-        return instance.post<TodoListPostType>('todo-lists', {title})
+        return instance.post<ResponseType<{ item: TodoListGetType }>>('todo-lists', {title})
     },
     delTodoLists(todoID: string) {
-        return instance.delete< TodoListDellType>(`todo-lists/${todoID}`)
+        return instance.delete<ResponseType>(`todo-lists/${todoID}`)
     },
     updateTodoLists(todoID: string, title: string) {
-        return instance.put<TodoListUpdateType>(`todo-lists/${todoID}`, {title})
+        return instance.put<ResponseType>(`todo-lists/${todoID}`, {title})
     }
 
 }
@@ -29,25 +29,11 @@ type TodoListGetType = {
     order: number
 }
 
-type  TodoListPostType = {
+type ResponseType<T = {}> = {
     resultCode: number,
-    fieldsErrors: [],
     messages: string[],
-    data: {
-        item: TodoListGetType
-    }
+    fieldsErrors: [],
+    data: T
 }
 
-type  TodoListDellType = {
-    resultCode: number,
-    messages: string[],
-    fieldsErrors: [],
-    data: {}
-}
 
-type  TodoListUpdateType = {
-    resultCode: number,
-    messages: string[],
-    fieldsErrors: [],
-    data: {}
-}
