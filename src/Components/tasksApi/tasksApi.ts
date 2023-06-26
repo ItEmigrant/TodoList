@@ -8,20 +8,20 @@ const instance = axios.create({
 
 export const tasksApi = {
     getTasks(todoID: string) {
-        return instance.get(`${todoID}/tasks`)
+        return instance.get<TaskGetType[]>(`${todoID}/tasks`)
     },
     postTasks(todoID: string, title: string) {
-        return instance.post(`${todoID}/tasks`, {title})
+        return instance.post<ResponseTaskType>(`${todoID}/tasks`, {title})
     },
     delTasks(todoID: string, taskID: string) {
-        return instance.delete(`${todoID}/tasks/${taskID}`)
+        return instance.delete<ResponseTaskType>(`${todoID}/tasks/${taskID}`)
     },
     updateTask(todoID: string, taskID: string, title: string) {
         return instance.put<ResponseType>(`${todoID}/tasks/${taskID}`, {title})
     }
 
 }
-/*type TaskGetType = {
+type TaskGetType = {
     id: string,
     title: string,
     description:string,
@@ -33,13 +33,13 @@ export const tasksApi = {
     addedDate: Date
 
 
-}*/
+}
 
-/*type ResponseType<T = {}> = {
+type ResponseTaskType<T = {}> = {
     resultCode: number,
     messages: string[],
     fieldsErrors: [],
     data: T
-}*/
+}
 
 

@@ -11,7 +11,7 @@ export const todoListApi = {
         return instance.get<TodoListGetType[]>('todo-lists')
     },
     postTodoLists(title: string) {
-        return instance.post< ResponseType<{ item: TodoListGetType}>>('todo-lists', {title})
+        return instance.post<ResponseType<{ item: TodoListGetType}>>('todo-lists', {title})
     },
     delTodoLists(todoID: string) {
         return instance.delete< ResponseType>(`todo-lists/${todoID}`)
