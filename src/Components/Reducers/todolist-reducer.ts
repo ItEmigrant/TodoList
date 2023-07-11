@@ -1,5 +1,6 @@
 import {FVT, TodolistType} from "../../AppWithRedux";
 import {v1} from "uuid";
+import {TodoListGetType} from "../todolistsApi/todoListApi";
 
 type removeTodolistAT = {
     type: "REMOVE-TODOLIST"
@@ -65,4 +66,14 @@ export const changeTodolistTitleAC = (title: string, id: string): changeTodolist
     type: "NAME-TODOLIST",
     title,
     id
+})
+
+
+type SetTodoListType = {
+    type: "SET_TODO_LISTS"
+    TDL: TodoListGetType[]
+}
+export const setTodoListsRedux = (TDL: TodoListGetType[]): SetTodoListType=> ({
+    type: "SET_TODO_LISTS",
+    TDL
 })

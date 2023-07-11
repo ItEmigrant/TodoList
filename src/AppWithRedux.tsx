@@ -17,6 +17,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./Components/state/store";
 
+
 export type FVT = 'All' | 'Active' | 'Completed';
 
 export type TodolistType = {
@@ -31,7 +32,15 @@ function AppWithRedux() {
 
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+   /* useEffect(()=>{
+            todoListApi.getTodoLists()
+                .then((res)=>{
+                    dispatch(res.data)
+                })
+    },[])*/
+
 
     const Sort = useCallback((todolistID: string, filterValue: FVT) => {
         dispatch(changeFilterAC(filterValue, todolistID))
