@@ -6,17 +6,21 @@ import {AddItemForm} from "./Components/UnInput/AddItemForm";
 import ButtonAppBar from "./Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
-    addTodolistAC, changeFilterAC, changeTodolistTitleAC,
-    removeTodolistAC, setTodoListsRedux
+    addTodolistAC,
+    changeFilterAC,
+    changeTodolistTitleAC,
+    getTodoListsThunk,
+    removeTodolistAC
 } from "./Components/Reducers/todolist-reducer";
 import {
     addTasksAC,
-    changeTasksStatusAC, changeTasksTitleAC,
-    removeTasksAC, RemoveTodolistAC
+    changeTasksStatusAC,
+    changeTasksTitleAC,
+    removeTasksAC,
+    RemoveTodolistAC
 } from "./Components/Reducers/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./Components/state/store";
-import {todoListApi} from "./Components/todolistsApi/todoListApi";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./Components/state/store";
 
 
 export type FVT = 'All' | 'Active' | 'Completed';
@@ -33,13 +37,10 @@ function AppWithRedux() {
 
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        todoListApi.getTodoLists()
-            .then((res) => {
-                dispatch(setTodoListsRedux(res.data))
-            })
+      dispatch(getTodoListsThunk)
     }, [])
 
 
