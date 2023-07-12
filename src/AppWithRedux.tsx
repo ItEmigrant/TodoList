@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TasksStateType, Todolist} from "./Components/Todolist";
 
@@ -7,7 +7,7 @@ import ButtonAppBar from "./Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC, changeFilterAC, changeTodolistTitleAC,
-    removeTodolistAC
+    removeTodolistAC, setTodoListsRedux
 } from "./Components/Reducers/todolist-reducer";
 import {
     addTasksAC,
@@ -16,6 +16,7 @@ import {
 } from "./Components/Reducers/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./Components/state/store";
+import {todoListApi} from "./Components/todolistsApi/todoListApi";
 
 
 export type FVT = 'All' | 'Active' | 'Completed';
@@ -34,12 +35,12 @@ function AppWithRedux() {
 
     const dispatch = useDispatch();
 
-   /* useEffect(()=>{
-            todoListApi.getTodoLists()
-                .then((res)=>{
-                    dispatch(res.data)
-                })
-    },[])*/
+    useEffect(() => {
+        todoListApi.getTodoLists()
+            .then((res) => {
+                dispatch(setTodoListsRedux(res.data))
+            })
+    }, [])
 
 
     const Sort = useCallback((todolistID: string, filterValue: FVT) => {
@@ -92,6 +93,7 @@ function AppWithRedux() {
                     {
                         todolist.map(el => {
                             let FilterTask = tasks[el.id];
+
                             return <Grid item key={el.id}>
                                 <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
                                     <Todolist title={el.title}

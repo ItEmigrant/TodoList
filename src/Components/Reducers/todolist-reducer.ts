@@ -25,13 +25,21 @@ type changeTodolistTitleAT = {
     title: string
 }
 
+export type SetTodoListType = {
+    type: "SET_TODO_LISTS"
+    TDL: TodoListGetType[]
+}
+
 const initialState: Array<TodolistType> = [];
 
-export type TodolistReducerActionType = removeTodolistAT | addTodolistAT | changeFilterAT | changeTodolistTitleAT
+export type TodolistReducerActionType = removeTodolistAT | addTodolistAT | changeFilterAT | changeTodolistTitleAT | SetTodoListType
 
 export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): Array<TodolistType> => {
 
     switch (action.type) {
+        case "SET_TODO_LISTS":
+            return action.TDL.map((tl)=>({...tl, filter:'All'}))
+
         case "REMOVE-TODOLIST":
             return todoLists.filter(tl => tl.id !== action.id)
         case "ADD-TODOLIST":
@@ -69,10 +77,7 @@ export const changeTodolistTitleAC = (title: string, id: string): changeTodolist
 })
 
 
-type SetTodoListType = {
-    type: "SET_TODO_LISTS"
-    TDL: TodoListGetType[]
-}
+
 export const setTodoListsRedux = (TDL: TodoListGetType[]): SetTodoListType=> ({
     type: "SET_TODO_LISTS",
     TDL
