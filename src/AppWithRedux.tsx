@@ -9,7 +9,7 @@ import {
     addTodolistAC,
     changeFilterAC,
     changeTodolistTitleAC,
-    getTodoListsThunk,
+    getTodoListsThunkCreator,
     removeTodolistAC
 } from "./Components/Reducers/todolist-reducer";
 import {
@@ -40,7 +40,7 @@ function AppWithRedux() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-      dispatch(getTodoListsThunk)
+      dispatch(getTodoListsThunkCreator())
     }, [])
 
 

@@ -1,7 +1,7 @@
-import {AnyAction, combineReducers, compose, legacy_createStore} from 'redux'
+import {AnyAction, applyMiddleware, combineReducers, compose, legacy_createStore} from 'redux'
 import {taskReducer} from "../Reducers/tasks-reducer";
 import {todolistReducer} from "../Reducers/todolist-reducer";
-import {ThunkDispatch} from 'redux-thunk'
+import thunk, {ThunkDispatch} from 'redux-thunk'
 import {useDispatch} from "react-redux";
 
 
@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // непосредственно создаём store
 
-export const store = legacy_createStore(rootReducer, composeEnhancers())
+export const store = legacy_createStore(rootReducer,  /*composeEnhancers(), */applyMiddleware(thunk))
 
 // определить автоматически тип всего объекта состояния
 

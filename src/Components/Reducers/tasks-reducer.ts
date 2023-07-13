@@ -1,6 +1,8 @@
 import {TasksStateType} from "../Todolist";
 import {addTodolistAT, SetTodoListType,} from "./todolist-reducer";
 import {v1} from "uuid";
+import {Dispatch} from "redux";
+import {TaskGetType, tasksApi} from "../tasksApi/tasksApi";
 
 
 export type removeActionType = ReturnType<typeof removeTasksAC>
@@ -21,6 +23,7 @@ export type TaskToActionType =
     | addTodolistAT
     | RemoveTodolistAC
     | SetTodoListType
+    | ReturnType<typeof setTasksReduxAC>
 
 const initialState: TasksStateType = {};
 
@@ -28,13 +31,20 @@ export const taskReducer = (state = initialState, action: TaskToActionType): Tas
 
     switch (action.type) {
 
+        case "SET_REDUX_TASK": {
+            return {
+                ...state,
+                [action.todoId]: action.tasks
+            }
+        }
+
         case "SET_TODO_LISTS": {
             const copyState = {...state}
-            action.TDL.forEach((tl)=>{
+            action.TDL.forEach((tl) => {
                 copyState[tl.id] = []
             })
             return copyState
-            }
+        }
 
         case "REMOVE-TASK":
             return {
@@ -132,6 +142,19 @@ export const RemoveTodolistAC = (todolistId: string) => {
             todolistId
         }
     } as const
+}
+
+export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string)  => ({
+    type: "SET_REDUX_TASK",
+    tasks,
+    todoId
+}) as const;
+
+export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch) => {
+    tasksApi.getTasks(todoId)
+        .then((res) => {
+           dispatch(setTasksReduxAC(res.data, todoId))
+        })
 }
 
 

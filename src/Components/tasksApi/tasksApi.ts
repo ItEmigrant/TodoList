@@ -21,18 +21,17 @@ export const tasksApi = {
     }
 
 }
-type TaskGetType = {
-    id: string,
+export type TaskGetType = {
     title: string,
-    description:string,
-    todoListId: string,
-    order: number,
     status: number,
     priority: number,
-    startDate: string
-    addedDate: Date
-
-
+    startDate: string,
+    deadline: string,
+    id: string,
+    todoListId: string,
+    order: number,
+    addedDate: Date,
+    description:string
 }
 
 type ResponseTaskType<T = {}> = {

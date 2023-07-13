@@ -86,9 +86,12 @@ export const setTodoListsRedux = (TDL: TodoListGetType[]): SetTodoListType => ({
     TDL
 })
 
- export const getTodoListsThunk = (dispatch: Dispatch) => {
+ export const getTodoListsThunkCreator= () => (dispatch: Dispatch) => {
      todoListApi.getTodoLists()
           .then((res) => {
               dispatch(setTodoListsRedux(res.data))
           })
 }
+
+
+
