@@ -1,16 +1,18 @@
-import React, {memo, useCallback, /*KeyboardEvent,*/ useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FVT} from "../AppWithRedux";
 import {AddItemForm} from "./UnInput/AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {TasksWithRedux} from "./TasksWithRedux";
+import {getTaskThunkCreator} from "./Reducers/tasks-reducer";
+import {useAppDispatch} from "./state/store";
 
 
 export type TaskPropsType = {
     id: string
     title: string
-    isDone: boolean
+    isDone?: boolean
 }
 
 export type TasksStateType = {
@@ -33,7 +35,13 @@ type TitlePropsType = {
 
 export const Todolist = memo((props: TitlePropsType) => {
 
+    const dispatch = useAppDispatch();
+    useEffect(()=>{
+        dispatch(getTaskThunkCreator(props.todolistID))
+    }, [])
+
     let tasks = props.tasks
+
     const [color, setColor] = useState<FVT>('All')
 
     const OnAllClickHandler = useCallback(() => {
@@ -67,9 +75,9 @@ export const Todolist = memo((props: TitlePropsType) => {
         props.ChangeTask(props.todolistID, taskId, currentTitle)
     }, [props.ChangeTask, props.todolistID])*/
 
-   /* const delTasks = useCallback((taskId: string) => {
-        props.delTasks(props.todolistID, taskId)
-    }, [props.delTasks, props.todolistID])*/
+    /* const delTasks = useCallback((taskId: string) => {
+         props.delTasks(props.todolistID, taskId)
+     }, [props.delTasks, props.todolistID])*/
 
     /*const changeCheckboxStatus = useCallback((taskId: string, newIsDone: boolean) => {
         props.changeCheckboxStatus(props.todolistID, taskId, newIsDone)
@@ -96,11 +104,12 @@ export const Todolist = memo((props: TitlePropsType) => {
             <ul>
                 {
                     tasks.map(t => {
+
                         return <TasksWithRedux
                             key={t.id}
                             task={t}
                             todolistId={props.todolistID}
-                           />
+                        />
                     })
                 }
             </ul>
@@ -124,20 +133,22 @@ export const Todolist = memo((props: TitlePropsType) => {
 
                 <ButtonWithMemo ButtonTitle={'Active'} color={"error"} onClick={OnActiveClickHandler}
                                 variant={color === "Active" ? "outlined" : "contained"}
-                style={{ maxWidth: "80px",
-                    maxHeight: "30px",
-                    minWidth: "80px",
-                    minHeight: "30px",
-                    marginRight: "2px"}}/>
+                                style={{
+                                    maxWidth: "80px",
+                                    maxHeight: "30px",
+                                    minWidth: "80px",
+                                    minHeight: "30px",
+                                    marginRight: "2px"
+                                }}/>
 
                 <ButtonWithMemo ButtonTitle={'Completed'} color={'secondary'} onClick={OnCompletedClickHandler}
                                 variant={color === "Completed" ? "outlined" : "contained"}
-                style={{
-                    maxWidth: "115px",
-                    maxHeight: "30px",
-                    minWidth: "115px",
-                    minHeight: "30px"
-                }}/>
+                                style={{
+                                    maxWidth: "115px",
+                                    maxHeight: "30px",
+                                    minWidth: "115px",
+                                    minHeight: "30px"
+                                }}/>
 
 
                 {/*<button className={color === "All" ? styles.activeFilter : ''} onClick={OnAllClickHandler}>All

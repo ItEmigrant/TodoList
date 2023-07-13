@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists/',
     withCredentials: true
@@ -8,7 +9,7 @@ const instance = axios.create({
 
 export const tasksApi = {
     getTasks(todoID: string) {
-        return instance.get<TaskGetType[]>(`${todoID}/tasks`)
+        return instance.get<ResponseTaskType<TaskGetType[]>>(`${todoID}/tasks`)
     },
     postTasks(todoID: string, title: string) {
         return instance.post<ResponseTaskType>(`${todoID}/tasks`, {title})
@@ -21,6 +22,9 @@ export const tasksApi = {
     }
 
 }
+
+
+
 export type TaskGetType = {
     title: string,
     status: number,
@@ -31,10 +35,11 @@ export type TaskGetType = {
     todoListId: string,
     order: number,
     addedDate: Date,
-    description:string
+    description: string
+
 }
 
-type ResponseTaskType<T = {}> = {
+export type ResponseTaskType<T = {}> = {
     resultCode: number,
     messages: string[],
     fieldsErrors: [],

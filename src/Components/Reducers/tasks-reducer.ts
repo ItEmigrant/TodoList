@@ -153,7 +153,8 @@ export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string)  => ({
 export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch) => {
     tasksApi.getTasks(todoId)
         .then((res) => {
-           dispatch(setTasksReduxAC(res.data, todoId))
+           dispatch(setTasksReduxAC(res.data.data, todoId))
+            console.log(res.data.data)
         })
 }
 

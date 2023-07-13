@@ -40,7 +40,7 @@ function AppWithRedux() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-      dispatch(getTodoListsThunkCreator())
+        dispatch(getTodoListsThunkCreator())
     }, [])
 
 
@@ -79,6 +79,7 @@ function AppWithRedux() {
     const ChangeTitle = useCallback((todolistID: string, currentTitle: string) => {
         dispatch(changeTodolistTitleAC(currentTitle, todolistID))
     }, [dispatch])
+
 
     return (
         <div className="App">
