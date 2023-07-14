@@ -24,7 +24,6 @@ export const tasksApi = {
 }
 
 
-
 export type TaskGetType = {
     title: string,
     status: number,
@@ -40,10 +39,9 @@ export type TaskGetType = {
 }
 
 export type ResponseTaskType<T = {}> = {
-    resultCode: number,
-    messages: string[],
-    fieldsErrors: [],
-    data: T
+    error: string | null
+    totalCount: number
+    items: T
 }
 
 
