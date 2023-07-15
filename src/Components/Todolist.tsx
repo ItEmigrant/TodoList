@@ -1,5 +1,4 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {FVT} from "../AppWithRedux";
 import {AddItemForm} from "./UnInput/AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
@@ -7,27 +6,29 @@ import {Delete} from "@mui/icons-material";
 import {TasksWithRedux} from "./TasksWithRedux";
 import {getTaskThunkCreator} from "./Reducers/tasks-reducer";
 import {useAppDispatch} from "./state/store";
+import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
+import {FVT} from "./Reducers/todolist-reducer";
 
 
-export type TaskPropsType = {
+/*export type TaskPropsType = {
     id: string
     title: string
     isDone?: boolean
-}
+}*/
 
 export type TasksStateType = {
-    [key: string]: Array<TaskPropsType>
+    [key: string]: Array<TaskGetType>
 }
 
 type TitlePropsType = {
     dellList: (todolistID: string) => void
     todolistID: string
     title: string
-    tasks: Array<TaskPropsType>
+    tasks: Array<TaskGetType>
     delTasks: (taskId: string, todolistID: string) => void
     Sort: (todolistID: string, filterValue: FVT) => void
     addTask: (todolistID: string, title: string) => void
-    changeCheckboxStatus: (todolistID: string, taskId: string, newIsDone: boolean) => void
+    changeCheckboxStatus: (todolistID: string, taskId: string, status: taskStatuses) => void
     ChangeTask: (todolistID: string, taskId: string, currentTitle: string) => void
     ChangeTitle: (todolistID: string, currentTitle: string) => void
     filter: FVT
@@ -79,15 +80,15 @@ export const Todolist = memo((props: TitlePropsType) => {
          props.delTasks(props.todolistID, taskId)
      }, [props.delTasks, props.todolistID])*/
 
-    /*const changeCheckboxStatus = useCallback((taskId: string, newIsDone: boolean) => {
+    /*const changeCheckboxStatus = useCallback((taskId: string, status: taskStatuses) => {
         props.changeCheckboxStatus(props.todolistID, taskId, newIsDone)
     }, [props.changeCheckboxStatus, props.todolistID])*/
 
     if (props.filter === "Active") {
-        tasks = tasks.filter(t => !t.isDone)
+        tasks = tasks.filter(t => t.status === taskStatuses.New) //
     }
     if (props.filter === "Completed") {
-        tasks = tasks.filter(t => t.isDone)
+        tasks = tasks.filter(t => t.status === taskStatuses.Completed)
     }
 
     return (

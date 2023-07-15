@@ -3,12 +3,12 @@ import styles from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskPropsType} from "./Todolist";
 import {useDispatch} from "react-redux";
 import {changeTasksStatusAC, changeTasksTitleAC, removeTasksAC} from "./Reducers/tasks-reducer";
+import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
 
 export type TasksPropsType = {
-    task: TaskPropsType
+    task: TaskGetType
     todolistId: string
 }
 
@@ -19,7 +19,7 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
     function changeCheckboxHandler(event: ChangeEvent<HTMLInputElement>) {
 
         let newIsDoneValue = event.currentTarget.checked;
-        dispatch(changeTasksStatusAC(task.id, newIsDoneValue, todolistId))
+        dispatch(changeTasksStatusAC(todolistId, task.id, newIsDoneValue ? taskStatuses.Completed : taskStatuses.New ))
     }
 
     const ChangeTaskHandler = useCallback((currentTitle: string) => {
@@ -28,11 +28,11 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
 
     const onDelClickHandler = () => dispatch(removeTasksAC(task.id, todolistId))
 
-    return <li className={task.isDone ? styles.isDone : ''}>
+    return <li className={task.status === taskStatuses.Completed ? styles.isDone : ''}>
         {/*<input type="checkbox" checked={t.isDone}*/}
         <Checkbox
             onChange={changeCheckboxHandler}
-            checked={task.isDone}/>
+            checked={task.status === taskStatuses.Completed}/>
 
         <EditableSpan title={task.title} callBack={ChangeTaskHandler}/>
 
@@ -49,7 +49,7 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
 /*
 export type TasksPropsType = {
     task: TaskPropsType
-    changeCheckboxStatus: (taskId: string, newIsDone: boolean) => void
+    changeCheckboxStatus: (taskId: string, status: taskStatuses) => void
     ChangeTaskTitle: (taskId: string, currentTitle: string) => void
     delTasks: (taskId: string) => void
 }

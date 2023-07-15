@@ -2,7 +2,7 @@ import {TasksStateType} from "../Todolist";
 import {addTodolistAT, SetTodoListType,} from "./todolist-reducer";
 import {v1} from "uuid";
 import {Dispatch} from "redux";
-import {TaskGetType, tasksApi} from "../tasksApi/tasksApi";
+import {TaskGetType, taskPriority, tasksApi, taskStatuses} from "../tasksApi/tasksApi";
 
 
 export type removeActionType = ReturnType<typeof removeTasksAC>
@@ -53,7 +53,7 @@ export const taskReducer = (state = initialState, action: TaskToActionType): Tas
             }
 
         case "ADD-TASK":
-            let task = {id: v1(), title: action.title, isDone: false};
+            let task = {title: action.title,  status: taskStatuses.New,  priority: taskPriority.Low,  startDate:'',  deadline: '', id: v1(),  todoListId: action.todolistId, order: 0,  addedDate: '', description: ''};
 
             return {
                 ...state,
@@ -61,12 +61,11 @@ export const taskReducer = (state = initialState, action: TaskToActionType): Tas
             }
 
         case "CHANGE-TASK-STATUS":
-
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {
                     ...t,
-                    isDone: action.isDone
+                    status: action.status
                 } : t)
 
             }
@@ -115,11 +114,11 @@ export const addTasksAC = (title: string, todolistId: string) => {
     } as const
 }
 
-export const changeTasksStatusAC = (taskId: string, isDone: boolean, todolistId: string) => {
+export const changeTasksStatusAC = (todolistId: string, taskId: string, status: taskStatuses) => {
 
     return {
         type: "CHANGE-TASK-STATUS",
-        taskId, todolistId, isDone
+        taskId, todolistId, status
 
     } as const
 }
@@ -144,7 +143,7 @@ export const RemoveTodolistAC = (todolistId: string) => {
     } as const
 }
 
-export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string)  => ({
+export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string) => ({
     type: "SET_REDUX_TASK",
     tasks,
     todoId
@@ -153,7 +152,7 @@ export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string)  => ({
 export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch) => {
     tasksApi.getTasks(todoId)
         .then((res) => {
-           dispatch(setTasksReduxAC(res.data.items, todoId))
+            dispatch(setTasksReduxAC(res.data.items, todoId))
             console.log(res.data.items)
         })
 }

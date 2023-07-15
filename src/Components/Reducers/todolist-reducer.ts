@@ -1,4 +1,3 @@
-import {FVT, TodolistType} from "../../AppWithRedux";
 import {v1} from "uuid";
 import {todoListApi, TodoListGetType} from "../todolistsApi/todoListApi";
 import {Dispatch} from "redux";
@@ -31,7 +30,14 @@ export type SetTodoListType = {
     TDL: TodoListGetType[]
 }
 
-const initialState: Array<TodolistType> = [];
+export type FVT = 'All' | 'Active' | 'Completed';
+
+export type TodoListDomainType = TodoListGetType & {
+    filter: FVT
+}
+
+
+const initialState: Array<TodoListDomainType> = [];
 
 export type TodolistReducerActionType =
     removeTodolistAT
@@ -40,7 +46,7 @@ export type TodolistReducerActionType =
     | changeTodolistTitleAT
     | SetTodoListType
 
-export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): Array<TodolistType> => {
+export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): Array<TodoListDomainType> => {
 
     switch (action.type) {
         case "SET_TODO_LISTS":
@@ -48,8 +54,10 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
 
         case "REMOVE-TODOLIST":
             return todoLists.filter(tl => tl.id !== action.id)
+
         case "ADD-TODOLIST":
-            return [...todoLists, {id: action.todolistID, title: action.title, filter: 'All'}]
+            return [...todoLists, {id: action.todolistID, title: action.title, filter: 'All', addedDate: '', order: 0}]
+
         case "FILTER-TODOLIST":
             let todolist = todoLists.find(tl => tl.id === action.todolistId);
             if (todolist) {
@@ -86,11 +94,11 @@ export const setTodoListsRedux = (TDL: TodoListGetType[]): SetTodoListType => ({
     TDL
 })
 
- export const getTodoListsThunkCreator= () => (dispatch: Dispatch) => {
-     todoListApi.getTodoLists()
-          .then((res) => {
-              dispatch(setTodoListsRedux(res.data))
-          })
+export const getTodoListsThunkCreator = () => (dispatch: Dispatch) => {
+    todoListApi.getTodoLists()
+        .then((res) => {
+            dispatch(setTodoListsRedux(res.data))
+        })
 }
 
 
