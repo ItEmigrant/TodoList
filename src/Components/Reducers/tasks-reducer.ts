@@ -5,6 +5,7 @@ import {Dispatch} from "redux";
 import {TaskGetType, taskPriority, tasksApi, taskStatuses} from "../tasksApi/tasksApi";
 
 
+
 export type removeActionType = ReturnType<typeof removeTasksAC>
 
 export type addTasksType = ReturnType<typeof addTasksAC>
@@ -155,6 +156,13 @@ export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch) => {
             dispatch(setTasksReduxAC(res.data.items, todoId))
 
         })
+}
+
+export const deleteTaskTC = (todoID: string, taskID: string) => (dispatch: Dispatch) => {
+        tasksApi.delTasks(todoID, taskID)
+            .then((res)=>{
+                dispatch(removeTasksAC(taskID, todoID))
+            })
 }
 
 

@@ -25,7 +25,7 @@ type TitlePropsType = {
     todolistID: string
     title: string
     tasks: Array<TaskGetType>
-    delTasks: (taskId: string, todolistID: string) => void
+   /* delTasks: (taskId: string, todolistID: string) => void*/
     Sort: (todolistID: string, filterValue: FVT) => void
     addTask: (todolistID: string, title: string) => void
     changeCheckboxStatus: (todolistID: string, taskId: string, status: taskStatuses) => void

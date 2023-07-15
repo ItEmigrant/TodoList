@@ -16,13 +16,11 @@ import {
     addTasksAC,
     changeTasksStatusAC,
     changeTasksTitleAC,
-    removeTasksAC,
     RemoveTodolistAC
 } from "./Components/Reducers/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./Components/state/store";
 import {taskStatuses} from "./Components/tasksApi/tasksApi";
-
 
 
 /*export type TodolistType = {
@@ -56,10 +54,10 @@ function AppWithRedux() {
         dispatch(addTasksAC(title, todolistID))
     }, [dispatch])
 
-    const delTasks = useCallback((todolistID: string, taskId: string) => {
-        let action = removeTasksAC(taskId, todolistID)
-        dispatch(action)
-    }, [dispatch])
+    /* const delTasks = useCallback((todolistID: string, taskId: string) => {
+         let action = removeTasksAC(taskId, todolistID)
+         dispatch(action)
+     }, [dispatch])*/
 
     const dellList = useCallback((todolistID: string) => {
         dispatch(removeTodolistAC(todolistID))
@@ -100,7 +98,7 @@ function AppWithRedux() {
                                 <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
                                     <Todolist title={el.title}
                                               tasks={FilterTask}
-                                              delTasks={delTasks}
+                                              /*delTasks={delTasks}*/
                                               Sort={Sort}
                                               dellList={dellList}
                                               addTask={addTask}

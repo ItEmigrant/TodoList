@@ -3,9 +3,9 @@ import styles from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {useDispatch} from "react-redux";
-import {changeTasksStatusAC, changeTasksTitleAC, removeTasksAC} from "./Reducers/tasks-reducer";
+import {changeTasksStatusAC, changeTasksTitleAC, deleteTaskTC} from "./Reducers/tasks-reducer";
 import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
+import {useAppDispatch} from "./state/store";
 
 export type TasksPropsType = {
     task: TaskGetType
@@ -14,7 +14,7 @@ export type TasksPropsType = {
 
 export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     function changeCheckboxHandler(event: ChangeEvent<HTMLInputElement>) {
 
@@ -26,7 +26,7 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
         dispatch(changeTasksTitleAC(task.id, currentTitle, todolistId))
     }, [dispatch, task.id, todolistId])
 
-    const onDelClickHandler = () => dispatch(removeTasksAC(task.id, todolistId))
+    const onDelClickHandler = () => dispatch(deleteTaskTC(todolistId, task.id))
 
     return <li className={task.status === taskStatuses.Completed ? styles.isDone : ''}>
         {/*<input type="checkbox" checked={t.isDone}*/}
