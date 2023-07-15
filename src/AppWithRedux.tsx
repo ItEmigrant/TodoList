@@ -23,12 +23,6 @@ import {AppRootStateType, useAppDispatch} from "./Components/state/store";
 import {taskStatuses} from "./Components/tasksApi/tasksApi";
 
 
-/*export type TodolistType = {
-    id: string
-    filter: FVT
-    title: string
-}*/
-
 function AppWithRedux() {
 
     let todolist = useSelector<AppRootStateType, Array<TodoListDomainType>>(state => state.todoLists)
@@ -98,7 +92,7 @@ function AppWithRedux() {
                                 <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
                                     <Todolist title={el.title}
                                               tasks={FilterTask}
-                                              /*delTasks={delTasks}*/
+                                        /*delTasks={delTasks}*/
                                               Sort={Sort}
                                               dellList={dellList}
                                               addTask={addTask}
