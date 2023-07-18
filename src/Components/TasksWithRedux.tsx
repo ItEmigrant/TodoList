@@ -3,7 +3,7 @@ import styles from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {changeTasksStatusAC, changeTasksTitleAC, deleteTaskTC} from "./Reducers/tasks-reducer";
+import {changeTaskStatusTC, changeTasksTitleAC, deleteTaskTC} from "./Reducers/tasks-reducer";
 import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
 import {useAppDispatch} from "./state/store";
 
@@ -19,7 +19,7 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
     function changeCheckboxHandler(event: ChangeEvent<HTMLInputElement>) {
 
         let newIsDoneValue = event.currentTarget.checked;
-        dispatch(changeTasksStatusAC(todolistId, task.id, newIsDoneValue ? taskStatuses.Completed : taskStatuses.New ))
+        dispatch(changeTaskStatusTC(task.id,   newIsDoneValue ? taskStatuses.Completed : taskStatuses.New,todolistId))
     }
 
     const ChangeTaskHandler = useCallback((currentTitle: string) => {

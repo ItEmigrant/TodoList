@@ -15,7 +15,7 @@ import {
     TodoListDomainType
 } from "./Components/Reducers/todolist-reducer";
 import {
-    changeTasksStatusAC,
+    changeTaskStatusTC,
     changeTasksTitleAC,
     createTaskTC,
     RemoveTodolistAC
@@ -43,7 +43,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeCheckboxStatus = useCallback((todolistID: string, taskId: string, status: taskStatuses) => {
-        dispatch(changeTasksStatusAC(todolistID, taskId, status))
+        dispatch(changeTaskStatusTC(taskId, status, todolistID))
     }, [dispatch])
 
     const addTask = useCallback((todolistID: string, title: string) => {
