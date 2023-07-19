@@ -3,7 +3,7 @@ import styles from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {changeTaskStatusTC, changeTasksTitleAC, deleteTaskTC} from "./Reducers/tasks-reducer";
+import {changeTaskStatusTC, changeTaskTitleTC, deleteTaskTC} from "./Reducers/tasks-reducer";
 import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
 import {useAppDispatch} from "./state/store";
 
@@ -23,7 +23,8 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
     }
 
     const ChangeTaskHandler = useCallback((currentTitle: string) => {
-        dispatch(changeTasksTitleAC(task.id, currentTitle, todolistId))
+
+        dispatch(changeTaskTitleTC(task.id, currentTitle, todolistId))
     }, [dispatch, task.id, todolistId])
 
     const onDelClickHandler = () => dispatch(deleteTaskTC(todolistId, task.id))

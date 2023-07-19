@@ -125,11 +125,11 @@ export const addTasksAC = (task: TaskGetType) => {
     } as const
 }
 
-export const changeTasksStatusAC = (todolistId: string, status: taskStatuses, taskId: string ) => {
+export const changeTasksStatusAC = (todolistId: string, status: taskStatuses, taskId: string) => {
 
     return {
         type: "CHANGE-TASK-STATUS",
-        todolistId,status, taskId,
+        todolistId, status, taskId,
 
     } as const
 }
@@ -185,7 +185,6 @@ export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispa
 export const changeTaskStatusTC = (taskId: string, status: taskStatuses, todoLisId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const task = getState().tasks[todoLisId].find(t => t.id === taskId);
     if (task) {
-        console.log(task)
         const model: UpdateTaskModelType = {
             title: task.title,
             startDate: task.startDate,
@@ -194,16 +193,34 @@ export const changeTaskStatusTC = (taskId: string, status: taskStatuses, todoLis
             description: task.description,
             status
         }
-tasksApi.updateTask(todoLisId, taskId, model)
-    .then((res)=>{
-        console.log(res)
-        dispatch(changeTasksStatusAC(todoLisId, status,  taskId))
+        tasksApi.updateTask(todoLisId, taskId, model)
+            .then((res) => {
+                dispatch(changeTasksStatusAC(todoLisId, status, taskId))
 
-    })
+            })
 
     }
 }
 
+export const changeTaskTitleTC = (taskId: string, title: string, todoLisId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const task = getState().tasks[todoLisId].find(t => t.id === taskId);
+    if (task) {
+        const model: UpdateTaskModelType = {
+            title: title,
+            startDate: task.startDate,
+            priority: task.priority,
+            deadline: task.deadline,
+            description: task.description,
+            status: task.status
+        }
+        tasksApi.updateTask(todoLisId, taskId, model)
+            .then((res) => {
+                dispatch(changeTasksTitleAC(todoLisId, title, taskId))
+
+            })
+
+    }
+}
 
 
 

@@ -1,12 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import React from 'react';
 import {ReduxStoreProviderDecorator} from "../Components/state/ReduxStoreProviderDecorator";
-import { TasksWithRedux} from "../Components/TasksWithRedux";
+import {TasksWithRedux} from "../Components/TasksWithRedux";
 import {v1} from "uuid";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../Components/state/store";
 import {TaskGetType, taskPriority, taskStatuses} from "../Components/tasksApi/tasksApi";
-
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -16,7 +15,8 @@ const meta: Meta<typeof TasksWithRedux> = {
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
     tags: ['autodocs'],
     args: {
-        task: {id: v1(),
+        task: {
+            id: v1(),
             todoListId: 'todolistId1',
             title: 'JS',
             status: taskStatuses.Completed,
@@ -25,7 +25,8 @@ const meta: Meta<typeof TasksWithRedux> = {
             deadline: '',
             order: 0,
             addedDate: '',
-            description: ''},
+            description: ''
+        },
         todolistId: 'todolistId1'
     },
     decorators: [ReduxStoreProviderDecorator]

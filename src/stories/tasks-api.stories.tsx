@@ -47,6 +47,7 @@ export const UpdateTodolistTitle = () => {
     let title = 'Sex'
     const taskID = "c7734ea5-345c-406a-bc67-270d9e2631b4"
     useEffect(() => {
+        //@ts-ignore
         tasksApi.updateTask(todoID, taskID,  title)
             .then((res) => {
                 setState(res.data)
