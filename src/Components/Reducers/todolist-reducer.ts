@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {todoListApi, TodoListGetType} from "../todolistsApi/todoListApi";
 import {Dispatch} from "redux";
 
-type removeTodolistAT = {
+export type removeTodolistAT = {
     type: "REMOVE-TODOLIST"
     id: string
 }
@@ -53,6 +53,7 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
             return action.TDL.map((tl) => ({...tl, filter: 'All'}))
 
         case "REMOVE-TODOLIST":
+
             return todoLists.filter(tl => tl.id !== action.id)
 
         case "ADD-TODOLIST":
@@ -99,6 +100,15 @@ export const getTodoListsThunkCreator = () => (dispatch: Dispatch) => {
         .then((res) => {
             dispatch(setTodoListsRedux(res.data))
         })
+}
+
+export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch) => {
+    todoListApi.delTodoLists(todoID)
+        .then((res) => {
+            dispatch(removeTodolistAC(todoID))
+
+        })
+
 }
 
 

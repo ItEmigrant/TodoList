@@ -93,6 +93,7 @@ export const Todolist = memo((props: TitlePropsType) => {
                 {
                     tasks.map(t => {
 
+
                         return <TasksWithRedux
                             key={t.id}
                             task={t}

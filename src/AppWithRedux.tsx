@@ -8,13 +8,13 @@ import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC,
     changeFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, deleteTodolistTC,
     FVT,
     getTodoListsThunkCreator,
     removeTodolistAC,
     TodoListDomainType
 } from "./Components/Reducers/todolist-reducer";
-import {changeTaskStatusTC, createTaskTC, RemoveTodolistAC} from "./Components/Reducers/tasks-reducer";
+import {changeTaskStatusTC, createTaskTC} from "./Components/Reducers/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./Components/state/store";
 import {taskStatuses} from "./Components/tasksApi/tasksApi";
@@ -46,8 +46,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const dellList = useCallback((todolistID: string) => {
-        dispatch(removeTodolistAC(todolistID))
-        dispatch(RemoveTodolistAC(todolistID))
+        dispatch(deleteTodolistTC(todolistID))
     }, [dispatch])
 
     const todoListAdd = useCallback((title: string) => {

@@ -1,5 +1,5 @@
 import {TasksStateType} from "../Todolist";
-import {addTodolistAT, SetTodoListType,} from "./todolist-reducer";
+import {addTodolistAT, removeTodolistAT, SetTodoListType,} from "./todolist-reducer";
 import {Dispatch} from "redux";
 import {TaskGetType, tasksApi, taskStatuses, UpdateTaskModelType} from "../tasksApi/tasksApi";
 import {AppRootStateType} from "../state/store";
@@ -13,7 +13,6 @@ export type changeTasksStatusType = ReturnType<typeof changeTasksStatusAC>
 
 export type changeTasksTitleAC = ReturnType<typeof changeTasksTitleAC>
 
-export type RemoveTodolistAC = ReturnType<typeof RemoveTodolistAC>
 
 export type TaskToActionType =
     removeActionType
@@ -21,8 +20,8 @@ export type TaskToActionType =
     | changeTasksStatusType
     | changeTasksTitleAC
     | addTodolistAT
-    | RemoveTodolistAC
     | SetTodoListType
+    | removeTodolistAT
     | ReturnType<typeof setTasksReduxAC>
 
 const initialState: TasksStateType = {};
@@ -30,18 +29,16 @@ const initialState: TasksStateType = {};
 export const taskReducer = (state = initialState, action: TaskToActionType): TasksStateType => {
 
     switch (action.type) {
-
         case "SET_REDUX_TASK": {
             return {
                 ...state,
                 [action.todoId]: action.tasks
             }
         }
-
         case "SET_TODO_LISTS": {
             const copyState = {...state}
             action.TDL.forEach((tl) => {
-                copyState[tl.id] = []
+                copyState[tl.id] = [];
             })
             return copyState
         }
@@ -98,11 +95,11 @@ export const taskReducer = (state = initialState, action: TaskToActionType): Tas
                 [action.todolistID]: []
             }
 
-        case "REMOVE-TODOLIST-ELEMENT":
-            let {[action.payload.todolistId]: [], ...rest} = {...state}
-            /*  let copyState = {...state}
-              delete copyState[action.payload.todolistId]*/
-            return rest
+        case "REMOVE-TODOLIST":
+              let copyState = {...state}
+
+              delete copyState[action.id]
+            return copyState
 
         default:
             return state
@@ -143,15 +140,6 @@ export const changeTasksTitleAC = (todolistId: string, title: string, taskId: st
     } as const
 }
 
-
-export const RemoveTodolistAC = (todolistId: string) => {
-    return {
-        type: "REMOVE-TODOLIST-ELEMENT",
-        payload: {
-            todolistId
-        }
-    } as const
-}
 
 export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string) => ({
     type: "SET_REDUX_TASK",
@@ -221,7 +209,6 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoLisId: stri
 
     }
 }
-
 
 
 
