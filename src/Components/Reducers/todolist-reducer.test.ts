@@ -4,7 +4,7 @@ import {
     addTodolistAC,
     changeFilterAC,
     changeTodolistTitleAC, FVT,
-    removeTodolistAC, TodoListDomainType,
+    removeTodolistAC, setTodoListsRedux, TodoListDomainType,
     todolistReducer
 } from "./todolist-reducer";
 
@@ -64,4 +64,12 @@ test("correct todolist should change name", () => {
 });
 
 
+test("correct todoLists should be set to the Redux", () => {
 
+    let action = setTodoListsRedux(startState)
+
+    const endState = todolistReducer([], action)
+
+    expect(endState.length).toBe(2);
+    expect(endState[1].title).toBe("What to buy");
+});

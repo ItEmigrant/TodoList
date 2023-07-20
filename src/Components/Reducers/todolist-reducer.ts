@@ -46,7 +46,7 @@ export type TodolistReducerActionType =
     | changeTodolistTitleAT
     | SetTodoListType
 
-export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): Array<TodoListDomainType> => {
+export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): TodoListDomainType[] => {
 
     switch (action.type) {
         case "SET_TODO_LISTS":
