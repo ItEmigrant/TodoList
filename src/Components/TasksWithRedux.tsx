@@ -19,11 +19,10 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
     function changeCheckboxHandler(event: ChangeEvent<HTMLInputElement>) {
 
         let newIsDoneValue = event.currentTarget.checked;
-        dispatch(changeTaskStatusTC(task.id,   newIsDoneValue ? taskStatuses.Completed : taskStatuses.New,todolistId))
+        dispatch(changeTaskStatusTC(task.id, newIsDoneValue ? taskStatuses.Completed : taskStatuses.New, todolistId))
     }
 
     const ChangeTaskHandler = useCallback((currentTitle: string) => {
-
         dispatch(changeTaskTitleTC(task.id, currentTitle, todolistId))
     }, [dispatch, task.id, todolistId])
 

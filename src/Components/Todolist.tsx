@@ -25,11 +25,9 @@ type TitlePropsType = {
     todolistID: string
     title: string
     tasks: Array<TaskGetType>
-    /* delTasks: (taskId: string, todolistID: string) => void*/
     Sort: (todolistID: string, filterValue: FVT) => void
     addTask: (todolistID: string, title: string) => void
     changeCheckboxStatus: (todolistID: string, taskId: string, status: taskStatuses) => void
-    ChangeTask: (todolistID: string, taskId: string, currentTitle: string) => void
     ChangeTitle: (todolistID: string, currentTitle: string) => void
     filter: FVT
 }
@@ -73,17 +71,6 @@ export const Todolist = memo((props: TitlePropsType) => {
         props.ChangeTitle(props.todolistID, currentTitle)
     }, [props.ChangeTitle, props.todolistID])
 
-    /*const ChangeTaskTitle = useCallback((taskId: string, currentTitle: string) => {
-        props.ChangeTask(props.todolistID, taskId, currentTitle)
-    }, [props.ChangeTask, props.todolistID])*/
-
-    /* const delTasks = useCallback((taskId: string) => {
-         props.delTasks(props.todolistID, taskId)
-     }, [props.delTasks, props.todolistID])*/
-
-    /*const changeCheckboxStatus = useCallback((taskId: string, status: taskStatuses) => {
-        props.changeCheckboxStatus(props.todolistID, taskId, newIsDone)
-    }, [props.changeCheckboxStatus, props.todolistID])*/
 
     if (props.filter === "Active") {
         tasks = tasks.filter(t => t.status === taskStatuses.New) //
@@ -96,7 +83,6 @@ export const Todolist = memo((props: TitlePropsType) => {
         <div>
             <h3>
                 <EditableSpan title={props.title} callBack={addTitleHandler}/>
-                {/* <button className={styles.DellList} onClick={DelListClickHandler}>Dell</button>*/}
                 <IconButton aria-label="delete" onClick={DelListClickHandler}
                             style={{color: 'red', backgroundColor: 'orange'}}>
                     <Delete/>
@@ -124,15 +110,6 @@ export const Todolist = memo((props: TitlePropsType) => {
                     minHeight: "30px",
                     marginRight: "2px"
                 }}/>
-                {/*<Button variant={color === "All" ? "outlined" : "contained"} color="success" onClick={OnAllClickHandler}
-                        style={{
-                            maxWidth: "60px",
-                            maxHeight: "30px",
-                            minWidth: "60px",
-                            minHeight: "30px",
-                            marginRight: "2px"
-                        }}> All </Button>*/}
-
                 <ButtonWithMemo ButtonTitle={'Active'} color={"error"} onClick={OnActiveClickHandler}
                                 variant={color === "Active" ? "outlined" : "contained"}
                                 style={{
@@ -151,17 +128,6 @@ export const Todolist = memo((props: TitlePropsType) => {
                                     minWidth: "115px",
                                     minHeight: "30px"
                                 }}/>
-
-
-                {/*<button className={color === "All" ? styles.activeFilter : ''} onClick={OnAllClickHandler}>All
-                </button>
-
-                <button className={color === "Active" ? styles.activeFilter : ''} onClick={OnActiveClickHandler}>Active
-                </button>
-
-                <button className={color === "Completed" ? styles.activeFilter : ''}
-                        onClick={OnCompletedClickHandler}>Completed
-                </button>*/}
 
             </div>
         </div>

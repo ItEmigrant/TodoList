@@ -129,17 +129,16 @@ export const changeTasksStatusAC = (todolistId: string, status: taskStatuses, ta
 
     return {
         type: "CHANGE-TASK-STATUS",
-        todolistId, status, taskId,
-
+        todolistId, status, taskId
     } as const
 }
 
-export const changeTasksTitleAC = (taskId: string, title: string, todolistId: string) => {
+export const changeTasksTitleAC = (todolistId: string, title: string, taskId: string) => {
 
     return {
         type: "CHANGE-TITLE-TASK",
         payload: {
-            taskId, title, todolistId
+            todolistId, title, taskId
         }
     } as const
 }
@@ -216,6 +215,7 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoLisId: stri
         tasksApi.updateTask(todoLisId, taskId, model)
             .then((res) => {
                 dispatch(changeTasksTitleAC(todoLisId, title, taskId))
+
 
             })
 

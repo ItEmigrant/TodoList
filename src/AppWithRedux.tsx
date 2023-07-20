@@ -14,12 +14,7 @@ import {
     removeTodolistAC,
     TodoListDomainType
 } from "./Components/Reducers/todolist-reducer";
-import {
-    changeTaskStatusTC,
-    changeTasksTitleAC, changeTaskTitleTC,
-    createTaskTC,
-    RemoveTodolistAC
-} from "./Components/Reducers/tasks-reducer";
+import {changeTaskStatusTC, createTaskTC, RemoveTodolistAC} from "./Components/Reducers/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./Components/state/store";
 import {taskStatuses} from "./Components/tasksApi/tasksApi";
@@ -50,11 +45,6 @@ function AppWithRedux() {
         dispatch(createTaskTC(todolistID, title))
     }, [dispatch])
 
-    /* const delTasks = useCallback((todolistID: string, taskId: string) => {
-         let action = removeTasksAC(taskId, todolistID)
-         dispatch(action)
-     }, [dispatch])*/
-
     const dellList = useCallback((todolistID: string) => {
         dispatch(removeTodolistAC(todolistID))
         dispatch(RemoveTodolistAC(todolistID))
@@ -64,11 +54,6 @@ function AppWithRedux() {
         let action = addTodolistAC(title)
         dispatch(action)
     }, [dispatch])
-
-    const ChangeTask = useCallback((todolistID: string, taskId: string, currentTitle: string) => {
-        dispatch(changeTaskTitleTC(taskId, currentTitle, todolistID))
-    }, [dispatch])
-
 
     const ChangeTitle = useCallback((todolistID: string, currentTitle: string) => {
         dispatch(changeTodolistTitleAC(currentTitle, todolistID))
@@ -89,7 +74,6 @@ function AppWithRedux() {
                     {
                         todolist.map(el => {
                             let FilterTask = tasks[el.id];
-
                             return <Grid item key={el.id}>
                                 <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
                                     <Todolist title={el.title}
@@ -101,7 +85,6 @@ function AppWithRedux() {
                                               changeCheckboxStatus={changeCheckboxStatus}
                                               todolistID={el.id}
                                               filter={el.filter}
-                                              ChangeTask={ChangeTask}
                                               ChangeTitle={ChangeTitle}
                                     />
                                 </Paper>
