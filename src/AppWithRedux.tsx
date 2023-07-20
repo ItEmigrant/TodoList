@@ -8,7 +8,7 @@ import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC,
     changeFilterAC,
-    changeTodolistTitleAC, deleteTodolistTC,
+    changeTodolistTitleAC, createTodolistTC, deleteTodolistTC,
     FVT,
     getTodoListsThunkCreator,
     removeTodolistAC,
@@ -50,8 +50,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const todoListAdd = useCallback((title: string) => {
-        let action = addTodolistAC(title)
-        dispatch(action)
+        dispatch(createTodolistTC(title))
     }, [dispatch])
 
     const ChangeTitle = useCallback((todolistID: string, currentTitle: string) => {

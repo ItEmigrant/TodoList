@@ -1,6 +1,8 @@
 import {v1} from "uuid";
 import {todoListApi, TodoListGetType} from "../todolistsApi/todoListApi";
 import {Dispatch} from "redux";
+import {tasksApi} from "../tasksApi/tasksApi";
+import {addTasksAC} from "./tasks-reducer";
 
 export type removeTodolistAT = {
     type: "REMOVE-TODOLIST"
@@ -9,8 +11,7 @@ export type removeTodolistAT = {
 
 export type addTodolistAT = {
     type: "ADD-TODOLIST"
-    title: string
-    todolistID: string
+    todolist: TodoListGetType
 }
 
 type changeFilterAT = {
@@ -57,7 +58,15 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
             return todoLists.filter(tl => tl.id !== action.id)
 
         case "ADD-TODOLIST":
-            return [...todoLists, {id: action.todolistID, title: action.title, filter: 'All', addedDate: '', order: 0}]
+
+            const newTodolist: TodoListDomainType = {...action.todolist, filter: 'All'}
+            return [...todoLists, newTodolist]
+        /*  {
+              id: action.todolistID,
+              title: action.title,
+              filter: 'All', addedDate: '',
+              order: 0
+          }*/
 
         case "FILTER-TODOLIST":
             let todolist = todoLists.find(tl => tl.id === action.todolistId);
@@ -80,7 +89,10 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
 
 export const removeTodolistAC = (id: string): removeTodolistAT => ({type: "REMOVE-TODOLIST", id});
 
-export const addTodolistAC = (title: string): addTodolistAT => ({type: "ADD-TODOLIST", title, todolistID: v1()});
+export const addTodolistAC = (todolist: TodoListGetType): addTodolistAT => ({
+    type: "ADD-TODOLIST",
+    todolist
+});
 
 export const changeFilterAC = (value: FVT, todolistId: string): changeFilterAT => ({
     type: "FILTER-TODOLIST", value, todolistId
@@ -109,6 +121,13 @@ export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch) => {
 
         })
 
+}
+
+export const createTodolistTC = (title:string) => (dispatch: Dispatch) => {
+    todoListApi.postTodoLists(title)
+        .then((res) => {
+            dispatch(addTodolistAC(res.data.data.item))
+        })
 }
 
 
