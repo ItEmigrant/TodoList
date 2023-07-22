@@ -6,12 +6,12 @@ import {AddItemForm} from "./Components/UnInput/AddItemForm";
 import ButtonAppBar from "./Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
-    addTodolistAC,
     changeFilterAC,
-    changeTodolistTitleAC, createTodolistTC, deleteTodolistTC,
+    changeTodolistTitleTC,
+    createTodolistTC,
+    deleteTodolistTC,
     FVT,
     getTodoListsThunkCreator,
-    removeTodolistAC,
     TodoListDomainType
 } from "./Components/Reducers/todolist-reducer";
 import {changeTaskStatusTC, createTaskTC} from "./Components/Reducers/tasks-reducer";
@@ -54,7 +54,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const ChangeTitle = useCallback((todolistID: string, currentTitle: string) => {
-        dispatch(changeTodolistTitleAC(currentTitle, todolistID))
+        dispatch(changeTodolistTitleTC(todolistID,currentTitle))
     }, [dispatch])
 
 

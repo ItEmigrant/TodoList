@@ -60,7 +60,7 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
         case "ADD-TODOLIST":
 
             const newTodolist: TodoListDomainType = {...action.todolist, filter: 'All'}
-            return [...todoLists, newTodolist]
+            return [newTodolist,...todoLists]
         /*  {
               id: action.todolistID,
               title: action.title,
@@ -74,6 +74,7 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
                 todolist.filter = action.value;
             }
             return ([...todoLists]);
+
         case "NAME-TODOLIST":
             const todolist1 = todoLists.find(tl => tl.id === action.id);
             if (todolist1) {
@@ -97,7 +98,7 @@ export const addTodolistAC = (todolist: TodoListGetType): addTodolistAT => ({
 export const changeFilterAC = (value: FVT, todolistId: string): changeFilterAT => ({
     type: "FILTER-TODOLIST", value, todolistId
 })
-export const changeTodolistTitleAC = (title: string, id: string): changeTodolistTitleAT => ({
+export const changeTodolistTitleAC = (id: string, title: string, ): changeTodolistTitleAT => ({
     type: "NAME-TODOLIST",
     title,
     id
@@ -130,5 +131,10 @@ export const createTodolistTC = (title:string) => (dispatch: Dispatch) => {
         })
 }
 
-
+export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch) => {
+    todoListApi.updateTodoLists(id, title)
+        .then((res) => {
+            dispatch(changeTodolistTitleAC(id, title))
+        })
+}
 
