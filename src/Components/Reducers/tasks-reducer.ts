@@ -1,7 +1,7 @@
 import {TasksStateType} from "../Todolist";
 import {addTodolistAT, removeTodolistAT, SetTodoListType,} from "./todolist-reducer";
 import {Dispatch} from "redux";
-import {TaskGetType, tasksApi, taskStatuses, UpdateTaskModelType} from "../tasksApi/tasksApi";
+import {TaskGetType, taskPriority, tasksApi, taskStatuses, UpdateTaskModelType} from "../tasksApi/tasksApi";
 import {AppRootStateType} from "../state/store";
 
 
@@ -169,27 +169,38 @@ export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispa
         })
 }
 
-export const changeTaskStatusTC = (taskId: string, status: taskStatuses, todoLisId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+export type UpdateDomainTaskModelType = {
+    title?: string,
+    status?: taskStatuses
+    priority?: taskPriority
+    startDate?: string,
+    deadline?: string,
+    description?: string
+}
+
+export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todoLisId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const task = getState().tasks[todoLisId].find(t => t.id === taskId);
     if (task) {
-        const model: UpdateTaskModelType = {
+        const apiModel: UpdateTaskModelType = {
             title: task.title,
             startDate: task.startDate,
             priority: task.priority,
             deadline: task.deadline,
             description: task.description,
-            status
+            status: task.status,
+            ...domainModel
         }
-        tasksApi.updateTask(todoLisId, taskId, model)
+        tasksApi.updateTask(todoLisId, taskId, apiModel)
             .then((res) => {
-                dispatch(changeTasksStatusAC(todoLisId, status, taskId))
+                dispatch(changeTasksStatusAC(todoLisId, apiModel.status, taskId))
 
             })
 
     }
 }
 
-export const changeTaskTitleTC = (taskId: string, title: string, todoLisId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+/*export const changeTaskTitleTC = (taskId: string, title: string, todoLisId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const task = getState().tasks[todoLisId].find(t => t.id === taskId);
     if (task) {
         const model: UpdateTaskModelType = {
@@ -208,7 +219,7 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoLisId: stri
             })
 
     }
-}
+}*/
 
 
 

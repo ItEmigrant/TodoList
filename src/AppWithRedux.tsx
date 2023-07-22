@@ -14,7 +14,7 @@ import {
     getTodoListsThunkCreator,
     TodoListDomainType
 } from "./Components/Reducers/todolist-reducer";
-import {changeTaskStatusTC, createTaskTC} from "./Components/Reducers/tasks-reducer";
+import {createTaskTC, updateTaskTC} from "./Components/Reducers/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./Components/state/store";
 import {taskStatuses} from "./Components/tasksApi/tasksApi";
@@ -38,7 +38,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeCheckboxStatus = useCallback((todolistID: string, taskId: string, status: taskStatuses) => {
-        dispatch(changeTaskStatusTC(taskId, status, todolistID))
+        dispatch(updateTaskTC(taskId, {status}, todolistID))
     }, [dispatch])
 
     const addTask = useCallback((todolistID: string, title: string) => {
