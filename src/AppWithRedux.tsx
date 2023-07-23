@@ -14,10 +14,9 @@ import {
     getTodoListsThunkCreator,
     TodoListDomainType
 } from "./Components/Reducers/todolist-reducer";
-import {createTaskTC, updateTaskTC} from "./Components/Reducers/tasks-reducer";
+import {createTaskTC} from "./Components/Reducers/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./Components/state/store";
-import {taskStatuses} from "./Components/tasksApi/tasksApi";
 
 
 function AppWithRedux() {
@@ -37,10 +36,6 @@ function AppWithRedux() {
         dispatch(changeFilterAC(filterValue, todolistID))
     }, [dispatch])
 
-    const changeCheckboxStatus = useCallback((todolistID: string, taskId: string, status: taskStatuses) => {
-        dispatch(updateTaskTC(taskId, {status}, todolistID))
-    }, [dispatch])
-
     const addTask = useCallback((todolistID: string, title: string) => {
         dispatch(createTaskTC(todolistID, title))
     }, [dispatch])
@@ -54,7 +49,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const ChangeTitle = useCallback((todolistID: string, currentTitle: string) => {
-        dispatch(changeTodolistTitleTC(todolistID,currentTitle))
+        dispatch(changeTodolistTitleTC(todolistID, currentTitle))
     }, [dispatch])
 
 
@@ -76,11 +71,9 @@ function AppWithRedux() {
                                 <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
                                     <Todolist title={el.title}
                                               tasks={FilterTask}
-                                        /*delTasks={delTasks}*/
                                               Sort={Sort}
                                               dellList={dellList}
                                               addTask={addTask}
-                                              changeCheckboxStatus={changeCheckboxStatus}
                                               todolistID={el.id}
                                               filter={el.filter}
                                               ChangeTitle={ChangeTitle}

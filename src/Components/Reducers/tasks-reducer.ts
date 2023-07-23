@@ -11,14 +11,10 @@ export type addTasksType = ReturnType<typeof addTasksAC>
 
 export type updateTasksType = ReturnType<typeof updateTasksAC>
 
-/*export type changeTasksTitleAC = ReturnType<typeof changeTasksTitleAC>*/
-
-
 export type TaskToActionType =
     removeActionType
     | addTasksType
     | updateTasksType
-     /*changeTasksTitleAC*/
     | addTodolistAT
     | SetTodoListType
     | removeTodolistAT
@@ -50,18 +46,7 @@ export const taskReducer = (state = initialState, action: TaskToActionType): Tas
             }
 
         case "ADD-TASK":
-            /* let task = {
-                 title: action.title,
-                 status: taskStatuses.New,
-                 priority: taskPriority.Low,
-                 startDate: '',
-                 deadline: '',
-                 id: v1(),
-                 todoListId: action.todolistId,
-                 order: 0,
-                 addedDate: '',
-                 description: ''
-             };*/
+
             return {
                 ...state,
                 [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]
@@ -74,20 +59,10 @@ export const taskReducer = (state = initialState, action: TaskToActionType): Tas
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {
                     ...t,
-                   ...action.model
+                    ...action.model
                 } : t)
 
             }
-
-       /* case "CHANGE-TITLE-TASK":
-            return {
-                ...state,
-                [action.payload.todolistId]: state[action.payload.todolistId].map(t => t.id === action.payload.taskId ? {
-                    ...t,
-                    title: action.payload.title
-                } : t)
-
-            }*/
 
         case "ADD-TODOLIST":
             return {
@@ -129,16 +104,6 @@ export const updateTasksAC = (todolistId: string, model: UpdateDomainTaskModelTy
         todolistId, model, taskId
     } as const
 }
-
-/*export const changeTasksTitleAC = (todolistId: string, title: string, taskId: string) => {
-
-    return {
-        type: "CHANGE-TITLE-TASK",
-        payload: {
-            todolistId, title, taskId
-        }
-    } as const
-}*/
 
 
 export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string) => ({
