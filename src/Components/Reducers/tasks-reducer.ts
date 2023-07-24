@@ -6,9 +6,7 @@ import {AppRootStateType} from "../state/store";
 
 
 export type removeActionType = ReturnType<typeof removeTasksAC>
-
 export type addTasksType = ReturnType<typeof addTasksAC>
-
 export type updateTasksType = ReturnType<typeof updateTasksAC>
 
 export type TaskToActionType =

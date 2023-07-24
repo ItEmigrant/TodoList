@@ -9,27 +9,10 @@ export type removeTodolistAT = {
     id: string
 }
 
-export type addTodolistAT = {
-    type: "ADD-TODOLIST"
-    todolist: TodoListGetType
-}
-
-type changeFilterAT = {
-    type: "FILTER-TODOLIST"
-    value: FVT,
-    todolistId: string
-}
-
-type changeTodolistTitleAT = {
-    type: 'NAME-TODOLIST'
-    id: string
-    title: string
-}
-
-export type SetTodoListType = {
-    type: "SET_TODO_LISTS"
-    TDL: TodoListGetType[]
-}
+export type addTodolistAT = ReturnType<typeof addTodolistAC>
+type changeFilterAT = ReturnType<typeof changeFilterAC>
+type changeTodolistTitleAT = ReturnType<typeof changeTodolistTitleAC>
+export type SetTodoListType = ReturnType<typeof setTodoListsRedux>
 
 export type FVT = 'All' | 'Active' | 'Completed';
 
@@ -60,7 +43,7 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
         case "ADD-TODOLIST":
 
             const newTodolist: TodoListDomainType = {...action.todolist, filter: 'All'}
-            return [newTodolist,...todoLists]
+            return [newTodolist, ...todoLists]
         /*  {
               id: action.todolistID,
               title: action.title,
@@ -90,23 +73,23 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
 
 export const removeTodolistAC = (id: string): removeTodolistAT => ({type: "REMOVE-TODOLIST", id});
 
-export const addTodolistAC = (todolist: TodoListGetType): addTodolistAT => ({
+export const addTodolistAC = (todolist: TodoListGetType) => ({
     type: "ADD-TODOLIST",
     todolist
-});
+}) as const;
 
-export const changeFilterAC = (value: FVT, todolistId: string): changeFilterAT => ({
+export const changeFilterAC = (value: FVT, todolistId: string) => ({
     type: "FILTER-TODOLIST", value, todolistId
-})
-export const changeTodolistTitleAC = (id: string, title: string, ): changeTodolistTitleAT => ({
+}) as const;
+export const changeTodolistTitleAC = (id: string, title: string,) => ({
     type: "NAME-TODOLIST",
     title,
     id
-})
-export const setTodoListsRedux = (TDL: TodoListGetType[]): SetTodoListType => ({
+}) as const;
+export const setTodoListsRedux = (TDL: TodoListGetType[]) => ({
     type: "SET_TODO_LISTS",
     TDL
-})
+}) as const;
 
 export const getTodoListsThunkCreator = () => (dispatch: Dispatch) => {
     todoListApi.getTodoLists()
@@ -124,7 +107,7 @@ export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch) => {
 
 }
 
-export const createTodolistTC = (title:string) => (dispatch: Dispatch) => {
+export const createTodolistTC = (title: string) => (dispatch: Dispatch) => {
     todoListApi.postTodoLists(title)
         .then((res) => {
             dispatch(addTodolistAC(res.data.data.item))
