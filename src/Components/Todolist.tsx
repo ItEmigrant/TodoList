@@ -1,12 +1,12 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {AddItemForm} from "./UnInput/AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "./EditSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {TasksWithRedux} from "./TasksWithRedux";
 import {getTaskThunkCreator} from "./Reducers/tasks-reducer";
 import {useAppDispatch} from "./state/store";
-import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
+import {TaskGetType, taskStatuses} from "../api/tasksApi/tasksApi";
 import {FVT} from "./Reducers/todolist-reducer";
 
 

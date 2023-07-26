@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {TasksStateType, Todolist} from "./Components/Todolist";
+import {TasksStateType, Todolist} from "../Components/Todolist";
 
-import {AddItemForm} from "./Components/UnInput/AddItemForm";
-import ButtonAppBar from "./Components/ButtonAppBar";
+import {AddItemForm} from "../Components/UnInput/AddItemForm";
+import ButtonAppBar from "../Components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 import {
     changeFilterAC,
@@ -13,10 +13,10 @@ import {
     FVT,
     getTodoListsThunkCreator,
     TodoListDomainType
-} from "./Components/Reducers/todolist-reducer";
-import {createTaskTC} from "./Components/Reducers/tasks-reducer";
+} from "../Components/Reducers/todolist-reducer";
+import {createTaskTC} from "../Components/Reducers/tasks-reducer";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "./Components/state/store";
+import {AppRootStateType, useAppDispatch} from "../Components/state/store";
 
 
 function AppWithRedux() {

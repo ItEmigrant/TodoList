@@ -1,9 +1,9 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
 import styles from "./Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "./EditSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskGetType, taskStatuses} from "./tasksApi/tasksApi";
+import {TaskGetType, taskStatuses} from "../api/tasksApi/tasksApi";
 import {useAppDispatch} from "./state/store";
 import {deleteTaskTC, updateTaskTC} from "./Reducers/tasks-reducer";
 

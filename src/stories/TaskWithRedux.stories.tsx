@@ -5,7 +5,7 @@ import {TasksWithRedux} from "../Components/TasksWithRedux";
 import {v1} from "uuid";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../Components/state/store";
-import {TaskGetType, taskPriority, taskStatuses} from "../Components/tasksApi/tasksApi";
+import {TaskGetType, taskPriority, taskStatuses} from "../api/tasksApi/tasksApi";
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
