@@ -6,19 +6,14 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
     switch (action.type) {
         case "SET_TODO_LISTS":
             return action.TDL.map((tl) => ({...tl, filter: 'All'}))
-
         case "REMOVE-TODOLIST":
             return todoLists.filter(tl => tl.id !== action.id)
-
         case "ADD-TODOLIST":
             return [{...action.todolist, filter: 'All'}, ...todoLists]
-
         case "FILTER-TODOLIST":
             return todoLists.map(el=> el.id===action.todolistId ? {...el, filter:action.value}: el)
-
         case "NAME-TODOLIST":
             return todoLists.map(tl=>tl.id===action.id ? {...tl, title:action.title} : tl)
-
         default:
             return todoLists
     }
