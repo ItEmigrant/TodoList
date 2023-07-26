@@ -1,11 +1,11 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
-import styles from "./Todolist.module.css";
+import styles from "../Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditSpan/EditableSpan";
+import {EditableSpan} from "../../../../EditSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskGetType, taskStatuses} from "../api/tasksApi/tasksApi";
-import {useAppDispatch} from "./state/store";
-import {deleteTaskTC, updateTaskTC} from "./Reducers/tasks-reducer";
+import {TaskGetType, taskStatuses} from "../../../../../api/tasksApi/tasksApi";
+import {useAppDispatch} from "../../../../../App/state/store";
+import {deleteTaskTC, updateTaskTC} from "../../../../../BLL/Reducers/tasks-reducer";
 
 export type TasksPropsType = {
     task: TaskGetType
@@ -42,7 +42,7 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
         <IconButton aria-label="delete" onClick={onDelClickHandler}>
             <Delete/>
         </IconButton>
-
+y
     </li>
 
 });

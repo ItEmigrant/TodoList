@@ -1,20 +1,14 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {AddItemForm} from "./UnInput/AddItemForm";
-import {EditableSpan} from "./EditSpan/EditableSpan";
+import {AddItemForm} from "../../../UnInput/AddItemForm";
+import {EditableSpan} from "../../../EditSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {TasksWithRedux} from "./TasksWithRedux";
-import {getTaskThunkCreator} from "./Reducers/tasks-reducer";
-import {useAppDispatch} from "./state/store";
-import {TaskGetType, taskStatuses} from "../api/tasksApi/tasksApi";
-import {FVT} from "./Reducers/todolist-reducer";
+import {TasksWithRedux} from "./Tasks/TasksWithRedux";
+import {getTaskThunkCreator} from "../../../../BLL/Reducers/tasks-reducer";
+import {useAppDispatch} from "../../../../App/state/store";
+import {TaskGetType, taskStatuses} from "../../../../api/tasksApi/tasksApi";
+import {FVT} from "../../../../BLL/Reducers/todolist-reducer";
 
-
-/*export type TaskPropsType = {
-    id: string
-    title: string
-    isDone?: boolean
-}*/
 
 export type TasksStateType = {
     [key: string]: Array<TaskGetType>

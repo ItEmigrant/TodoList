@@ -1,10 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import React from 'react';
-import {ReduxStoreProviderDecorator} from "../Components/state/ReduxStoreProviderDecorator";
-import {TasksWithRedux} from "../Components/TasksWithRedux";
+import {ReduxStoreProviderDecorator} from "../App/state/ReduxStoreProviderDecorator";
+import {TasksWithRedux} from "../Components/Todolists/TodolistLists/Todolist/Tasks/TasksWithRedux";
 import {v1} from "uuid";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../Components/state/store";
+import {AppRootStateType} from "../App/state/store";
 import {TaskGetType, taskPriority, taskStatuses} from "../api/tasksApi/tasksApi";
 
 

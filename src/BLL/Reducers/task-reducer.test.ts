@@ -1,4 +1,4 @@
-import {TasksStateType} from "../Todolist";
+import {TasksStateType} from "../../Components/Todolists/TodolistLists/Todolist/Todolist";
 import {
     addTasksAC,
     removeTasksAC,
