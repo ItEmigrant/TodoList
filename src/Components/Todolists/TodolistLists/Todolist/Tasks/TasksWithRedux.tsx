@@ -14,6 +14,7 @@ export type TasksPropsType = {
 
 export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
     const dispatch = useAppDispatch()
+
     function changeCheckboxHandler(event: ChangeEvent<HTMLInputElement>) {
         // Get the value of the checkbox
         let isChecked = event.currentTarget.checked;
@@ -42,7 +43,6 @@ export const TasksWithRedux = memo(({task, todolistId}: TasksPropsType) => {
         <IconButton aria-label="delete" onClick={onDelClickHandler}>
             <Delete/>
         </IconButton>
-y
     </li>
 
 });

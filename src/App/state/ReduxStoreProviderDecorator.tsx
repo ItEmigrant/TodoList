@@ -6,15 +6,21 @@ import {todolistReducer} from "../../BLL/Reducers/todolist-reducer";
 import {v1} from "uuid";
 import {AppRootStateType} from "./store";
 import {taskPriority, taskStatuses} from "../../api/tasksApi/tasksApi";
+import {appReducer} from "../../BLL/Reducers/app-reducer";
+
 
 
 const rootReducer = combineReducers({
     tasks: taskReducer,
-    todoLists: todolistReducer
+    todoLists: todolistReducer,
+    app: appReducer
 })
 
 
 const initialGlobalState: AppRootStateType = {
+    app: {
+        status: 'loading'
+    },
     todoLists: [
         {
             id: 'todolistId1', title: 'What to learn', addedDate: '',

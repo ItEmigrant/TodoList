@@ -3,6 +3,7 @@ import {taskReducer} from "../../BLL/Reducers/tasks-reducer";
 import {todolistReducer} from "../../BLL/Reducers/todolist-reducer";
 import thunk, {ThunkDispatch} from 'redux-thunk'
 import {useDispatch} from "react-redux";
+import {appReducer} from "../../BLL/Reducers/app-reducer";
 
 
 declare global {
@@ -15,7 +16,8 @@ declare global {
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     tasks: taskReducer,
-    todoLists: todolistReducer
+    todoLists: todolistReducer,
+    app: appReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
