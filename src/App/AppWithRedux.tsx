@@ -1,13 +1,23 @@
 import React from 'react';
 import './App.css';
 import ButtonAppBar from "../Components/ButtonAppBar";
-import {Container} from "@mui/material";
+import {Container, LinearProgress} from "@mui/material";
 import TodolistLists from "../Components/Todolists/TodolistLists/TodolistLists";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import {RequestStatusType} from "../BLL/Reducers/app-reducer";
+
+
+
+
 
 function AppWithRedux() {
+
+const statusProgress = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     return (
         <div className="App">
             <ButtonAppBar/>
+            {statusProgress === 'loading' &&<LinearProgress color={'secondary'}/>}
             <Container fixed>
                 <TodolistLists/>
             </Container>

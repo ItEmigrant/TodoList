@@ -3,6 +3,7 @@ import {addTodolistAT, removeTodolistAT, SetTodoListType,} from "./todolist-redu
 import {Dispatch} from "redux";
 import {TaskGetType, taskPriority, tasksApi, taskStatuses, UpdateTaskModelType} from "../../api/tasksApi/tasksApi";
 import {AppRootStateType} from "../../App/state/store";
+import {setStatusAC, setStatusACType} from "./app-reducer";
 
 const initialState: TasksStateType = {};
 
@@ -76,10 +77,11 @@ export const setTasksReduxAC = (tasks: TaskGetType[], todoId: string) => ({
 
 //thunks
 export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch<TaskToActionType>) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.getTasks(todoId)
         .then((res) => {
             dispatch(setTasksReduxAC(res.data.items, todoId))
-
+            dispatch(setStatusAC('succeeded'))
         })
 }
 export const deleteTaskTC = (todoID: string, taskID: string) => (dispatch: Dispatch<TaskToActionType>) => {
@@ -130,4 +132,5 @@ export type TaskToActionType =
     | SetTodoListType
     | removeTodolistAT
     | ReturnType<typeof setTasksReduxAC>
+    | setStatusACType
 
