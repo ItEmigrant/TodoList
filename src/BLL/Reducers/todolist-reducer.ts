@@ -50,7 +50,7 @@ export const getTodoListsThunkCreator = () => (dispatch: Dispatch<TodolistReduce
 
 export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
     todoListApi.delTodoLists(todoID)
-        .then((res) => {
+        .then(() => {
             dispatch(removeTodolistAC(todoID))
         })
 }
@@ -62,7 +62,7 @@ export const createTodolistTC = (title: string) => (dispatch: Dispatch<TodolistR
 }
 export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
     todoListApi.updateTodoLists(id, title)
-        .then((res) => {
+        .then(() => {
             dispatch(changeTodolistTitleAC(id, title))
         })
 }

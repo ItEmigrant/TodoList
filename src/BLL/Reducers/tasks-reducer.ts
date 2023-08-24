@@ -86,7 +86,7 @@ export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch<TaskT
 }
 export const deleteTaskTC = (todoID: string, taskID: string) => (dispatch: Dispatch<TaskToActionType>) => {
     tasksApi.delTasks(todoID, taskID)
-        .then((res) => {
+        .then(() => {
             dispatch(removeTasksAC(taskID, todoID))
         })
 }
@@ -109,7 +109,7 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             ...domainModel
         }
         tasksApi.updateTask(todoLisId, taskId, apiModel)
-            .then((res) => {
+            .then(() => {
                 dispatch(updateTasksAC(todoLisId, domainModel, taskId))
             })
     }
