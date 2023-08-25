@@ -85,18 +85,23 @@ export const getTaskThunkCreator = (todoId: string) => (dispatch: Dispatch<TaskT
         })
 }
 export const deleteTaskTC = (todoID: string, taskID: string) => (dispatch: Dispatch<TaskToActionType>) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.delTasks(todoID, taskID)
         .then(() => {
             dispatch(removeTasksAC(taskID, todoID))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispatch: Dispatch<TaskToActionType>) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.postTasks(todoListId, newTaskTitle)
         .then((res) => {
             dispatch(addTasksAC(res.data.data.item))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todoLisId: string) => (dispatch: Dispatch<TaskToActionType>, getState: () => AppRootStateType) => {
+    dispatch(setStatusAC('loading'))
     const task = getState().tasks[todoLisId].find(t => t.id === taskId);
     if (task) {
         const apiModel: UpdateTaskModelType = {
@@ -111,6 +116,7 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
         tasksApi.updateTask(todoLisId, taskId, apiModel)
             .then(() => {
                 dispatch(updateTasksAC(todoLisId, domainModel, taskId))
+                dispatch(setStatusAC('succeeded'))
             })
     }
 }

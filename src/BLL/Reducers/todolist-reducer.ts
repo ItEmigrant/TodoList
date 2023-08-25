@@ -49,21 +49,27 @@ export const getTodoListsThunkCreator = () => (dispatch: Dispatch<TodolistReduce
 }
 
 export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
+    dispatch(setStatusAC('loading'))
     todoListApi.delTodoLists(todoID)
         .then(() => {
             dispatch(removeTodolistAC(todoID))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 export const createTodolistTC = (title: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
+    dispatch(setStatusAC('loading'))
     todoListApi.postTodoLists(title)
         .then((res) => {
             dispatch(addTodolistAC(res.data.data.item))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
+    dispatch(setStatusAC('loading'))
     todoListApi.updateTodoLists(id, title)
         .then(() => {
             dispatch(changeTodolistTitleAC(id, title))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 
