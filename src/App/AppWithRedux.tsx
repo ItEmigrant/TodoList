@@ -5,6 +5,7 @@ import {Container, LinearProgress} from "@mui/material";
 import TodolistLists from "../Components/Todolists/TodolistLists/TodolistLists";
 import {useAppSelector} from "./state/store";
 import {RequestStatusType} from "../BLL/Reducers/app-reducer";
+import {ErrorSnackbar} from "../Components/ErrorsSnackbar/ErrorSnackbar";
 
 
 function AppWithRedux() {
@@ -17,6 +18,7 @@ function AppWithRedux() {
             <Container fixed>
                 <TodolistLists/>
             </Container>
+            <ErrorSnackbar/>
         </div>
     )
 }
