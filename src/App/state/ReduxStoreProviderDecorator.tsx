@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
 
 const initialGlobalState: AppRootStateType = {
     app: {
-        status: 'loading'
+        status: 'loading',
+        error: null
     },
     todoLists: [
         {
