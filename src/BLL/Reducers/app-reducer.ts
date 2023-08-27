@@ -2,7 +2,7 @@ export type RequestStatusType = 'idle' | 'succeeded' | 'failed' | 'loading' | 'i
 
 const InitialState = {
     status: 'loading' as RequestStatusType,
-    error: 'Some Error Suki' as null | string
+    error: null as null | string
 
 }
 export type setStatusACType = ReturnType<typeof setStatusAC>
