@@ -102,7 +102,7 @@ export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispa
                 if(res.data.messages.length) {
                     dispatch(setErrorAC(res.data.messages[0]))
                 } else {
-
+                        dispatch(setErrorAC('Some Error'))
                 }
 
             }

@@ -1,6 +1,6 @@
 import {todoListApi, TodoListGetType} from "../../api/todolistsApi/todoListApi";
 import {Dispatch} from "redux";
-import {setStatusAC, setStatusACType} from "./app-reducer";
+import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
 
 const initialState: Array<TodoListDomainType> = [];
 export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): TodoListDomainType[] => {
@@ -12,9 +12,9 @@ export const todolistReducer = (todoLists = initialState, action: TodolistReduce
         case "ADD-TODOLIST":
             return [{...action.todolist, filter: 'All'}, ...todoLists]
         case "FILTER-TODOLIST":
-            return todoLists.map(el=> el.id===action.todolistId ? {...el, filter:action.value}: el)
+            return todoLists.map(el => el.id === action.todolistId ? {...el, filter: action.value} : el)
         case "NAME-TODOLIST":
-            return todoLists.map(tl=>tl.id===action.id ? {...tl, title:action.title} : tl)
+            return todoLists.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
         default:
             return todoLists
     }
@@ -60,7 +60,16 @@ export const createTodolistTC = (title: string) => (dispatch: Dispatch<TodolistR
     dispatch(setStatusAC('loading'))
     todoListApi.postTodoLists(title)
         .then((res) => {
-            dispatch(addTodolistAC(res.data.data.item))
+            if (res.data.resultCode === 0) {
+                dispatch(addTodolistAC(res.data.data.item))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC('Some Error'))
+                }
+            }
+
             dispatch(setStatusAC('succeeded'))
         })
 }
@@ -87,3 +96,4 @@ export type TodolistReducerActionType =
     | ReturnType<typeof changeTodolistTitleAC>
     | SetTodoListType
     | setStatusACType
+    | setErrorACType
