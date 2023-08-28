@@ -8,6 +8,7 @@ import {getTaskThunkCreator} from "../../../../BLL/Reducers/tasks-reducer";
 import {useAppDispatch} from "../../../../App/state/store";
 import {TaskGetType, taskStatuses} from "../../../../api/tasksApi/tasksApi";
 import {FVT} from "../../../../BLL/Reducers/todolist-reducer";
+import {RequestStatusType} from "../../../../BLL/Reducers/app-reducer";
 
 
 export type TasksStateType = {
@@ -23,6 +24,7 @@ type TitlePropsType = {
     addTask: (todolistID: string, title: string) => void
     ChangeTitle: (todolistID: string, currentTitle: string) => void
     filter: FVT
+    entityStatus: RequestStatusType
 }
 
 export const Todolist = memo((props: TitlePropsType) => {
@@ -77,16 +79,16 @@ export const Todolist = memo((props: TitlePropsType) => {
             <h3>
                 <EditableSpan title={props.title} callBack={addTitleHandler}/>
                 <IconButton aria-label="delete" onClick={DelListClickHandler}
-                            style={{color: 'red', backgroundColor: 'orange'}}>
+                            disabled={props.entityStatus === 'loading'}
+                            style={{backgroundColor: 'orange'}}>
                     <Delete/>
                 </IconButton>
             </h3>
+
             <AddItemForm callBack={addTaskHandler}/>
             <ul>
                 {
                     tasks.map(t => {
-
-
                         return <TasksWithRedux
                             key={t.id}
                             task={t}

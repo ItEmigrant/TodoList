@@ -55,14 +55,16 @@ const TodolistLists: React.FC = () => {
                     let FilterTask = tasks[el.id];
                     return <Grid item key={el.id}>
                         <Paper elevation={3} style={{padding: "10px", backgroundColor: "#fbcbfb"}}>
-                            <Todolist title={el.title}
-                                      tasks={FilterTask}
-                                      Sort={Sort}
-                                      dellList={dellList}
-                                      addTask={addTask}
-                                      todolistID={el.id}
-                                      filter={el.filter}
-                                      ChangeTitle={ChangeTitle}
+                            <Todolist
+                                entityStatus={el.entityStatus}
+                                title={el.title}
+                                tasks={FilterTask}
+                                Sort={Sort}
+                                dellList={dellList}
+                                addTask={addTask}
+                                todolistID={el.id}
+                                filter={el.filter}
+                                ChangeTitle={ChangeTitle}
                             />
                         </Paper>
                     </Grid>
