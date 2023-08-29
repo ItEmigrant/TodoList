@@ -80,7 +80,7 @@ export const Todolist = memo((props: TitlePropsType) => {
                 <EditableSpan title={props.title} callBack={addTitleHandler}/>
                 <IconButton aria-label="delete" onClick={DelListClickHandler}
                             disabled={props.entityStatus === 'loading'}
-                            style={{backgroundColor: 'orange'}}>
+                            style={{backgroundColor: 'hotpink'}}>
                     <Delete/>
                 </IconButton>
             </h3>

@@ -6,17 +6,17 @@ const initialState: Array<TodoListDomainType> = [];
 export const todolistReducer = (todoLists = initialState, action: TodolistReducerActionType): TodoListDomainType[] => {
     switch (action.type) {
         case "SET_TODO_LISTS":
-            return action.TDL.map((tl) => ({...tl, filter: 'All', entityStatus: "loading"}))
+            return action.TDL.map((tl) => ({...tl, filter: 'All', entityStatus: "idle"}))
         case "REMOVE-TODOLIST":
             return todoLists.filter(tl => tl.id !== action.id)
         case "ADD-TODOLIST":
-            return [{...action.todolist, filter: 'All', entityStatus:"idle"}, ...todoLists]
+            return [{...action.todolist, filter: 'All', entityStatus: "idle"}, ...todoLists]
         case "FILTER-TODOLIST":
             return todoLists.map(el => el.id === action.todolistId ? {...el, filter: action.value} : el)
         case "NAME-TODOLIST":
             return todoLists.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
-        /*case "CHANGE-ENTITY-STATUS":*/
-
+        case "CHANGE-ENTITY-STATUS":
+            return todoLists.map(tl => tl.id === action.todolistId ? {...tl, entityStatus: action.entityStatus} : tl)
 
         default:
             return todoLists
@@ -56,11 +56,16 @@ export const getTodoListsThunkCreator = () => (dispatch: Dispatch<TodolistReduce
 
 export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
     dispatch(setStatusAC('loading'))
-   /* dispatch()*/
+    dispatch(changeEntityStatusAC('loading', todoID))
     todoListApi.delTodoLists(todoID)
         .then(() => {
             dispatch(removeTodolistAC(todoID))
             dispatch(setStatusAC('succeeded'))
+        })
+        .catch((error)=>{
+            dispatch(setStatusAC('failed'))
+            dispatch(changeEntityStatusAC('failed', todoID))
+            dispatch(setErrorAC(error.message))
         })
 }
 export const createTodolistTC = (title: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
@@ -76,7 +81,6 @@ export const createTodolistTC = (title: string) => (dispatch: Dispatch<TodolistR
                     dispatch(setErrorAC('Some Error'))
                 }
             }
-
             dispatch(setStatusAC('succeeded'))
         })
 }
