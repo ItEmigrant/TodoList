@@ -16,7 +16,7 @@ function AppWithRedux() {
             <ButtonAppBar/>
             {statusProgress === 'loading' && <LinearProgress color={'secondary'}/>}
             <Container fixed>
-                <TodolistLists/>
+                <TodolistLists />
             </Container>
             <ErrorSnackbar/>
         </div>

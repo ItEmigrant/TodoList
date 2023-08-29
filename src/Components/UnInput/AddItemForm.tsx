@@ -5,6 +5,7 @@ import {Button, TextField} from "@mui/material";
 
 export type UnInputPropsType = {
     callBack: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = memo((props: UnInputPropsType) => {
@@ -50,12 +51,14 @@ export const AddItemForm = memo((props: UnInputPropsType) => {
                 size={"small"}
                 id="outlined-basic"
                 label={error ? "Title is required" : "typing..."}
-                variant="outlined"/>
+                variant="outlined"
+                disabled={props.disabled}/>
 
             {/* <button onClick={addTaskHandler}>+</button>*/}
             <Button
                 style={{maxWidth: "35px", maxHeight: "38px", minWidth: "35px", minHeight: "38px", marginLeft: "1px"}}
-                variant="contained" onClick={addTaskHandler}>+</Button>
+                variant="contained" onClick={addTaskHandler}
+            disabled={props.disabled}>+</Button>
 
             {error && <div className={styles.errorMessage}>{error}</div>}
         </div>

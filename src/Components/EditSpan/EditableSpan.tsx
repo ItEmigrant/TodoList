@@ -29,7 +29,6 @@ export const EditableSpan: React.FC<EditableSpanPropsType> =memo( (props) => {
 
     }
     return (
-
         edit
             ? <input value={currentTitle} onBlur={ changeEdite} onChange={onChangeHandler}  autoFocus/>
             : <span onDoubleClick={changeEdite} >{props.title}</span>

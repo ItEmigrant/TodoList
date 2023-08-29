@@ -53,16 +53,27 @@ export const getTodoListsThunkCreator = () => (dispatch: Dispatch<TodolistReduce
             dispatch(setStatusAC('succeeded'))
         })
 }
-
+enum ResultCode {
+    success=0,
+    error=1,
+   }
 export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
     dispatch(setStatusAC('loading'))
     dispatch(changeEntityStatusAC('loading', todoID))
     todoListApi.delTodoLists(todoID)
-        .then(() => {
-            dispatch(removeTodolistAC(todoID))
-            dispatch(setStatusAC('succeeded'))
+        .then((res) => {
+            if (res.data.resultCode === ResultCode.success) {
+                dispatch(removeTodolistAC(todoID))
+                dispatch(setStatusAC('succeeded'))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC('Some Error'))
+                }
+            }
         })
-        .catch((error)=>{
+        .catch((error) => {
             dispatch(setStatusAC('failed'))
             dispatch(changeEntityStatusAC('failed', todoID))
             dispatch(setErrorAC(error.message))

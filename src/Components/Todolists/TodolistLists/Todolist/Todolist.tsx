@@ -15,7 +15,7 @@ export type TasksStateType = {
     [key: string]: Array<TaskGetType>
 }
 
-type TitlePropsType = {
+type TodolistPropsType = {
     dellList: (todolistID: string) => void
     todolistID: string
     title: string
@@ -27,7 +27,7 @@ type TitlePropsType = {
     entityStatus: RequestStatusType
 }
 
-export const Todolist = memo((props: TitlePropsType) => {
+export const Todolist = memo((props: TodolistPropsType) => {
 
     const dispatch = useAppDispatch();
     useEffect(() => {
@@ -85,7 +85,7 @@ export const Todolist = memo((props: TitlePropsType) => {
                 </IconButton>
             </h3>
 
-            <AddItemForm callBack={addTaskHandler}/>
+            <AddItemForm callBack={addTaskHandler} disabled={props.entityStatus==='loading'}/>
             <ul>
                 {
                     tasks.map(t => {
