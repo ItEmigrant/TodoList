@@ -1,4 +1,4 @@
-import {todoListApi, TodoListGetType} from "../../api/todolistsApi/todoListApi";
+import {ResultCode, todoListApi, TodoListGetType} from "../../api/todolistsApi/todoListApi";
 import {Dispatch} from "redux";
 import {RequestStatusType, setErrorAC, setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
 
@@ -53,10 +53,7 @@ export const getTodoListsThunkCreator = () => (dispatch: Dispatch<TodolistReduce
             dispatch(setStatusAC('succeeded'))
         })
 }
-enum ResultCode {
-    success=0,
-    error=1,
-   }
+
 export const deleteTodolistTC = (todoID: string) => (dispatch: Dispatch<TodolistReducerActionType>) => {
     dispatch(setStatusAC('loading'))
     dispatch(changeEntityStatusAC('loading', todoID))

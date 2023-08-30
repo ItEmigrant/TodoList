@@ -1,6 +1,6 @@
 import {AnyAction, applyMiddleware, combineReducers, compose, legacy_createStore} from 'redux'
-import {taskReducer} from "../../BLL/Reducers/tasks-reducer";
-import {todolistReducer} from "../../BLL/Reducers/todolist-reducer";
+import {taskReducer, TaskToActionType} from "../../BLL/Reducers/tasks-reducer";
+import {todolistReducer, TodolistReducerActionType} from "../../BLL/Reducers/todolist-reducer";
 import thunk, {ThunkDispatch} from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "../../BLL/Reducers/app-reducer";
@@ -28,6 +28,8 @@ export const store = legacy_createStore(rootReducer,  /*composeEnhancers(), */ap
 // определить автоматически тип всего объекта состояния
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
+
+export type AppActionTypes = TodolistReducerActionType | TaskToActionType
 
 export type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 

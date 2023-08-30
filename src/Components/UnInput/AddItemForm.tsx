@@ -37,12 +37,6 @@ export const AddItemForm = memo((props: UnInputPropsType) => {
 
     return (
         <div>
-
-            {/*<input value={title}
-                   className={error ? styles.error : ''}
-                   onChange={onChangeHandler}
-                   onKeyUp={oneKeyUpPressHandler}/>*/}
-
             <TextField
                 error={error}
                 value={title}
@@ -58,7 +52,7 @@ export const AddItemForm = memo((props: UnInputPropsType) => {
             <Button
                 style={{maxWidth: "35px", maxHeight: "38px", minWidth: "35px", minHeight: "38px", marginLeft: "1px"}}
                 variant="contained" onClick={addTaskHandler}
-            disabled={props.disabled}>+</Button>
+                disabled={props.disabled}>+</Button>
 
             {error && <div className={styles.errorMessage}>{error}</div>}
         </div>

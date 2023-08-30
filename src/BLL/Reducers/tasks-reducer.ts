@@ -4,6 +4,9 @@ import {Dispatch} from "redux";
 import {TaskGetType, taskPriority, tasksApi, taskStatuses, UpdateTaskModelType} from "../../api/tasksApi/tasksApi";
 import {AppRootStateType} from "../../App/state/store";
 import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
+import {ResultCode} from "../../api/todolistsApi/todoListApi";
+import {handleServerNetworkError} from "../../utils/error-utils";
+
 
 const initialState: TasksStateType = {};
 
@@ -99,15 +102,17 @@ export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispa
             if (res.data.resultCode === 0) {
                 dispatch(addTasksAC(res.data.data.item))
             } else {
-                if(res.data.messages.length) {
+                if (res.data.messages.length) {
                     dispatch(setErrorAC(res.data.messages[0]))
                 } else {
-                        dispatch(setErrorAC('Some Error'))
+                    dispatch(setErrorAC('Some Error'))
                 }
-
             }
             dispatch(setStatusAC('idle'))
         })
+        .catch(((err) => {
+            handleServerNetworkError(dispatch,err)
+        }))
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todoLisId: string) => (dispatch: Dispatch<TaskToActionType>, getState: () => AppRootStateType) => {
     dispatch(setStatusAC('loading'))
@@ -123,9 +128,20 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             ...domainModel
         }
         tasksApi.updateTask(todoLisId, taskId, apiModel)
-            .then(() => {
-                dispatch(updateTasksAC(todoLisId, domainModel, taskId))
-                dispatch(setStatusAC('succeeded'))
+            .then((res) => {
+                if (res.data.resultCode === ResultCode.success) {
+                    dispatch(updateTasksAC(todoLisId, domainModel, taskId))
+                    dispatch(setStatusAC('succeeded'))
+                } else {
+                    if (res.data.messages.length) {
+                        dispatch(setErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setErrorAC('Some Error'))
+                    }
+                }
+            })
+            .catch((err) => {
+                handleServerNetworkError(dispatch,err)
             })
     }
 }

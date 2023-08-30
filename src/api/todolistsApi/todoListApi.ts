@@ -36,5 +36,9 @@ export type ResponseType<T = {}> = {
     fieldsErrors: [],
     data: T
 }
+export enum ResultCode {
+    success=0,
+    error=1,
+}
 
 
