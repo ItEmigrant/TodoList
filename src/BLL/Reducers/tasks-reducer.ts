@@ -3,9 +3,9 @@ import {addTodolistAT, removeTodolistAT, SetTodoListType,} from "./todolist-redu
 import {Dispatch} from "redux";
 import {TaskGetType, taskPriority, tasksApi, taskStatuses, UpdateTaskModelType} from "../../api/tasksApi/tasksApi";
 import {AppRootStateType} from "../../App/state/store";
-import {setErrorAC, setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
+import {setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
 import {ResultCode} from "../../api/todolistsApi/todoListApi";
-import {handleServerNetworkError} from "../../utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 
 const initialState: TasksStateType = {};
@@ -102,14 +102,8 @@ export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispa
             if (res.data.resultCode === 0) {
                 dispatch(addTasksAC(res.data.data.item))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setErrorAC('Some Error'))
-                }
-            }
-            dispatch(setStatusAC('idle'))
-        })
+               handleServerAppError(dispatch, res.data)
+        }})
         .catch(((err) => {
             handleServerNetworkError(dispatch,err)
         }))
@@ -133,13 +127,8 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                     dispatch(updateTasksAC(todoLisId, domainModel, taskId))
                     dispatch(setStatusAC('succeeded'))
                 } else {
-                    if (res.data.messages.length) {
-                        dispatch(setErrorAC(res.data.messages[0]))
-                    } else {
-                        dispatch(setErrorAC('Some Error'))
-                    }
-                }
-            })
+                   handleServerAppError(dispatch, res.data)
+            }})
             .catch((err) => {
                 handleServerNetworkError(dispatch,err)
             })

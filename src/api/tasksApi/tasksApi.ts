@@ -20,6 +20,7 @@ export const tasksApi = {
     }
 
 }
+
 //types
 export enum taskStatuses {
     New = 0,
@@ -78,4 +79,9 @@ export type UpdateTaskModelType = {
     deadline: string,
     description: string
 }
+
+export type commonResponseTaskType =
+    | ResponsePostTaskType
+    | ResponseDeleteTaskType
+    | ResponseUpdateTaskType
 
