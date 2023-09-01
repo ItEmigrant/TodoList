@@ -6,7 +6,7 @@ import {AppRootStateType} from "../../App/state/store";
 import {setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
 import {ResultCode} from "../../api/todolistsApi/todoListApi";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError} from "axios";
+import axios, {AxiosError} from "axios";
 
 
 const initialState: TasksStateType = {};
@@ -102,11 +102,15 @@ export const createTaskTC = (todoListId: string, newTaskTitle: string) => async 
         const res = await tasksApi.postTasks(todoListId, newTaskTitle)
         if (res.data.resultCode === 0) {
             dispatch(addTasksAC(res.data.data.item))
+            dispatch(setStatusAC('succeeded'))
         } else {
             handleServerAppError(dispatch, res.data)
         }
-    } catch (err:any) {
-        handleServerNetworkError(dispatch, err)
+    } catch (err) {
+        if (axios.isAxiosError<{message:string}>(err)) {
+            const error = err.response ? err.response.data.message : err.message
+            handleServerNetworkError(dispatch, error)
+        }
     }
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todoLisId: string) => (dispatch: Dispatch<TaskToActionType>, getState: () => AppRootStateType) => {
