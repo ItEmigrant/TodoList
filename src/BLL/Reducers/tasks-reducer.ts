@@ -6,6 +6,7 @@ import {AppRootStateType} from "../../App/state/store";
 import {setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
 import {ResultCode} from "../../api/todolistsApi/todoListApi";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {AxiosError} from "axios";
 
 
 const initialState: TasksStateType = {};
@@ -95,18 +96,18 @@ export const deleteTaskTC = (todoID: string, taskID: string) => (dispatch: Dispa
             dispatch(setStatusAC('succeeded'))
         })
 }
-export const createTaskTC = (todoListId: string, newTaskTitle: string) => (dispatch: Dispatch<TaskToActionType>) => {
+export const createTaskTC = (todoListId: string, newTaskTitle: string) => async (dispatch: Dispatch<TaskToActionType>) => {
     dispatch(setStatusAC('loading'))
-    tasksApi.postTasks(todoListId, newTaskTitle)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(addTasksAC(res.data.data.item))
-            } else {
-               handleServerAppError(dispatch, res.data)
-        }})
-        .catch(((err) => {
-            handleServerNetworkError(dispatch,err)
-        }))
+    try {
+        const res = await tasksApi.postTasks(todoListId, newTaskTitle)
+        if (res.data.resultCode === 0) {
+            dispatch(addTasksAC(res.data.data.item))
+        } else {
+            handleServerAppError(dispatch, res.data)
+        }
+    } catch (err:any) {
+        handleServerNetworkError(dispatch, err)
+    }
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todoLisId: string) => (dispatch: Dispatch<TaskToActionType>, getState: () => AppRootStateType) => {
     dispatch(setStatusAC('loading'))
@@ -127,10 +128,12 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                     dispatch(updateTasksAC(todoLisId, domainModel, taskId))
                     dispatch(setStatusAC('succeeded'))
                 } else {
-                   handleServerAppError(dispatch, res.data)
-            }})
-            .catch((err) => {
-                handleServerNetworkError(dispatch,err)
+                    handleServerAppError(dispatch, res.data)
+                }
+            })
+            .catch((err: AxiosError<{ message: string }>) => {
+                const error = err.response ? err.response.data.message : err.message
+                handleServerNetworkError(dispatch, error)
             })
     }
 }

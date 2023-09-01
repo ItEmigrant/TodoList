@@ -5,9 +5,9 @@ import {ResponseType} from "../api/todolistsApi/todoListApi";
 import {commonResponseTaskType} from "../api/tasksApi/tasksApi";
 
 
-export const handleServerNetworkError = ((dispatch: ErrorUtilsDispatchType, error: { message: string }) => {
+export const handleServerNetworkError = ((dispatch: ErrorUtilsDispatchType, error: string) => {
     dispatch(setStatusAC('failed'))
-    dispatch(setErrorAC(error.message))
+    dispatch(setErrorAC(error))
 })
 
 export const handleServerAppError = <T>(dispatch: ErrorUtilsDispatchType, data: ResponseType<T> | commonResponseTaskType) => {
