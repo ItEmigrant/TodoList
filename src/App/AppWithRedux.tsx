@@ -15,16 +15,18 @@ function AppWithRedux() {
     const statusProgress = useAppSelector<RequestStatusType>(state => state.app.status)
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <ButtonAppBar/>
             {statusProgress === 'loading' && <LinearProgress color={'secondary'}/>}
             <Container fixed>
-
             </Container>
-            <ErrorSnackbar/>
             <Routes>
-                <Route path={'/'} element={ <TodolistLists/>}/>
+                <Route path={'/'} element={<TodolistLists/>}/>
                 <Route path={'login'} element={<Login/>}/>
+                <Route path={'*'} element={<h1 style={{textAlign: 'center'}}>404:Page not found</h1>}/>
             </Routes>
+
+
 
         </div>
     )
