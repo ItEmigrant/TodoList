@@ -9,8 +9,19 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useAppDispatch} from "../../App/state/store";
 import {setStatusAC} from "../../BLL/Reducers/app-reducer";
+import {useFormik} from "formik";
 
 export const Login = () => {
+    const dispatch = useAppDispatch();
+    dispatch(setStatusAC("succeeded"));
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+        },
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
@@ -25,17 +36,20 @@ export const Login = () => {
                     <p>Email: free@samuraijs.com</p>
                     <p>Password: free</p>
                 </FormLabel>
-                <FormGroup>
-                    <TextField label="Email" margin="normal"/>
-                    <TextField type="password" label="Password"
-                               margin="normal"
-                    />
-                    <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
-                    <Button type={'submit'} variant={'contained'} color={'primary'}>
-                        Login
-                    </Button>
-                </FormGroup>
+                <form onSubmit={formik.handleSubmit}>
+                    <FormGroup>
+                        <TextField label="Email" margin="normal"/>
+                        <TextField type="password" label="Password"
+                                   margin="normal"
+                        />
+                        <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
+                        <Button type={'submit'} variant={'contained'} color={'primary'}>
+                            Login
+                        </Button>
+                    </FormGroup>
+                </form>
             </FormControl>
         </Grid>
     </Grid>
+
 }

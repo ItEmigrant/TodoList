@@ -7,7 +7,7 @@ import {useAppSelector} from "./state/store";
 import {RequestStatusType} from "../BLL/Reducers/app-reducer";
 import {ErrorSnackbar} from "../Components/ErrorsSnackbar/ErrorSnackbar";
 import {Login} from "../features/Login/Login";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 
 
 function AppWithRedux() {
@@ -23,10 +23,9 @@ function AppWithRedux() {
             <Routes>
                 <Route path={'/'} element={<TodolistLists/>}/>
                 <Route path={'login'} element={<Login/>}/>
-                <Route path={'*'} element={<h1 style={{textAlign: 'center'}}>404:Page not found</h1>}/>
+                <Route path={'404'} element={<h1 style={{textAlign: 'center'}}>404:Page not found</h1>}/>
+                <Route path={'*'} element={<Navigate to={'404'}/>}/>
             </Routes>
-
-
 
         </div>
     )
