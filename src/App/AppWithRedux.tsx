@@ -6,6 +6,8 @@ import TodolistLists from "../Components/Todolists/TodolistLists/TodolistLists";
 import {useAppSelector} from "./state/store";
 import {RequestStatusType} from "../BLL/Reducers/app-reducer";
 import {ErrorSnackbar} from "../Components/ErrorsSnackbar/ErrorSnackbar";
+import {Login} from "../features/Login/Login";
+import {Route, Routes} from "react-router-dom";
 
 
 function AppWithRedux() {
@@ -16,9 +18,14 @@ function AppWithRedux() {
             <ButtonAppBar/>
             {statusProgress === 'loading' && <LinearProgress color={'secondary'}/>}
             <Container fixed>
-                <TodolistLists />
+
             </Container>
             <ErrorSnackbar/>
+            <Routes>
+                <Route path={'/'} element={ <TodolistLists/>}/>
+                <Route path={'login'} element={<Login/>}/>
+            </Routes>
+
         </div>
     )
 }
