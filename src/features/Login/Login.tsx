@@ -23,8 +23,10 @@ export const Login = () => {
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: ''
+            password: '',
+            rememberMe: false
         },
+
         validate: (values) => {
             const errors: ErrorType = {};
             if (!values.password) {
@@ -62,21 +64,27 @@ export const Login = () => {
                         <TextField
                             label="Email"
                             margin="normal"
-                            name={'email'}
-                            onChange={formik.handleChange}
-                            value={formik.values.email}
+                            /* name={'email'}
+                             onBlur={formik.handleBlur}
+                             onChange={formik.handleChange}
+                             value={formik.values.email}*/
+                            {...formik.getFieldProps('email')}
                         />
-                        {formik.errors.email && <div>{formik.errors.email}</div>}
+                        {formik.touched.email && formik.errors.email &&
+                            <div style={{color: 'red'}}>{formik.errors.email}</div>}
                         <TextField
                             type="password"
                             label="Password"
                             margin="normal"
-                            name={"password"}
-                            onChange={formik.handleChange}
-                            value={formik.values.password}
+                            {...formik.getFieldProps('password')}
                         />
-                        {formik.errors.password && <div>{formik.errors.password}</div>}
-                        <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
+                        {formik.touched.password && formik.errors.password &&
+                            <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                        <FormControlLabel label={'Remember me'} control={
+                            <Checkbox
+                                checked={formik.values.rememberMe}
+                                {...formik.getFieldProps(' rememberMe')}/>
+                        }/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>
