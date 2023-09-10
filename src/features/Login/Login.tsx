@@ -26,12 +26,18 @@ export const Login = () => {
             password: ''
         },
         validate: (values) => {
-            const errors:ErrorType = {};
+            const errors: ErrorType = {};
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length > 15) {
-                errors.password = 'Must be 15 characters or less';
+            } else if (values.password.length < 4) {
+                errors.password = 'Must be  more 3 symbols';
             }
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+            return errors;
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
@@ -60,7 +66,7 @@ export const Login = () => {
                             onChange={formik.handleChange}
                             value={formik.values.email}
                         />
-
+                        {formik.errors.email && <div>{formik.errors.email}</div>}
                         <TextField
                             type="password"
                             label="Password"
@@ -69,6 +75,7 @@ export const Login = () => {
                             onChange={formik.handleChange}
                             value={formik.values.password}
                         />
+                        {formik.errors.password && <div>{formik.errors.password}</div>}
                         <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
