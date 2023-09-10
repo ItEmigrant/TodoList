@@ -11,12 +11,27 @@ import {useAppDispatch} from "../../App/state/store";
 import {setStatusAC} from "../../BLL/Reducers/app-reducer";
 import {useFormik} from "formik";
 
+
+type ErrorType = {
+    password?: string
+    email?: string
+
+}
 export const Login = () => {
     const dispatch = useAppDispatch();
     dispatch(setStatusAC("succeeded"));
     const formik = useFormik({
         initialValues: {
             email: '',
+            password: ''
+        },
+        validate: (values) => {
+            const errors:ErrorType = {};
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length > 15) {
+                errors.password = 'Must be 15 characters or less';
+            }
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
@@ -38,9 +53,21 @@ export const Login = () => {
                 </FormLabel>
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
-                        <TextField label="Email" margin="normal"/>
-                        <TextField type="password" label="Password"
-                                   margin="normal"
+                        <TextField
+                            label="Email"
+                            margin="normal"
+                            name={'email'}
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
+                        />
+
+                        <TextField
+                            type="password"
+                            label="Password"
+                            margin="normal"
+                            name={"password"}
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
                         />
                         <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
