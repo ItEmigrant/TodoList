@@ -4,6 +4,7 @@ import {todolistReducer, TodolistReducerActionType} from "../../BLL/Reducers/tod
 import thunk, {ThunkDispatch} from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "../../BLL/Reducers/app-reducer";
+import {AuthActionsType, authReducer} from "../../BLL/Reducers/authReducer";
 
 
 declare global {
@@ -17,7 +18,8 @@ declare global {
 const rootReducer = combineReducers({
     tasks: taskReducer,
     todoLists: todolistReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -29,12 +31,12 @@ export const store = legacy_createStore(rootReducer,  /*composeEnhancers(), */ap
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-export type AppActionTypes = TodolistReducerActionType | TaskToActionType
+export type AppActionTypes = TodolistReducerActionType | TaskToActionType | AuthActionsType
 
 export type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 
 export const useAppDispatch = () => useDispatch<AppDispatchType>();
-export const useAppSelector:TypedUseSelectorHook<AppRootStateType> = useSelector
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore

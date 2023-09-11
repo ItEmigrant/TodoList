@@ -10,14 +10,21 @@ import Button from '@mui/material/Button';
 import {useAppDispatch} from "../../App/state/store";
 import {setStatusAC} from "../../BLL/Reducers/app-reducer";
 import {useFormik} from "formik";
+import {loginTC} from "../../BLL/Reducers/authReducer";
 
 
 type ErrorType = {
     password?: string
     email?: string
+}
 
+export type FormValuesType = {
+    email: string,
+    password: string,
+    rememberMe: boolean
 }
 export const Login = () => {
+
     const dispatch = useAppDispatch();
     dispatch(setStatusAC("succeeded"));
     const formik = useFormik({
@@ -42,7 +49,12 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+           dispatch(loginTC(values))
+               .then(); //to finalize!!!
+
+
+
+            formik.resetForm();
         },
     });
 
