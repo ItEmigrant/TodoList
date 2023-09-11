@@ -9,7 +9,6 @@ import {taskPriority, taskStatuses} from "../../api/tasksApi/tasksApi";
 import {appReducer} from "../../BLL/Reducers/app-reducer";
 
 
-
 const rootReducer = combineReducers({
     tasks: taskReducer,
     todoLists: todolistReducer,
@@ -18,6 +17,9 @@ const rootReducer = combineReducers({
 
 
 const initialGlobalState: AppRootStateType = {
+    auth: {
+        isLoggedIn: false
+    },
     app: {
         status: 'loading',
         error: null
@@ -25,11 +27,11 @@ const initialGlobalState: AppRootStateType = {
     todoLists: [
         {
             id: 'todolistId1', title: 'What to learn', addedDate: '',
-            order: 0, filter: 'All', entityStatus:'idle'
+            order: 0, filter: 'All', entityStatus: 'idle'
         }
         , {
             id: 'todolistId2', title: 'What to buy', addedDate: '',
-            order: 0, filter: 'All', entityStatus:'idle'
+            order: 0, filter: 'All', entityStatus: 'idle'
         }
     ],
     tasks: {
