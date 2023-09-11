@@ -30,6 +30,7 @@ export const loginTC = (data: FormValuesType) => async (dispatch: Dispatch<AuthA
       const res =  await auth.postLogin(data);
       if (res.data.resultCode === ResultCode.success) {
             dispatch(setIsLoggedInAC(true))
+          dispatch(setStatusAC("succeeded"));
       } else {
            handleServerAppError(dispatch,res.data);
       }

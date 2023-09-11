@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {Grid, Paper} from "@mui/material";
 import {TasksStateType, Todolist} from "./Todolist/Todolist";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../../../App/state/store";
+import {AppRootStateType, useAppDispatch, useAppSelector} from "../../../App/state/store";
 import {
     changeFilterAC, changeTodolistTitleTC, createTodolistTC,
     deleteTodolistTC,
@@ -12,6 +12,7 @@ import {
 } from "../../../BLL/Reducers/todolist-reducer";
 import {createTaskTC} from "../../../BLL/Reducers/tasks-reducer";
 import {AddItemForm} from "../../UnInput/AddItemForm";
+import {Navigate} from "react-router-dom";
 
 const TodolistLists: React.FC = () => {
 
@@ -20,11 +21,12 @@ const TodolistLists: React.FC = () => {
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     const dispatch = useAppDispatch();
+    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+
 
     useEffect(() => {
         dispatch(getTodoListsThunkCreator())
     }, [])
-
 
     const Sort = useCallback((todolistID: string, filterValue: FVT) => {
         dispatch(changeFilterAC(filterValue, todolistID))
@@ -45,6 +47,9 @@ const TodolistLists: React.FC = () => {
     const ChangeTitle = useCallback((todolistID: string, currentTitle: string) => {
         dispatch(changeTodolistTitleTC(todolistID, currentTitle))
     }, [dispatch])
+
+    if(!isLoggedIn) return <Navigate to={'/login'}/>
+
     return <>
         <Grid container style={{padding: '20px'}}>
             <AddItemForm callBack={todoListAdd}/>

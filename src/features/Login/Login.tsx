@@ -7,10 +7,10 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useAppDispatch} from "../../App/state/store";
-import {setStatusAC} from "../../BLL/Reducers/app-reducer";
+import {useAppDispatch, useAppSelector} from "../../App/state/store";
 import {useFormik} from "formik";
 import {loginTC} from "../../BLL/Reducers/authReducer";
+import {Navigate} from "react-router-dom";
 
 
 type ErrorType = {
@@ -24,13 +24,13 @@ export type FormValuesType = {
     rememberMe: boolean
 }
 export const Login = () => {
-
     const dispatch = useAppDispatch();
-    dispatch(setStatusAC("succeeded"));
+    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  /*  dispatch(setStatusAC("succeeded"));*/
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
             rememberMe: false
         },
 
@@ -48,15 +48,14 @@ export const Login = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-           dispatch(loginTC(values))
-               .then(); //to finalize!!!
-
-
-
+        onSubmit: async (values) => {
+            const promise = await dispatch(loginTC(values))
+            console.log(promise);
             formik.resetForm();
         },
     });
+
+    if (isLoggedIn) return <Navigate to={'/'}/>
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>

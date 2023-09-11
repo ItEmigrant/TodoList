@@ -30,6 +30,7 @@ type TodolistPropsType = {
 export const Todolist = memo((props: TodolistPropsType) => {
 
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         dispatch(getTaskThunkCreator(props.todolistID))
     }, [])
@@ -73,6 +74,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
     if (props.filter === "Completed") {
         tasks = tasks.filter(t => t.status === taskStatuses.Completed)
     }
+
 
     return (
         <div>
