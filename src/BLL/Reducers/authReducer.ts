@@ -27,17 +27,32 @@ export const setIsLoggedInAC = (value: boolean) =>
 export const loginTC = (data: FormValuesType) => async (dispatch: Dispatch<AuthActionsType>) => {
     dispatch(setStatusAC('loading'));
     try {
-      const res =  await auth.postLogin(data);
-      if (res.data.resultCode === ResultCode.success) {
+        const res = await auth.postLogin(data);
+        if (res.data.resultCode === ResultCode.success) {
             dispatch(setIsLoggedInAC(true))
-          dispatch(setStatusAC("succeeded"));
-      } else {
-           handleServerAppError(dispatch,res.data);
-      }
+            dispatch(setStatusAC("succeeded"));
+        } else {
+            handleServerAppError(dispatch, res.data);
+        }
     } catch (err) {
-        handleServerNetworkError(dispatch, (err as {message:string}).message)
+        handleServerNetworkError(dispatch, (err as { message: string }).message)
     }
 }
+export const meTC = () => async (dispatch: Dispatch<AuthActionsType>) => {
+    dispatch(setStatusAC('loading'));
+    try {
+        const res = await auth.getMe();
+        if (res.data.resultCode === ResultCode.success) {
+            dispatch(setIsLoggedInAC(true))
+            dispatch(setStatusAC("succeeded"));
+        } else {
+            handleServerAppError(dispatch, res.data);
+        }
+    } catch (err) {
+        handleServerNetworkError(dispatch, (err as { message: string }).message)
+    }
+}
+
 
 // types
 export type AuthActionsType = ReturnType<typeof setIsLoggedInAC> | setStatusACType | setErrorACType
