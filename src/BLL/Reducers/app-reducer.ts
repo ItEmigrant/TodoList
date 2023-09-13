@@ -2,12 +2,11 @@ export type RequestStatusType = 'idle' | 'succeeded' | 'failed' | 'loading' | 'i
 
 const InitialState = {
     status: 'idle' as RequestStatusType,
-    error: null as null | string
+    error: null as null | string,
+    isInitialized: false
 
 }
-export type setStatusACType = ReturnType<typeof setStatusAC>
-export type setErrorACType = ReturnType<typeof setErrorAC>
-export type InitialStateType = typeof InitialState
+
 export const appReducer = (state: InitialStateType = InitialState, action: CommonActionType): InitialStateType => {
     switch (action.type) {
         case 'APP-SET-STATUS':
@@ -17,6 +16,10 @@ export const appReducer = (state: InitialStateType = InitialState, action: Commo
         case 'APP-SET-ERROR':
             return {
                 ...state, error: action.error
+            }
+        case 'APP-SET-INIT':
+            return {
+                ...state, isInitialized: action.isInitialized
             }
         default:
             return state
@@ -34,4 +37,15 @@ export const setErrorAC = (error: null | string) => ({
     error
 }) as const
 
-type CommonActionType = setStatusACType | setErrorACType;
+export const setInitAC = (isInitialized: boolean) => ({
+    type: 'APP-SET-INIT',
+    isInitialized
+}) as const
+
+//types
+export type setStatusACType = ReturnType<typeof setStatusAC>
+export type setErrorACType = ReturnType<typeof setErrorAC>
+export type InitialStateType = typeof InitialState
+export type setInitACType = ReturnType<typeof setInitAC>
+
+type CommonActionType = setStatusACType | setErrorACType | setInitACType;

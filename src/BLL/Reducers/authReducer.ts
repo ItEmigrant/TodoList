@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux'
-import {setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
+import {setErrorACType, setInitAC, setInitACType, setStatusAC, setStatusACType} from "./app-reducer";
 import {FormValuesType} from "../../features/Login/Login";
 import {auth} from "../../api/loginApi/loginApi";
 import {ResultCode} from "../../api/todolistsApi/todoListApi";
@@ -51,8 +51,11 @@ export const meTC = () => async (dispatch: Dispatch<AuthActionsType>) => {
     } catch (err) {
         handleServerNetworkError(dispatch, (err as { message: string }).message)
     }
+    finally {
+        dispatch(setInitAC(true))
+    }
 }
 
 
 // types
-export type AuthActionsType = ReturnType<typeof setIsLoggedInAC> | setStatusACType | setErrorACType
+export type AuthActionsType = ReturnType<typeof setIsLoggedInAC> | setStatusACType | setErrorACType |setInitACType

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import ButtonAppBar from "../Components/ButtonAppBar";
-import {Container, LinearProgress} from "@mui/material";
+import {CircularProgress, Container, LinearProgress} from "@mui/material";
 import TodolistLists from "../Components/Todolists/TodolistLists/TodolistLists";
 import {useAppDispatch, useAppSelector} from "./state/store";
 import {RequestStatusType} from "../BLL/Reducers/app-reducer";
@@ -14,10 +14,19 @@ import {meTC} from "../BLL/Reducers/authReducer";
 function AppWithRedux() {
 
     const statusProgress = useAppSelector<RequestStatusType>(state => state.app.status);
-    const dispatch = useAppDispatch()
+    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
-        dispatch(meTC)
+        dispatch(meTC())
     }, []);
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top:'30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div className="App">

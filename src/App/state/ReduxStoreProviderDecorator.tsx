@@ -22,7 +22,8 @@ const initialGlobalState: AppRootStateType = {
     },
     app: {
         status: 'loading',
-        error: null
+        error: null,
+        isInitialized: false
     },
     todoLists: [
         {

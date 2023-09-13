@@ -25,6 +25,7 @@ const TodolistLists: React.FC = () => {
 
 
     useEffect(() => {
+        if(!isLoggedIn) return;
         dispatch(getTodoListsThunkCreator())
     }, [])
 
