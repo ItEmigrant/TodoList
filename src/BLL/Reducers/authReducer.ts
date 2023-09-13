@@ -38,6 +38,21 @@ export const loginTC = (data: FormValuesType) => async (dispatch: Dispatch<AuthA
         handleServerNetworkError(dispatch, (err as { message: string }).message)
     }
 }
+export const logOutTC = () => async (dispatch: Dispatch<AuthActionsType>) => {
+    dispatch(setStatusAC('loading'));
+    try {
+        const res = await auth.LogOut();
+        if (res.data.resultCode === ResultCode.success) {
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setStatusAC("succeeded"));
+        } else {
+            handleServerAppError(dispatch, res.data);
+        }
+    } catch (err) {
+        handleServerNetworkError(dispatch, (err as { message: string }).message)
+    }
+}
+
 export const meTC = () => async (dispatch: Dispatch<AuthActionsType>) => {
     dispatch(setStatusAC('loading'));
     try {
@@ -50,12 +65,11 @@ export const meTC = () => async (dispatch: Dispatch<AuthActionsType>) => {
         }
     } catch (err) {
         handleServerNetworkError(dispatch, (err as { message: string }).message)
-    }
-    finally {
+    } finally {
         dispatch(setInitAC(true))
     }
 }
 
 
 // types
-export type AuthActionsType = ReturnType<typeof setIsLoggedInAC> | setStatusACType | setErrorACType |setInitACType
+export type AuthActionsType = ReturnType<typeof setIsLoggedInAC> | setStatusACType | setErrorACType | setInitACType

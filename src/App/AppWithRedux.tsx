@@ -17,6 +17,7 @@ function AppWithRedux() {
     const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
     const dispatch = useAppDispatch();
 
+
     useEffect(() => {
         dispatch(meTC())
     }, []);

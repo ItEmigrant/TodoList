@@ -9,12 +9,17 @@ const instance = axios.create({
 export const auth = {
 
     getMe() {
-        return instance.get<LoginResponseType<{ id: number, email: string, login: string }>>('auth/me')
+        return instance.get<LoginResponseType<{ id: number, email: string, login: string }>>('auth/me');
     },
 
     postLogin(data: FormValuesType) {
-        return instance.post<null, AxiosResponse<LoginResponseType<{ userID: number }>>, FormValuesType>(`/auth/login`, data)
+        return instance.post<null, AxiosResponse<LoginResponseType<{ userID: number }>>, FormValuesType>(`/auth/login`, data);
     },
+    LogOut() {
+       return instance.delete<LoginResponseType>('auth/login');
+    }
+
+
 }
 
 //types
